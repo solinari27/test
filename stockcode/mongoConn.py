@@ -3,20 +3,20 @@
 """ 
 @author: solinari 
 @file: mongoConn.py 
-@time: 2018/02/25 
+@time: 2018/03/10 
 """  
 
 from pymongo import MongoClient
-import sys
 import json
 import time
 import logging
+import sys
 
 class mongoConn():
 
     def __init__(self):
         #注意路径配置
-        with open('Conf/liangyee.conf') as f:
+        with open('Conf/crawler.conf') as f:
             self._mongoConf = json.load(f)
 
         #init logging:
@@ -37,7 +37,7 @@ class mongoConn():
         self._username = self._dbConf['username']
         self._password = self._dbConf['password']
 
-        self._logger.warn("stockcode crwler started.")
+        self._logger.warn("stockcode crawler started.")
 
         try:
             self._conn = MongoClient(self._host, self._port)
@@ -48,32 +48,42 @@ class mongoConn():
             # self.connected = self.db.authenticate (self._username, self._password)
             self._db = self._conn.stockinfo
 
-        except Exceptions:
+        except Exception:
             self._logger.error("mongodb connection failed.")
             # sys.exit (1)
 
     def __del__(self):
-        self._logger.warn("stockcode crwler stopped.")
+        self._logger.warn("stockcode crawler stopped.")
         self._logger.removeHandler(self._logfile_handler)
 
     # 检查是否连接成功
     def _check_connected (self, conn):
         return conn.connected
 
-    def getStocks(self):
-        stockslist = []
-        try:
-            stocks = self._db.stocklist.find()
-            for stock in stocks:
-                stockslist.append([stock['code'] , stock['updatetime']])
-            return stockslist
-        except Exceptions:
-            self._logger.error("mongodb get stocklist error.")
+    def cleanStock(self):
+        self._logger.warn("stockcode crawler clean mongodb.")
+        self._db.stocklist.remove({})
 
+    def insertStock(self, code, name):
+        # self._logger.debug("stockcode crawler insert mongodb stock code: " + code + " name： " + name + ".")
+        # self._db.stocklist.insert({"code": code, "name": name, "updatetime": None})    #完全清空后重新添加
+        dbresult = self._db.stocklist.find({"code": code})
+        result = {}
+        have = False
+        updatetime = None
 
+        for i in dbresult:
+            result['code'] = i['code']
+            result['name'] = i['name']
+            updatetime = i['updatetime']
+            have = True
 
-
-
+        if (not have):
+            self._logger.info("stockcode crwler insert mongodb stock code; " + code + " name： " + name + ".")
+            self._db.stocklist.insert({"code": code, "name": name, "updatetime": None})
+        elif (result['name'] != name):
+            self._logger.info("stockcode crawler update mongodb stock code; " + code + " name： " + name + ".")
+            self._db.stocklist.update({"code": code}, {"$set": {"name": name, "updatetime": updatetime}})
 
 
 

@@ -15,9 +15,18 @@ class urlAgent():
 
     def __init__(self, *args, **kwargs):
         self._userkey = ''
+        self._userKeyTimes = {}
 
-    def setUseKey(self, key):
+    def setUserKey(self, key):
         self._userkey = key
+        self._userKeyTimes[key] = 0  # url 使用次数 liangyee数据限制200次访问
+
+    def setTimesLimit(self, timeslimit):
+        self._timesLimit = timeslimit
+
+    def _addKeyTime(self):
+        self._userKeyTimes[self._userkey] += 1
+        return self._userKeyTimes[self._userkey]
 
     def _getSymbolString(self, stocks):
         symbols = ''
@@ -33,17 +42,26 @@ class urlAgent():
     #Day: timestamp of the YY-MM-DD
     def getDailyKUrl(self, stock, startDay, endDay):
         #check params ...
-        startDayStr = time.strftime('%Y-%m-%d', startDay)
-        endDayStr = time.strftime('%Y-%m-%d', endDay)
-        url = r'http://stock.liangyee.com/bus-api/stock/freeStockMarketData/getDailyKBar?userKey=' + self._userkey + r'&startDate=' + startDayStr + r'&symbol=' + str(stock) + '&endDate=' + endDayStr + r'&type=0'
-        return url
+        if self._addKeyTime() < self._timesLimit:
+            startDayStr = time.strftime('%Y-%m-%d', startDay)
+            endDayStr = time.strftime('%Y-%m-%d', endDay)
+            url = r'http://stock.liangyee.com/bus-api/stock/freeStockMarketData/getDailyKBar?userKey=' + self._userkey + r'&startDate=' + startDayStr + r'&symbol=' + str(stock) + '&endDate=' + endDayStr + r'&type=0'
+            return url
+        else:
+            return ""
 
     def get5MinKUrl(self, stock):
-        url = r'http://stock.liangyee.com/bus-api/stock/freeStockMarketData/get5MinK?userKey=' + self._userkey + r'&symbol=' + str(stock) + r'&type=0'
-        return url
+        if self._addKeyTime() < self._timesLimit:
+            url = r'http://stock.liangyee.com/bus-api/stock/freeStockMarketData/get5MinK?userKey=' + self._userkey + r'&symbol=' + str(stock) + r'&type=0'
+            return url
+        else:
+            return ""
 
     def getMarketDataUrl(self, stocks):
-        # this stock must be tuples
-        symbolist = self._getSymbolString(stocks)
-        url = r'http://stock.liangyee.com/bus-api/stock/freeStockMarketData/GetMarketData?userKey=' + self._userkey + r'&symbol='+ symbolist + r'&type=0'
-        return url
+        if self._addKeyTime() < self._timesLimit:
+            # this stock must be tuples
+            symbolist = self._getSymbolString(stocks)
+            url = r'http://stock.liangyee.com/bus-api/stock/freeStockMarketData/GetMarketData?userKey=' + self._userkey + r'&symbol='+ symbolist + r'&type=0'
+            return url
+        else:
+            return ""
