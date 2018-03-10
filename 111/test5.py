@@ -24,7 +24,7 @@ class quoteCfiSpider(scrapy.Spider):
         unicode_body = response.body_as_unicode ()
         for sel in response.xpath ('//div[@id="divcontent"]'):
             # print sel.extract()
-            name = sel.extract().re (r'<a href=*>*</a>')
+            name = sel.re (r'<td><a href=*>*(.+?)</a>(.+?)</td>')
             if not name:
                 pass
             else:
