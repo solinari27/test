@@ -6,25 +6,32 @@
 @time: 2018/02/{DAY} 
 """
 
-# from pymongo import MongoClient
-import calendar
-import time
+from pymongo import MongoClient
 
-# conn = MongoClient('127.0.0.1', 27017)
-# # 数据库test 集合test use test db.test.find()
-# db = conn.test
-# mySet = db.test
-#
-# mySet.insert({"name": "zhangsan", "age": 18})
+conn = MongoClient('127.0.0.1', 27017)
+# 数据库test 集合test use test db.test.find()
+db = conn.test
+mySet = db.test
 
-# print calendar.calendar
-print time.time()
-print time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
-print time.strftime("%Y-%m-%d", time.localtime())
+mySet.insert({"name": "zhangsan", "age": 18})
 
-print time.strftime('%Y-%m-%d %H:%M:%S',(2017,11,14,13,59,7,1,318,0))
-print time.strftime('%Y-%m-%d',(2017,11,14,0,0,0,0,0,0))
 
-timestamp = time.strptime("2014:01:01", "%Y:%m:%d")
-print "stamp: ", timestamp
-print "time: ", time.strftime('%Y-%m-%d',timestamp)
+# connect db
+        try:
+            self.conn = pymongo.MongoClient(MONGODB_CONFIG['host'], MONGODB_CONFIG['port'])
+            self.db = self.conn[MONGODB_CONFIG['db_name']]  # connect db
+            self.username=MONGODB_CONFIG['username']
+            self.password=MONGODB_CONFIG['password']
+            if self.username and self.password:
+                self.connected = self.db.authenticate(self.username, self.password)
+            else:
+                self.connected = True
+        except Exception:
+            print traceback.format_exc()
+            print 'Connect Statics Database Fail.'
+            sys.exit(1)
+
+
+startDayStr = time.strftime('%Y-%m-%d', startDay)
+
+
