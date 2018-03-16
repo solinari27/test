@@ -28,7 +28,10 @@ class quoteCfiSpider(scrapy.Spider):
             if not name:
                 pass
             else:
-                print name[0]
+                # print name[0]
+                print len(name)
+                for item in name:
+                    print item
 
 
 
