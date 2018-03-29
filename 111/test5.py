@@ -32,6 +32,8 @@ class quoteCfiSpider(scrapy.Spider):
                 print len(name)
                 for item in name:
                     print item
+                    num = re.findall(r'\b\d.*\d\b', item)
+                    print num
 
 
 
