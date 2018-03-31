@@ -38,7 +38,9 @@ class quoteCfiSpider(scrapy.Spider):
                     left = re.search(r'(?<=\>).+?$', item)
                     print left.group()
                     name = re.search(r'>*\(')
-                    print name.group()
+                    name1 = name.group()
+                    print name1
+                    print 'split:'
                     # num1 = re.findall(r'\b\d.*\d\b', item)
                     # print num1
                     # num2 = re.search(r"(*\'", num1)
