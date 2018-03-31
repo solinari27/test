@@ -33,4 +33,4 @@ class quoteCfiSpider(scrapy.Spider):
                     stockname = stocknamesplit[0]
                     print code, stockname
                     stocklist[code] = stockname
-        f.write(stocklist)
+

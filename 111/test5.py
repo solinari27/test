@@ -22,13 +22,14 @@ class quoteCfiSpider(scrapy.Spider):
         # print body
         body = response.body
         unicode_body = response.body_as_unicode ()
+        stock = {}
         for sel in response.xpath ('//div[@id="divcontent"]'):
             # print sel.extract()
             stocks = sel.re (r'<td><a href=*>*(.+?)</a>(.+?)</td>')
             if not stocks:
                 pass
             else:
-                # print stocks[0]
+                print stocks
                 # print len(stocks)
                 for it in stocks:
                     # print it
@@ -38,9 +39,9 @@ class quoteCfiSpider(scrapy.Spider):
                     leftname = left.group()
                     stocknamesplit = leftname.split("(")
                     stockname = stocknamesplit[0]
-                    print code, stockname
-
-
+                    stock['code'] = code
+                    stock['name'] = stockname
+                    yield stock
                     # num1 = re.findall(r'\b\d.*\d\b', item)
                     # print num1
                     # num2 = re.search(r"(*\'", num1)
