@@ -16,7 +16,7 @@ class mongoConn():
 
     def __init__(self):
         #注意路径配置
-        with open('../Conf/crawler.conf') as f:
+        with open('Conf/crawler.conf') as f:
             self._mongoConf = json.load(f)
 
         #init logging:

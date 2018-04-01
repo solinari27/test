@@ -7,11 +7,21 @@
 """  
 
 import os
+import json
 
-class quoteCfiSpider(scrapy.Spider):
+import stockcode.mongoConn as mc
+
+class quoteCfiSpider():
 
     def __init__(self):
+        self._conn = mc.mongoConn()
 
     def crawl(self):
         os.system("scrapy runspider stockcode/spider/scrapyCfiSpider.py -o Data/quoteCfiSpider.json --logfile Log/quoteCfiSpider.log --loglevel ERROR")
 
+    def inputDB(self):
+        with open("Data/out.json", 'r') as load_f:
+            stocks = json.load(load_f)
+
+        for item in stocks:
+            print item['code'], item['name']
