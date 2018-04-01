@@ -24,4 +24,5 @@ class quoteCfiSpider():
             stocks = json.load(load_f)
 
         for item in stocks:
+            self._conn
             print item['code'], item['name']
