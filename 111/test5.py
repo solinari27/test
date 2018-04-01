@@ -24,23 +24,23 @@ class quoteCfiSpider(scrapy.Spider):
         unicode_body = response.body_as_unicode ()
         for sel in response.xpath ('//div[@id="divcontent"]'):
             # print sel.extract()
-            name = sel.re (r'<td><a href=*>*(.+?)</a>(.+?)</td>')
-            if not name:
+            stocks = sel.re (r'<td><a href=*>*(.+?)</a>(.+?)</td>')
+            if not stocks:
                 pass
             else:
-                # print name[0]
-                print len(name)
-                for item in name:
-                    print item
-                    code = re.search(r'\d\d\d\d\d\d', item)
-                    print code.group()
+                # print stocks[0]
+                # print len(stocks)
+                for it in stocks:
+                    # print it
+                    codestr = re.search(r'\d\d\d\d\d\d', it)
+                    code = codestr.group()
+                    left = re.search(r'(?<=\"\>).+?$', it)
+                    leftname = left.group()
+                    stocknamesplit = leftname.split("(")
+                    stockname = stocknamesplit[0]
+                    print code, stockname
 
-                    left = re.search(r'(?<=\>).+?$', item)
-                    print left.group()
-                    name = re.search(r'>*\(')
-                    name1 = name.group()
-                    print name1
-                    print 'split:'
+
                     # num1 = re.findall(r'\b\d.*\d\b', item)
                     # print num1
                     # num2 = re.search(r"(*\'", num1)
