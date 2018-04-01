@@ -41,7 +41,7 @@ class mongoConn():
             self._conn = MongoClient(self._host, self._port)
             if not self._check_connected(self._conn):
                 self._logger.error("mongodb connection failed.")
-                # sys.exit(1)
+                sys.exit(1)
 
             # self.connected = self.db.authenticate (self._username, self._password)
             self._db = self._conn.stockinfo
