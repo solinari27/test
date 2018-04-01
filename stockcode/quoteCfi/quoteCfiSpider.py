@@ -13,5 +13,5 @@ class quoteCfiSpider(scrapy.Spider):
     def __init__(self):
 
     def crawl(self):
-        os.system("scrapy runspider stockcode/spider/scrapyCfiSpider.py -o Data/out.json --logfile Log/quoteCfiSpider.log --loglevel ERROR")
+        os.system("scrapy runspider stockcode/spider/scrapyCfiSpider.py -o Data/quoteCfiSpider.json --logfile Log/quoteCfiSpider.log --loglevel ERROR")
 
