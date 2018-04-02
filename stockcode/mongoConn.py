@@ -67,7 +67,7 @@ class mongoConn():
         self._db.stocklist.remove({})
 
     def insertStock(self, code, name):
-        # self._db.stocklist.insert({"code": code, "name": name})    完全清空后重新添加
+        # self._db.stocklist.insert({"code": code, "name": name})    #完全清空后重新添加
         dbresult = self._db.stocklist.find({"code": code})
         result = {}
         have = False
