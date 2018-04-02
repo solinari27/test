@@ -58,10 +58,32 @@ class mongoConn():
         return conn.connected
 
     def createDB(self):
-        # mySet.insert({"name": "zhangsan", "age": 18})
         return
 
     def maintain(self):
         return
+
+    def cleanStock(self):
+        self._db.stocklist.remove({})
+
+    def insertStock(self, code, name):
+        self._db.stocklist.insert({"code": code, "name": name})
+        # dbresult = self._db.stocklist.find({"code": code})
+        # result = {}
+        # have = False
+        #
+        # for i in dbresult:
+        #     result['code'] = i['code']
+        #     result['name'] = i['name']
+        #     have = True
+        #
+        # if (not have):
+        #     self._db.stocklist.insert({"code": code, "name": name})
+        # elif (result['name'] != name):
+        #     self._db.stocklist.update({"code": code}, {"$set": {"name": name}})
+
+
+
+
 
 

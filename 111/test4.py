@@ -15,23 +15,30 @@ mySet = db.test
 
 mySet.insert({"name": "zhangsan", "age": 18})
 
-
-# connect db
-        try:
-            self.conn = pymongo.MongoClient(MONGODB_CONFIG['host'], MONGODB_CONFIG['port'])
-            self.db = self.conn[MONGODB_CONFIG['db_name']]  # connect db
-            self.username=MONGODB_CONFIG['username']
-            self.password=MONGODB_CONFIG['password']
-            if self.username and self.password:
-                self.connected = self.db.authenticate(self.username, self.password)
-            else:
-                self.connected = True
-        except Exception:
-            print traceback.format_exc()
-            print 'Connect Statics Database Fail.'
-            sys.exit(1)
+#查一个collection
+print(mySet)
+print("test_collection")
+array = mySet.find({"age" : 18})
+for doc in array:
+    print(doc)
 
 
-startDayStr = time.strftime('%Y-%m-%d', startDay)
+# # connect db
+#         try:
+#             self.conn = pymongo.MongoClient(MONGODB_CONFIG['host'], MONGODB_CONFIG['port'])
+#             self.db = self.conn[MONGODB_CONFIG['db_name']]  # connect db
+#             self.username=MONGODB_CONFIG['username']
+#             self.password=MONGODB_CONFIG['password']
+#             if self.username and self.password:
+#                 self.connected = self.db.authenticate(self.username, self.password)
+#             else:
+#                 self.connected = True
+#         except Exception:
+#             print traceback.format_exc()
+#             print 'Connect Statics Database Fail.'
+#             sys.exit(1)
+#
+#
+# startDayStr = time.strftime('%Y-%m-%d', startDay)
 
 
