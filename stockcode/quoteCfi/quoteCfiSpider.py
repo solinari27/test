@@ -23,7 +23,7 @@ class quoteCfiSpider():
         with open("Data/out.json", 'r') as load_f:
             stocks = json.load(load_f)
 
-        self._conn.cleanStock()
+        # self._conn.cleanStock()
 
         for item in stocks:
             self._conn.insertStock(item['code'], item['name'])

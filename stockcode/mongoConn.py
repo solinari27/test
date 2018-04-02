@@ -67,20 +67,20 @@ class mongoConn():
         self._db.stocklist.remove({})
 
     def insertStock(self, code, name):
-        self._db.stocklist.insert({"code": code, "name": name})
-        # dbresult = self._db.stocklist.find({"code": code})
-        # result = {}
-        # have = False
-        #
-        # for i in dbresult:
-        #     result['code'] = i['code']
-        #     result['name'] = i['name']
-        #     have = True
-        #
-        # if (not have):
-        #     self._db.stocklist.insert({"code": code, "name": name})
-        # elif (result['name'] != name):
-        #     self._db.stocklist.update({"code": code}, {"$set": {"name": name}})
+        # self._db.stocklist.insert({"code": code, "name": name})    完全清空后重新添加
+        dbresult = self._db.stocklist.find({"code": code})
+        result = {}
+        have = False
+
+        for i in dbresult:
+            result['code'] = i['code']
+            result['name'] = i['name']
+            have = True
+
+        if (not have):
+            self._db.stocklist.insert({"code": code, "name": name})
+        elif (result['name'] != name):
+            self._db.stocklist.update({"code": code}, {"$set": {"name": name}})
 
 
 
