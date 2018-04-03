@@ -12,11 +12,12 @@ import logging
 import time
 
 import urlAgent
+import mongoConn
 
 class liangyeeCrawler():
 
     def __init__(self):
-        with open('../Conf/liangyee.conf') as f:
+        with open('Conf/liangyee.conf') as f:
             self._liangyeeConf = json.load(f)
 
         # init logging:
@@ -25,7 +26,7 @@ class liangyeeCrawler():
         self._logger = logging.getLogger(self._name)
         formatter = logging.Formatter('%(asctime)s %(levelname)-8s: %(message)s')
         date_str = time.strftime('%Y_%m_%d', time.gmtime())
-        filename = "../" + self._logConf['logpath'] + "/crawler_" + date_str + ".log"
+        filename = self._logConf['logpath'] + "/crawler_" + date_str + ".log"
         self._logfile_handler = logging.FileHandler(filename)
         self._logfile_handler.setFormatter(formatter)
         self._logger.addHandler(self._logfile_handler)
@@ -42,6 +43,9 @@ class liangyeeCrawler():
         # self._logger.debug("liangyee crwler set userkey: " + userkey + " .")
         # self._agent.setTimesLimit(200)
         # self._logger.debug("liangyee crwler set time limit: " + 200 + " .")
+
+        self._conn = mongoConn.mongoConn()
+        self._logger.debug("liangyee crwler init mongo connection.")
 
     def __del__(self):
         self._logger.warn("liangyee crwler stopped.")
@@ -67,6 +71,9 @@ class liangyeeCrawler():
                 self._logger.error("liangyee crwler request url " + url + " other error.")
         return {}
 
+    def _getstockslist(self):
+        return self._conn.getStocks()
+
     def getDailyKData(self, stock, startDay, endDay):
         url = self._agent.getDailyKUrl(stock, startDay, endDay)
         return self._requestJson(url=url)['result']
@@ -79,6 +86,17 @@ class liangyeeCrawler():
         url = self._agent.getMarketDataUrl(stocks)
         return self._requestJson(url=url)['result']
 
+    def crawlliangyee(self):
+        stockcodelist = self._getstockslist()
+        for code in stockcodelist:
+            print code
+            # startDate = time.strptime("2000:01:01", "%Y:%m:%d")
+            # endDate = time.strptime("2018:03:01", "%Y:%m:%d")
+            # self.getDailyKData(code, startDate, endDate)
+
+        startDate = time.strptime("2000:01:01", "%Y:%m:%d")
+        endDate = time.strptime("2018:03:01", "%Y:%m:%d")
+        self.getDailyKData(code, startDate, endDate)
 
 
 
