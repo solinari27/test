@@ -2,13 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="e89e7b3b-8ce8-4c2c-9c3b-2bab6aad98f4" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/try.py" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/111/test6.py" afterPath="$PROJECT_DIR$/111/test6.py" />
-      <change beforePath="$PROJECT_DIR$/Conf/liangyee.conf" afterPath="$PROJECT_DIR$/Conf/liangyee.conf" />
-      <change beforePath="$PROJECT_DIR$/liangyee/liangyeeCrawler.py" afterPath="$PROJECT_DIR$/liangyee/liangyeeCrawler.py" />
-      <change beforePath="$PROJECT_DIR$/liangyee/mongoConn.py" afterPath="$PROJECT_DIR$/liangyee/mongoConn.py" />
-      <change beforePath="$PROJECT_DIR$/stockcode/__init__.py" afterPath="$PROJECT_DIR$/stockcode/__init__.py" />
+      <change beforePath="$PROJECT_DIR$/Conf/crawler.conf" afterPath="$PROJECT_DIR$/Conf/crawler.conf" />
       <change beforePath="$PROJECT_DIR$/stockcode/mongoConn.py" afterPath="$PROJECT_DIR$/stockcode/mongoConn.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -20,7 +14,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="quoteCfiSpider.py" pinned="false" current-in-tab="true">
+      <file leaf-file-name="quoteCfiSpider.py" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/stockcode/quoteCfi/quoteCfiSpider.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="600">
@@ -64,11 +58,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="mongoConn.py" pinned="false" current-in-tab="false">
+      <file leaf-file-name="mongoConn.py" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/stockcode/mongoConn.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="75" column="38" lean-forward="true" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
+            <state relative-caret-position="2508">
+              <caret line="89" column="49" lean-forward="true" selection-start-line="89" selection-start-column="49" selection-end-line="89" selection-end-column="49" />
               <folding />
             </state>
           </provider>
@@ -733,14 +727,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/stockcode/mongoConn.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="75" column="38" lean-forward="true" selection-start-line="75" selection-start-column="38" selection-end-line="75" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/liangyee/mongoConn.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="600">
@@ -758,6 +744,14 @@
           <folding>
             <element signature="e#123#132#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/stockcode/mongoConn.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2508">
+          <caret line="89" column="49" lean-forward="true" selection-start-line="89" selection-start-column="49" selection-end-line="89" selection-end-column="49" />
+          <folding />
         </state>
       </provider>
     </entry>

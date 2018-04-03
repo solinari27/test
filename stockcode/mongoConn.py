@@ -65,8 +65,12 @@ class mongoConn():
         self._db.stocklist.remove({})
 
     def insertStock(self, code, name):
+<<<<<<< HEAD
         # self._logger.debug("stockcode crawler insert mongodb stock code: " + code + " name： " + name + ".")
         # self._db.stocklist.insert({"code": code, "name": name, "updatetime": None})    #完全清空后重新添加
+=======
+        # self._db.stocklist.insert({"code": code, "name": name})    #完全清空后重新添加
+>>>>>>> 0c5ed823c74ffddab46b710fe7750da5c1b030b0
         dbresult = self._db.stocklist.find({"code": code})
         result = {}
         have = False
