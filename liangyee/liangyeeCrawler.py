@@ -90,6 +90,7 @@ class liangyeeCrawler():
         stockcodelist = self._getstockslist()
         for code in stockcodelist:
             print code
+            #TODO 添加datetime判断 添加200次limit判断
             # startDate = time.strptime("2000:01:01", "%Y:%m:%d")
             # endDate = time.strptime("2018:03:01", "%Y:%m:%d")
             # self.getDailyKData(code, startDate, endDate)
