@@ -37,6 +37,8 @@ class mongoConn():
         self._username = self._dbConf['username']
         self._password = self._dbConf['password']
 
+        self._logger.warn("stockcode crwler started.")
+
         try:
             self._conn = MongoClient(self._host, self._port)
             if not self._check_connected(self._conn):
@@ -51,22 +53,19 @@ class mongoConn():
             # sys.exit (1)
 
     def __del__(self):
+        self._logger.warn("stockcode crwler stopped.")
         self._logger.removeHandler(self._logfile_handler)
 
     # 检查是否连接成功
     def _check_connected (self, conn):
         return conn.connected
 
-    def createDB(self):
-        return
-
-    def maintain(self):
-        return
-
     def cleanStock(self):
+        self._logger.warn("stockcode crwler clean mongodb.")
         self._db.stocklist.remove({})
 
     def insertStock(self, code, name):
+        # self._logger.info("stockcode crwler insert mongodb stock code; " + code + " name： " + name + ".")
         # self._db.stocklist.insert({"code": code, "name": name})    完全清空后重新添加
         dbresult = self._db.stocklist.find({"code": code})
         result = {}
@@ -78,8 +77,10 @@ class mongoConn():
             have = True
 
         if (not have):
+            self._logger.info("stockcode crwler insert mongodb stock code; " + code + " name： " + name + ".")
             self._db.stocklist.insert({"code": code, "name": name})
         elif (result['name'] != name):
+            self._logger.info("stockcode crawler update mongodb stock code; " + code + " name： " + name + ".")
             self._db.stocklist.update({"code": code}, {"$set": {"name": name}})
 
 
