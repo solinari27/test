@@ -26,7 +26,7 @@ class mongoConn():
         formatter = logging.Formatter('%(asctime)s %(levelname)-8s: %(message)s')
         date_str = time.strftime('%Y_%m_%d', time.gmtime ())
         filename = self._logConf['logpath'] + "/crawler_" + date_str + ".log"
-        self._logfile_handler = logging.FileHandler (filename)
+        self._logfile_handler = logging.FileHandler(filename)
         self._logfile_handler.setFormatter(formatter)
         self._logger.addHandler(self._logfile_handler)
 
