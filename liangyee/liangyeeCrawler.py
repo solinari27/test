@@ -47,15 +47,21 @@ class liangyeeCrawler():
         self._conn = mongoConn.mongoConn()
         self._logger.debug("liangyee crwler init mongo connection.")
 
+        self._setID(self._getNextID())
+
     def __del__(self):
         self._logger.warn("liangyee crwler stopped.")
         self._logger.removeHandler(self._logfile_handler)
 
-    def setID(self, userKey):
+    def _setID(self, userKey):
         self._agent.setUserKey(userKey)
         self._logger.debug("liangyee crwler set userkey: " + userKey + " .")
         self._agent.setTimesLimit(self._timeLimit)
         self._logger.debug("liangyee crwler set time limit: " + str(self._timeLimit) + " .")
+
+    def _getNextID(self):
+        #TODO 检查ID update 时间
+        return '6F49F56DCE594273BF0B927C8ABE0A12'
 
     def _requestJson(self, url):
         for i in range (self._repeatTime):
@@ -76,7 +82,11 @@ class liangyeeCrawler():
 
     def getDailyKData(self, stock, startDay, endDay):
         url = self._agent.getDailyKUrl(stock, startDay, endDay)
-        return self._requestJson(url=url)['result']
+        if url != "":
+            return self._requestJson(url=url)['result']
+        else:
+            self._setID(self._getNextID())
+            return self.getDailyKData(stock, startDay, endDay)
 
     def get5MinKData(self, stock):
         url = self._agent.get5MinKUrl(stock)
@@ -89,15 +99,18 @@ class liangyeeCrawler():
     def crawlliangyee(self):
         stockcodelist = self._getstockslist()
         for code in stockcodelist:
+            # 0 for stockcode 1 for updatetime
             print code
-            #TODO 添加datetime判断 添加200次limit判断
-            # startDate = time.strptime("2000:01:01", "%Y:%m:%d")
-            # endDate = time.strptime("2018:03:01", "%Y:%m:%d")
-            # self.getDailyKData(code, startDate, endDate)
+            if code[1] == None:
+                lastDate = time.strptime("2000:01:01", "%Y:%m:%d")
+            else:
+                lastDate = code[1]
+            now = time.gmtime()
+            nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
+            # self.getDailyKData(code[0], lastDate, nowDate)
 
-        startDate = time.strptime("2000:01:01", "%Y:%m:%d")
-        endDate = time.strptime("2018:03:01", "%Y:%m:%d")
-        self.getDailyKData(code, startDate, endDate)
+        #debuginfo
+        print self.getDailyKData(code[0], lastDate, nowDate)
 
 
 
