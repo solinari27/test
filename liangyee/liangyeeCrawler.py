@@ -90,11 +90,19 @@ class liangyeeCrawler():
 
     def get5MinKData(self, stock):
         url = self._agent.get5MinKUrl(stock)
-        return self._requestJson(url=url)['result']
+        if url != "":
+            return self._requestJson(url=url)['result']
+        else:
+            self._setID(self._getNextID())
+            return self.get5MinKData(stock)
 
     def getMarketData(self, stocks):
         url = self._agent.getMarketDataUrl(stocks)
-        return self._requestJson(url=url)['result']
+        if url != "":
+            return self._requestJson(url=url)['result']
+        else:
+            self._setID(self._getNextID())
+            return self.getMarketData(stocks)
 
     def crawlliangyee(self):
         stockcodelist = self._getstockslist()
@@ -108,9 +116,16 @@ class liangyeeCrawler():
             now = time.gmtime()
             nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
             # self.getDailyKData(code[0], lastDate, nowDate)
+            # self.get5MinKData(code[0])
+            # self.getMarketData([code[0]])
+            #TODO update database
 
         #debuginfo
-        print self.getDailyKData(code[0], lastDate, nowDate)
+        # print self.getDailyKData(code[0], lastDate, nowDate)
+        # time.sleep(3)
+        # print self.get5MinKData(code[0])
+        # time.sleep(3)
+        # print self.getMarketData([code[0]])
 
 
 
