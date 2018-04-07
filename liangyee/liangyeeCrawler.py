@@ -60,8 +60,8 @@ class liangyeeCrawler():
         self._logger.debug("liangyee crwler set time limit: " + str(self._timeLimit) + " .")
 
     def _getNextID(self):
-        #TODO 检查ID update 时间
-        return '6F49F56DCE594273BF0B927C8ABE0A12'
+        return self._conn.getUserID(self._agent.getUserKey(), self._timeLimit)
+        # return '6F49F56DCE594273BF0B927C8ABE0A12'
 
     def _requestJson(self, url):
         for i in range (self._repeatTime):
