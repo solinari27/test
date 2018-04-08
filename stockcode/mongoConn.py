@@ -65,7 +65,7 @@ class mongoConn():
         self._db.stocklist.remove({})
 
     def insertStock(self, code, name):
-        # self._logger.debug("stockcode crawler insert mongodb stock code: " + code + " name： " + name + ".")
+        # self._logger.debug("stockcode crawler insert mongodb stock code: " + code)
         # self._db.stocklist.insert({"code": code, "name": name, "updatetime": None})    #完全清空后重新添加
 
         dbresult = self._db.stocklist.find({"code": code})
@@ -80,10 +80,10 @@ class mongoConn():
             have = True
 
         if (not have):
-            self._logger.info("stockcode crwler insert mongodb stock code; " + code + " name： " + name + ".")
+            self._logger.info("stockcode crawler insert mongodb stock code: " + code)
             self._db.stocklist.insert({"code": code, "name": name, "updatetime": None})
         elif (result['name'] != name):
-            self._logger.info("stockcode crawler update mongodb stock code; " + code + " name： " + name + ".")
+            self._logger.info("stockcode crawler insert mongodb stock code: " + code)
             self._db.stocklist.update({"code": code}, {"$set": {"name": name, "updatetime": updatetime}})
 
 
