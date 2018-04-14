@@ -1,0 +1,50 @@
+{
+  "001":{
+    "key":"241e69c502564504b0e8b8feaeae0ba1",
+    "mailbox":"liangyee001@126.com",
+    "passwd":"passwd001"
+  },
+
+  "002":{
+    "key":"d4ad6f2b919f4d5eaa7eb76961954045",
+    "mailbox":"liangyee002@sina.com",
+    "passwd":"passwd002"
+  },
+
+   "003":{
+    "key":"6d1233b361c149d09213bfbbfbf0b6e8",
+    "mailbox":"liangyee003@sohu.com",
+    "passwd":"passwd003"
+  },
+
+  "004":{
+    "key":"fb99fb9b78d04ad0b52a8c1b3283ee94",
+    "mailbox":"liangyee004@aliyun.com",
+    "passwd":"passwd004"
+  },
+
+  "005":{
+    "key":"417f063c2a5f46c7bfd4c2614173c42e",
+    "mailbox":"liangyee005@mail.top",
+    "passwd":"passwd005!"
+  },
+
+  "006":{
+    "key":"5604f3868bda4750875d2cbe2eee8273",
+    "mailbox":"liangyee006@outlook.com",
+    "passwd":"passwd006"
+  },
+
+  "007":{
+    "key":"e4e638deb6014509bb9058e47acf8d21",
+    "mailbox":"liangyee007@21cn.com",
+    "passwd":"passwd007"
+  },
+
+  "008":{
+    "key":"a7c181ba37554472b1a97580d4b73d74",
+    "mailbox":"liangyee008@sina.com",
+    "passwd":"passwd008"
+  }
+
+}
