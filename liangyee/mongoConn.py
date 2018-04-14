@@ -54,6 +54,7 @@ class mongoConn():
             # sys.exit (1)
 
     def __del__(self):
+        self._conn.close()
         self._logger.warn("stockcode crwler stopped.")
         self._logger.removeHandler(self._logfile_handler)
 
