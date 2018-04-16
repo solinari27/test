@@ -30,9 +30,10 @@ for item in mailboxs:
     print item
     print mailboxs[item]['key']
     # key mailbox passwd updatetime times
-    # mySet.insert({"key": mailboxs[item]['key'], "mailbox": mailboxs[item]['mailbox'], "passwd": mailboxs[item]['passwd'], "updatetime":"", "times": 0, "debug": })
+    mySet.insert({"key": mailboxs[item]['key'], "mailbox": mailboxs[item]['mailbox'], "passwd": mailboxs[item]['passwd'], "times": mailboxs[item]['timelimit'], "debug": mailboxs[item]['debug']})
 
 conn.close()
+mySet.find()
 
 
 # conn = MongoClient(mongohost, mongoport)
