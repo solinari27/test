@@ -47,9 +47,9 @@ class mongoConn():
 
             # self.connected = self.db.authenticate (self._username, self._password)
             self._stockdb = self._conn.stockinfo
-            self._userdb = self._conn.userinfo
+            self._userdb = self._conn.liangyeeuser
 
-        except Exceptions:
+        except Exception:
             self._logger.error("mongodb connection failed.")
             # sys.exit (1)
 
@@ -69,15 +69,19 @@ class mongoConn():
             for stock in stocks:
                 stockslist.append([stock['code'] , stock['updatetime']])
             return stockslist
-        except Exceptions:
+        except Exception:
             self._logger.error("mongodb get stocklist error.")
 
-    def getUserID(self, id, timelimit):
+    def getUserID(self, id, debug):
         #TODO update time
         #id mailbox passwd updatetime times
-        self._userdb.update(id, timelimit)
-        nextid = self._userdb.find()
-        return "6F49F56DCE594273BF0B927C8ABE0A12"
+
+        # nextid = self._userdb.find({"debug": debug})
+        # key = nextid['key']
+        # timelimit = nextid['timelimit']
+
+        # return key, timelimit
+        return "6F49F56DCE594273BF0B927C8ABE0A12", 200
 
 
 

@@ -20,9 +20,19 @@ mongoport = int(mongoconf['port'])
 with open ('info/mailbox.json') as f:
     mailboxs = json.load(f)
 
+conn = MongoClient(mongohost, mongoport)
+db = conn.stockinfo
+mySet = db.liangyeeuser
+
+mySet.remove({})
+
 for item in mailboxs:
     print item
     print mailboxs[item]['key']
+    # key mailbox passwd updatetime times
+    # mySet.insert({"key": mailboxs[item]['key'], "mailbox": mailboxs[item]['mailbox'], "passwd": mailboxs[item]['passwd'], "updatetime":"", "times": 0, "debug": })
+
+conn.close()
 
 
 # conn = MongoClient(mongohost, mongoport)

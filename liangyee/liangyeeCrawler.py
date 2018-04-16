@@ -35,7 +35,7 @@ class liangyeeCrawler():
 
         #init other：
         self._conf = self._liangyeeConf['crawler']
-        self._timeLimit = self._conf['timelimit']
+        self._debug = self._conf['debug']
         self._repeatTime = self._conf['requestrepeat']
         self._agent = urlAgent.urlAgent()
         # userkey = '6F49F56DCE594273BF0B927C8ABE0A12'
@@ -45,22 +45,23 @@ class liangyeeCrawler():
         # self._logger.debug("liangyee crwler set time limit: " + 200 + " .")
 
         self._conn = mongoConn.mongoConn()
-        self._logger.debug("liangyee crwler init mongo connection.")
+        self._logger.debug("liangyee crawler init mongo connection.")
 
-        self._setID(self._getNextID())
+        key, timelimit = self._getNextID()
+        self._setID(key, timelimit)
 
     def __del__(self):
-        self._logger.warn("liangyee crwler stopped.")
+        self._logger.warn("liangyee crawler stopped.")
         self._logger.removeHandler(self._logfile_handler)
 
-    def _setID(self, userKey):
+    def _setID(self, userKey, timelimit):
         self._agent.setUserKey(userKey)
-        self._logger.debug("liangyee crwler set userkey: " + userKey + " .")
-        self._agent.setTimesLimit(self._timeLimit)
-        self._logger.debug("liangyee crwler set time limit: " + str(self._timeLimit) + " .")
+        self._logger.debug("liangyee crawler set userkey: " + userKey + " .")
+        self._agent.setTimesLimit(timelimit)
+        self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + " .")
 
     def _getNextID(self):
-        return self._conn.getUserID(self._agent.getUserKey(), self._timeLimit)
+        return self._conn.getUserID(self._agent.getUserKey(), self._debug)
         # return '6F49F56DCE594273BF0B927C8ABE0A12'
 
     def _requestJson(self, url):
@@ -70,11 +71,11 @@ class liangyeeCrawler():
                 content = json.loads(response.content)
                 return content
             except requests.exceptions.ConnectionError:
-                self._logger.error("liangyee crwler request url " + url + " connection error.")
+                self._logger.error("liangyee crawler request url " + url + " connection error.")
             except requests.exceptions.ChunkedEncodingError:
-                self._logger.error("liangyee crwler request url " + url + " chunked encoding error.")
+                self._logger.error("liangyee crawler request url " + url + " chunked encoding error.")
             except:
-                self._logger.error("liangyee crwler request url " + url + " other error.")
+                self._logger.error("liangyee crawler request url " + url + " other error.")
         return {}
 
     def _getstockslist(self):
