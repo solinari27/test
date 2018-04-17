@@ -27,8 +27,6 @@ mySet = db.liangyeeuser
 mySet.remove({})
 
 for item in mailboxs:
-    print item
-    print mailboxs[item]['key']
     # key mailbox passwd updatetime times
     mySet.insert({"key": mailboxs[item]['key'], "mailbox": mailboxs[item]['mailbox'], "passwd": mailboxs[item]['passwd'], "times": mailboxs[item]['timelimit'], "debug": mailboxs[item]['debug']})
 
