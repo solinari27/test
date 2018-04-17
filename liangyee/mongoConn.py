@@ -47,7 +47,6 @@ class mongoConn():
 
             # self.connected = self.db.authenticate (self._username, self._password)
             self._stockdb = self._conn.stockinfo
-            self._userdb = self._conn.liangyeeuser
 
         except Exception:
             self._logger.error("mongodb connection failed.")
@@ -76,12 +75,17 @@ class mongoConn():
         #TODO update time
         #id mailbox passwd updatetime times
 
-        # nextid = self._userdb.find({"debug": debug})
-        # key = nextid['key']
-        # timelimit = nextid['timelimit']
+        try:
+            nextid = list(self._stockdb.liangyeeuser.find({"debug": debug}))[0]
+            print nextid
+            key = nextid['key']
+            timelimit = nextid['timelimit']
+        except Exception:
+            key = None
+            timelimit = 0
 
-        # return key, timelimit
-        return "6F49F56DCE594273BF0B927C8ABE0A12", 200
+        return key, timelimit
+        # return "6F49F56DCE594273BF0B927C8ABE0A12", 200
 
 
 
