@@ -28,7 +28,7 @@ mySet.remove({})
 
 for item in mailboxs:
     # key mailbox passwd updatetime times
-    mySet.insert({"key": mailboxs[item]['key'], "mailbox": mailboxs[item]['mailbox'], "passwd": mailboxs[item]['passwd'], "timelimit": mailboxs[item]['timelimit'], "debug": mailboxs[item]['debug']})
+    mySet.insert({"key": mailboxs[item]['key'], "mailbox": mailboxs[item]['mailbox'], "passwd": mailboxs[item]['passwd'], "timelimit": mailboxs[item]['timelimit'], "debug": mailboxs[item]['debug'], "times": 0})
 
 conn.close()
 mySet.find()

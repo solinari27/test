@@ -76,7 +76,8 @@ class mongoConn():
         #id mailbox passwd updatetime times
 
         try:
-            nextid = list(self._stockdb.liangyeeuser.find({"debug": debug}))[0]
+            self._conn.stockdb.liangyeeuser.update()
+            nextid = list(self._stockdb.liangyeeuser.find({"debug": debug, "times": 0}))[0]
             print nextid
             key = nextid['key']
             timelimit = nextid['timelimit']
