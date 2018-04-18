@@ -61,7 +61,7 @@ class liangyeeCrawler():
         self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + " .")
 
     def _getNextID(self):
-        return self._conn.getUserID(self._agent.getUserKey(), self._debug)
+        return self._conn.getUserID(self._agent.getUserKey(), self._agent.getTimes(), self._debug)
         # return '6F49F56DCE594273BF0B927C8ABE0A12'
 
     def _requestJson(self, url):
