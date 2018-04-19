@@ -3,7 +3,7 @@
     "key":"6F49F56DCE594273BF0B927C8ABE0A12",
     "mailbox":"xxx@xxx.com",
     "passwd":"xxxxxxxx",
-    "timelimit":200,
+    "timelimit":10,
     "debug":"yes"
   },
 

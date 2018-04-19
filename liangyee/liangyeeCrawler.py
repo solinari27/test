@@ -10,9 +10,10 @@ import requests
 import json
 import logging
 import time
+import random
+import mongoConn
 
 import urlAgent
-import mongoConn
 
 class liangyeeCrawler():
 
@@ -81,6 +82,9 @@ class liangyeeCrawler():
     def _getstockslist(self):
         return self._conn.getStocks()
 
+    def _updateDataTime(self, code, date):
+        self._conn.updateTime(code, date)
+
     def getDailyKData(self, stock, startDay, endDay):
         url = self._agent.getDailyKUrl(stock, startDay, endDay)
         if url != "":
@@ -109,17 +113,27 @@ class liangyeeCrawler():
         stockcodelist = self._getstockslist()
         for code in stockcodelist:
             # 0 for stockcode 1 for updatetime
-            print code
             if code[1] == None:
                 lastDate = time.strptime("2000:01:01", "%Y:%m:%d")
             else:
                 lastDate = code[1]
+            print lastDate
             now = time.gmtime()
             nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
-            # self.getDailyKData(code[0], lastDate, nowDate)
-            # self.get5MinKData(code[0])
-            # self.getMarketData([code[0]])
-            #TODO update database
+            try:
+                kData = self.getDailyKData(code[0], lastDate, nowDate)
+                time.sleep(random.randint(1, 5))
+                fiveMinData = self.get5MinKData(code[0])
+                time.sleep(random.randint(1, 5))
+                marketData = self.getMarketData([code[0]])
+                print kData
+                print fiveMinData
+                print marketData
+                #TODO update database
+                self._updateDataTime(code[0], nowDate)
+            except Exception:
+                continue
+            time.sleep(20)
 
         #debuginfo
         # print self.getDailyKData(code[0], lastDate, nowDate)
