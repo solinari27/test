@@ -117,6 +117,7 @@ class liangyeeCrawler():
                 lastDate = time.strptime("2000:01:01", "%Y:%m:%d")
             else:
                 lastDate = code[1]
+                # lastDate = time.strptime(str(code[1].tm_year) + ":" + str(code[1].tm_mon) + ":" + str(code[1].tm_mday), "%Y:%m:%d")
             print lastDate
             now = time.gmtime()
             nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")

@@ -72,7 +72,8 @@ class mongoConn():
             self._logger.error("mongodb get stocklist error.")
 
     def updateTime(self, code, date):
-        self._conn._stockdb.stocklist.update({"key": code}, {'$set':{"updatetime": date}})
+        print code, date
+        self._conn._stockdb.stocklist.update({"code": str(code)}, {"$set":{"updatetime": date}})
         return
 
     def getUserID(self, id, times, debug):
@@ -81,7 +82,7 @@ class mongoConn():
 
         try:
             if (id != None):
-                self._conn.stockdb.liangyeeuser.update({"key": id}, {'$set':{"times": times}})
+                self._conn.stockdb.liangyeeuser.update({"key": id}, {"$set":{"times": times}})
             nextid = list(self._stockdb.liangyeeuser.find({"debug": debug, "times": 0}))[0]
             key = nextid['key']
             timelimit = nextid['timelimit']

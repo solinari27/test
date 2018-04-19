@@ -12,15 +12,17 @@ conn = MongoClient('127.0.0.1', 27017)
 # 数据库test 集合test use test db.test.find()
 db = conn.test
 mySet = db.test
-
+mySet.remove({})
 mySet.insert({"name": "zhangsan", "age": 18})
 
+mySet.update({"name": "zhangsan"},{"$set":{"age":20}})
 #查一个collection
-print(mySet)
-print("test_collection")
-array = mySet.find({"age" : 18})
+# print(mySet)
+# print("test_collection")
+array = mySet.find({"name" : "zhangsan"})
 for doc in array:
     print(doc)
+
 
 
 # # connect db
