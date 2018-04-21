@@ -116,11 +116,12 @@ class liangyeeCrawler():
             if code[1] == None:
                 lastDate = time.strptime("2000:01:01", "%Y:%m:%d")
             else:
-                lastDate = code[1]
-                # lastDate = time.strptime(str(code[1].tm_year) + ":" + str(code[1].tm_mon) + ":" + str(code[1].tm_mday), "%Y:%m:%d")
-            print lastDate
+                time_local = time.localtime(code[1])
+                lastDate = time_local
+                print lastDate
             now = time.gmtime()
             nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
+            print "date:", nowDate == lastDate
             try:
                 kData = self.getDailyKData(code[0], lastDate, nowDate)
                 time.sleep(random.randint(1, 5))

@@ -15,7 +15,7 @@ mySet = db.test
 mySet.remove({})
 mySet.insert({"name": "zhangsan", "age": 18})
 
-mySet.update({"name": "zhangsan"},{"$set":{"age":20}})
+mySet.update({"name": "zhangsan"},{"$set":{"age": 20}})
 #查一个collection
 # print(mySet)
 # print("test_collection")
@@ -23,7 +23,23 @@ array = mySet.find({"name" : "zhangsan"})
 for doc in array:
     print(doc)
 
+db2 = conn.stockinfo
+import time
+now = time.gmtime()
+nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
+print nowDate
+un_time = time.mktime(nowDate)
+print un_time  #1509636609.0
+# data = {}
+# data['updatetime'] = nowDate
+# db2.stocklist.update({"code": "600011"}, {"$set":data})
 
+mySet.insert({"xxx":"aaa", "date": un_time})
+array = mySet.find({"xxx" : "aaa"})
+for doc in array:
+    print(doc)
+    time_local = time.localtime(doc['date'])
+    print time_local
 
 # # connect db
 #         try:
