@@ -122,6 +122,12 @@ class liangyeeCrawler():
                 return None
 
     def crawlliangyee(self):
+        def date_cmp(date1, date2):
+            if ((date1.tm_year == date2.tm_year) and (date1.tm_mon == date2.tm_mon) and (date1.tm_mday == date2.tm_mday)):
+                return True
+            else:
+                return False
+
         stockcodelist = self._getstockslist()
         for code in stockcodelist:
             # 0 for stockcode 1 for updatetime
@@ -130,24 +136,23 @@ class liangyeeCrawler():
             else:
                 time_local = time.localtime(code[1])
                 lastDate = time_local
-                print lastDate
             now = time.gmtime()
             nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
-            print "date:", nowDate == lastDate
-            try:
-                kData = self.getDailyKData(code[0], lastDate, nowDate)
-                time.sleep(random.randint(1, 5))
-                fiveMinData = self.get5MinKData(code[0])
-                time.sleep(random.randint(1, 5))
-                marketData = self.getMarketData([code[0]])
-                print kData
-                print fiveMinData
-                print marketData
-                #TODO update database
-                self._updateDataTime(code[0], nowDate)
-            except Exception:
-                continue
-            time.sleep(20)
+            if not date_cmp(nowDate, lastDate):
+                try:
+                    kData = self.getDailyKData(code[0], lastDate, nowDate)
+                    time.sleep(random.randint(1, 5))
+                    fiveMinData = self.get5MinKData(code[0])
+                    time.sleep(random.randint(1, 5))
+                    marketData = self.getMarketData([code[0]])
+                    print kData
+                    print fiveMinData
+                    print marketData
+                    #TODO update database
+                    self._updateDataTime(code[0], nowDate)
+                except Exception:
+                    continue
+                time.sleep(20)
 
         #debuginfo
         # print self.getDailyKData(code[0], lastDate, nowDate)

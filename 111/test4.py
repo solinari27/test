@@ -40,6 +40,7 @@ for doc in array:
     print(doc)
     time_local = time.localtime(doc['date'])
     print time_local
+    print time_local.tm_year
 
 # # connect db
 #         try:
