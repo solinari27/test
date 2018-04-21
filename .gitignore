@@ -94,3 +94,7 @@ ENV/
 .ropeproject
 .idea
 .DS_Store
+
+*.xml
+*.pyc
+.gitignore
