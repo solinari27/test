@@ -90,24 +90,36 @@ class liangyeeCrawler():
         if url != "":
             return self._requestJson(url=url)['result']
         else:
-            self._setID(self._getNextID())
-            return self.getDailyKData(stock, startDay, endDay)
+            userKey, timelimit = self._getNextID()
+            if (userKey != None):
+                self._setID(userKey, timelimit)
+                return self.getDailyKData(stock, startDay, endDay)
+            else:
+                return None
 
     def get5MinKData(self, stock):
         url = self._agent.get5MinKUrl(stock)
         if url != "":
             return self._requestJson(url=url)['result']
         else:
-            self._setID(self._getNextID())
-            return self.get5MinKData(stock)
+            userKey, timelimit = self._getNextID()
+            if (userKey != None):
+                self._setID(userKey, timelimit)
+                return self.get5MinKData(stock)
+            else:
+                return None
 
     def getMarketData(self, stocks):
         url = self._agent.getMarketDataUrl(stocks)
         if url != "":
             return self._requestJson(url=url)['result']
         else:
-            self._setID(self._getNextID())
-            return self.getMarketData(stocks)
+            userKey, timelimit = self._getNextID()
+            if (userKey != None):
+                self._setID(userKey, timelimit)
+                return self.getMarketData(stocks)
+            else:
+                return None
 
     def crawlliangyee(self):
         stockcodelist = self._getstockslist()
