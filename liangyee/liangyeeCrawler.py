@@ -145,14 +145,14 @@ class liangyeeCrawler():
                     fiveMinData = self.get5MinKData(code[0])
                     time.sleep(random.randint(1, 5))
                     marketData = self.getMarketData([code[0]])
-                    print kData
-                    print fiveMinData
-                    print marketData
+                    # print kData
+                    # print fiveMinData
+                    # print marketData
                     #TODO update database
                     self._updateDataTime(code[0], nowDate)
                 except Exception:
                     continue
-                time.sleep(20)
+                time.sleep(10)
 
         #debuginfo
         # print self.getDailyKData(code[0], lastDate, nowDate)
