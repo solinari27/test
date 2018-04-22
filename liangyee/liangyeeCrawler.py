@@ -49,7 +49,10 @@ class liangyeeCrawler():
         self._logger.debug("liangyee crawler init mongo connection.")
 
         key, timelimit = self._getNextID()
-        self._setID(key, timelimit)
+        if (key != None):
+            self._setID(key, timelimit)
+        else:
+            self._setID(None, 0)
 
     def __del__(self):
         self._logger.warn("liangyee crawler stopped.")
@@ -57,7 +60,7 @@ class liangyeeCrawler():
 
     def _setID(self, userKey, timelimit):
         self._agent.setUserKey(userKey)
-        self._logger.debug("liangyee crawler set userkey: " + userKey + " .")
+        self._logger.debug("liangyee crawler set userkey: " + str(userKey) + " .")
         self._agent.setTimesLimit(timelimit)
         self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + " .")
 
@@ -129,7 +132,7 @@ class liangyeeCrawler():
                 return False
 
         def dataParser(self, data):
-            # print data
+            print data
             for i in data:
                 print i
             return
