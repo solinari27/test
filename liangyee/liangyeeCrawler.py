@@ -145,13 +145,14 @@ class liangyeeCrawler():
                     fiveMinData = self.get5MinKData(code[0])
                     time.sleep(random.randint(1, 5))
                     marketData = self.getMarketData([code[0]])
-                    # print kData
-                    # print fiveMinData
-                    # print marketData
-                    #TODO update database
+                    print kData
+                    print fiveMinData
+                    print marketData
+
                     self._updateDataTime(code[0], nowDate)
                 except Exception:
-                    continue
+                    self._logger.error("liangyee crawler crawl error. ")
+                    break
                 time.sleep(10)
 
         #debuginfo
