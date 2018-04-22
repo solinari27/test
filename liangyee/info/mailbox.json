@@ -95,6 +95,14 @@
     "debug":"no"
   },
 
+  "012":{
+    "key":"3bf06c586e174156b28bbd3c70875e29",
+    "mailbox":"liangyee012@163.com",
+    "passwd":"passwd012",
+    "timelimit":200,
+    "debug":"no"
+  },
+
   "013":{
     "key":"3bf06c586e174156b28bbd3c70875e29",
     "mailbox":"liangyee013@sohu.com",
@@ -147,6 +155,14 @@
     "key":"d663a92fbd5940f9aea81b75ddcdd20f",
     "mailbox":"liangyee019@sina.com",
     "passwd":"passwd019",
+    "timelimit":200,
+    "debug":"no"
+  },
+
+  "020":{
+    "key":"8a8cf526490f4a38b9c6c7e5132b24d5",
+    "mailbox":"lianyee020@sohu.com",
+    "passwd":"passwd020",
     "timelimit":200,
     "debug":"no"
   },
