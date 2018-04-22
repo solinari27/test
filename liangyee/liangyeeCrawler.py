@@ -128,6 +128,12 @@ class liangyeeCrawler():
             else:
                 return False
 
+        def dataParser(self, data):
+            # print data
+            for i in data:
+                print i
+            return
+
         stockcodelist = self._getstockslist()
         for code in stockcodelist:
             # 0 for stockcode 1 for updatetime
@@ -141,19 +147,21 @@ class liangyeeCrawler():
             if not date_cmp(nowDate, lastDate):
                 try:
                     kData = self.getDailyKData(code[0], lastDate, nowDate)
-                    time.sleep(random.randint(1, 5))
+                    time.sleep(random.randint(1, 3))
+                    dataParser(kData)
                     fiveMinData = self.get5MinKData(code[0])
-                    time.sleep(random.randint(1, 5))
+                    time.sleep(random.randint(1, 3))
+                    dataParser(fiveMinData)
                     marketData = self.getMarketData([code[0]])
-                    print kData
-                    print fiveMinData
-                    print marketData
+                    dataParser(marketData)
 
                     self._updateDataTime(code[0], nowDate)
+                    time.sleep(10)
                 except Exception:
                     self._logger.error("liangyee crawler crawl error. ")
+                    time.sleep(1)
                     break
-                time.sleep(10)
+
 
         #debuginfo
         # print self.getDailyKData(code[0], lastDate, nowDate)
