@@ -131,10 +131,38 @@ class liangyeeCrawler():
             else:
                 return False
 
-        def dataParser(data):
-            print data
+        def parseDailyKData(data):
             for i in data:
-                print i
+                info = i.split(',')
+                date = info[0]
+                start = info[1]
+                high = info[2]
+                low = info[3]
+                end = info[4]
+                count = info[5]
+                print date, start, high, low, end, count
+                # TODO insert databasee
+            return
+
+        def parse5MinKData(data):
+            for i in data:
+                info = i.split(',')
+                infolv2 = info[0].split(' ')
+                date = infolv2[0]
+                time = infolv2[1]
+                start = info[1]
+                high = info[2]
+                low = info[3]
+                end = info[4]
+                count = info[5]
+                print date, time, start, high, low, end, count
+                # TODO insert databasee
+            return
+
+        def parseMarketData(data):
+            for i in data:
+                info = i.split(',')
+                print info
             return
 
         stockcodelist = self._getstockslist()
@@ -151,12 +179,12 @@ class liangyeeCrawler():
                 try:
                     kData = self.getDailyKData(code[0], lastDate, nowDate)
                     time.sleep(random.randint(1, 3))
-                    dataParser(kData)
+                    parseDailyKData(kData)
                     fiveMinData = self.get5MinKData(code[0])
                     time.sleep(random.randint(1, 3))
-                    dataParser(fiveMinData)
+                    parse5MinKData(fiveMinData)
                     marketData = self.getMarketData([code[0]])
-                    dataParser(marketData)
+                    parseMarketData(marketData)
 
                     self._updateDataTime(code[0], nowDate)
                     time.sleep(10)
