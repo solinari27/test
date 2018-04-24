@@ -131,7 +131,7 @@ class liangyeeCrawler():
             else:
                 return False
 
-        def dataParser(self, data):
+        def dataParser(data):
             print data
             for i in data:
                 print i
