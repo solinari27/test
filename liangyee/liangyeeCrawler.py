@@ -162,7 +162,41 @@ class liangyeeCrawler():
         def parseMarketData(data):
             for i in data:
                 info = i.split(',')
-                print info
+                name = info[0]
+                today_start_price = info[1]
+                yesterday_end_price = info[2]
+                now_price = info[3]
+                floating = info[4]
+                floating_rate = info[5]
+                highest_price = info[6]
+                lowest_price = info[7]
+                deal_count = info[8]
+                deal_count_price = info[9]
+                buy1_count = info[10]
+                buy1_price = info[11]
+                buy2_count = info[12]
+                buy2_price = info[13]
+                buy3_count = info[14]
+                buy3_price = info[15]
+                buy4_count = info[16]
+                buy4_price = info[17]
+                buy5_count = info[18]
+                buy5_price = info[19]
+                sell1_count = info[20]
+                sell1_price = info[21]
+                sell2_count = info[22]
+                sell2_price = info[23]
+                sell3_count = info[24]
+                sell3_price = info[25]
+                sell4_count = info[26]
+                sell4_price = info[27]
+                sell5_count = info[28]
+                sell5_price = info[29]
+                marketdataDateTime = info[30]
+                print name,today_start_price,yesterday_end_price,now_price,floating,floating_rate,highest_price,lowest_price,deal_count,deal_count_price,
+                buy1_count,buy1_price,buy2_count,buy2_price,buy3_count,buy3_price,buy4_count,buy4_price,buy5_count,buy5_price,
+                sell1_count,sell1_price,sell2_count,sell2_price,sell3_count,sell3_price,sell4_count,sell4_price,sell5_count,sell5_price,marketdataDateTime
+                # TODO insert databasee
             return
 
         stockcodelist = self._getstockslist()
