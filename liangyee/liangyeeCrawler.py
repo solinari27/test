@@ -124,6 +124,15 @@ class liangyeeCrawler():
             else:
                 return None
 
+    def _recordDailyKData(self, data):
+        self._conn.insertDailyKData(data)
+
+    def _record5MinyKData(self, data):
+        self._conn.insert5MinKData(data)
+
+    def _recordMarketData(self, data):
+        self._conn.insertMarketData(data)
+
     def crawlliangyee(self):
         def date_cmp(date1, date2):
             if ((date1.tm_year == date2.tm_year) and (date1.tm_mon == date2.tm_mon) and (date1.tm_mday == date2.tm_mday)):
@@ -131,8 +140,8 @@ class liangyeeCrawler():
             else:
                 return False
 
-        def parseDailyKData(data):
-            for i in data:
+        def parseDailyKData(code, kdata):
+            for i in kdata:
                 info = i.split(',')
                 date = info[0]
                 start = info[1]
@@ -140,27 +149,44 @@ class liangyeeCrawler():
                 low = info[3]
                 end = info[4]
                 count = info[5]
-                print date, start, high, low, end, count
-                # TODO insert databasee
-            return
+                # print date, start, high, low, end, count
+                data = {}
+                data['code'] = code
+                data['date'] = date
+                data['start'] = start
+                data['high'] = high
+                data['low'] = low
+                data['end'] = end
+                data['count'] = count
+                self._recordDailyKData(data)
+            time.sleep(random.randint(1, 3))
 
-        def parse5MinKData(data):
-            for i in data:
+        def parse5MinKData(kdata):
+            for i in kdata:
                 info = i.split(',')
                 infolv2 = info[0].split(' ')
                 date = infolv2[0]
-                time = infolv2[1]
+                datatime = infolv2[1]
                 start = info[1]
                 high = info[2]
                 low = info[3]
                 end = info[4]
                 count = info[5]
-                print date, time, start, high, low, end, count
-                # TODO insert databasee
-            return
+                # print date, time, start, high, low, end, count
+                data = {}
+                data['code'] = code
+                data['date'] = date
+                data['time'] = datatime
+                data['start'] = start
+                data['high'] = high
+                data['low'] = low
+                data['end'] = end
+                data['count'] = count
+                self._record5MinyKData(data)
+            time.sleep(random.randint(1, 3))
 
-        def parseMarketData(data):
-            for i in data:
+        def parseMarketData(marketdata):
+            for i in marketdata:
                 info = i.split(',')
                 name = info[0]
                 today_start_price = info[1]
@@ -193,11 +219,46 @@ class liangyeeCrawler():
                 sell5_count = info[28]
                 sell5_price = info[29]
                 marketdataDateTime = info[30]
-                print name,today_start_price,yesterday_end_price,now_price,floating,floating_rate,highest_price,lowest_price,deal_count,deal_count_price,
-                buy1_count,buy1_price,buy2_count,buy2_price,buy3_count,buy3_price,buy4_count,buy4_price,buy5_count,buy5_price,
-                sell1_count,sell1_price,sell2_count,sell2_price,sell3_count,sell3_price,sell4_count,sell4_price,sell5_count,sell5_price,marketdataDateTime
-                # TODO insert databasee
-            return
+                # print name,today_start_price,yesterday_end_price,now_price,floating,floating_rate,highest_price,lowest_price,deal_count,deal_count_price,
+                # buy1_count,buy1_price,buy2_count,buy2_price,buy3_count,buy3_price,buy4_count,buy4_price,buy5_count,buy5_price,
+                # sell1_count,sell1_price,sell2_count,sell2_price,sell3_count,sell3_price,sell4_count,sell4_price,sell5_count,sell5_price,marketdataDateTime
+                data = {}
+                data['code'] = code
+                data['name'] = name
+                data['today_start_price'] = today_start_price
+                data['yesterday_end_price'] = yesterday_end_price
+                data['now_price'] = now_price
+                data['floating'] = floating
+                data['floating_rate'] = floating_rate
+                data['highest_price'] = highest_price
+                data['lowest_price'] = lowest_price
+                data['deal_count'] = deal_count
+                data['deal_count_price'] = deal_count_price
+                data['marketdataDateTime'] = marketdataDateTime
+
+                data['buy1_count'] = buy1_count
+                data['buy1_price'] = buy1_price
+                data['buy2_count'] = buy2_count
+                data['buy2_price'] = buy2_price
+                data['buy3_count'] = buy3_count
+                data['buy3_price'] = buy3_price
+                data['buy4_count'] = buy4_count
+                data['buy4_price'] = buy4_price
+                data['buy5_count'] = buy5_count
+                data['buy5_price'] = buy5_price
+
+                data['sell1_count'] = sell1_count
+                data['sell1_price'] = sell1_price
+                data['sell2_count'] = sell2_count
+                data['sell2_price'] = sell2_price
+                data['sell3_count'] = sell3_count
+                data['sell3_price'] = sell3_price
+                data['sell4_count'] = sell4_count
+                data['sell4_price'] = sell4_price
+                data['sell5_count'] = sell5_count
+                data['sell5_price'] = sell5_price
+                self._recordMarketData(data)
+            time.sleep(random.randint(1, 3))
 
         stockcodelist = self._getstockslist()
         for code in stockcodelist:
@@ -212,21 +273,29 @@ class liangyeeCrawler():
             if not date_cmp(nowDate, lastDate):
                 try:
                     kData = self.getDailyKData(code[0], lastDate, nowDate)
-                    time.sleep(random.randint(1, 3))
-                    parseDailyKData(kData)
+                    parseDailyKData(code[0], kData)
+
                     fiveMinData = self.get5MinKData(code[0])
-                    time.sleep(random.randint(1, 3))
                     parse5MinKData(fiveMinData)
+
                     marketData = self.getMarketData([code[0]])
                     parseMarketData(marketData)
 
                     self._updateDataTime(code[0], nowDate)
-                    time.sleep(10)
                 except Exception:
                     self._logger.error("liangyee crawler crawl error. ")
                     time.sleep(1)
                     break
-
+                # kData = self.getDailyKData(code[0], lastDate, nowDate)
+                # parseDailyKData(code[0], kData)
+                #
+                # fiveMinData = self.get5MinKData(code[0])
+                # parse5MinKData(fiveMinData)
+                #
+                # marketData = self.getMarketData([code[0]])
+                # parseMarketData(marketData)
+                #
+                # self._updateDataTime(code[0], nowDate)
 
         #debuginfo
         # print self.getDailyKData(code[0], lastDate, nowDate)

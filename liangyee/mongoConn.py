@@ -47,6 +47,7 @@ class mongoConn():
 
             # self.connected = self.db.authenticate (self._username, self._password)
             self._stockdb = self._conn.stockinfo
+            self._datadb = self._conn.stockdata
 
         except Exception:
             self._logger.error("mongodb connection failed.")
@@ -77,6 +78,15 @@ class mongoConn():
         data['updatetime'] = un_time
         self._stockdb.stocklist.update({"code": code}, {"$set": data})
         return
+
+    def insertDailyKData(self, data):
+        self._datadb.dailyKData.insert(data)
+
+    def insert5MinKData(self, data):
+        self._datadb.fiveMinKData.insert(data)
+
+    def insertMarketData(self, data):
+        self._datadb.marketData.insert(data)
 
     def getUserID(self, id, times, debug):
         #TODO update time
