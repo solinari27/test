@@ -159,9 +159,9 @@ class liangyeeCrawler():
                 data['end'] = end
                 data['count'] = count
                 self._recordDailyKData(data)
-            time.sleep(random.randint(1, 3))
+            time.sleep(random.randint(3, 5))
 
-        def parse5MinKData(kdata):
+        def parse5MinKData(code, kdata):
             for i in kdata:
                 info = i.split(',')
                 infolv2 = info[0].split(' ')
@@ -183,9 +183,9 @@ class liangyeeCrawler():
                 data['end'] = end
                 data['count'] = count
                 self._record5MinyKData(data)
-            time.sleep(random.randint(1, 3))
+            time.sleep(random.randint(3, 5))
 
-        def parseMarketData(marketdata):
+        def parseMarketData(code, marketdata):
             for i in marketdata:
                 info = i.split(',')
                 name = info[0]
@@ -258,7 +258,7 @@ class liangyeeCrawler():
                 data['sell5_count'] = sell5_count
                 data['sell5_price'] = sell5_price
                 self._recordMarketData(data)
-            time.sleep(random.randint(1, 3))
+            time.sleep(random.randint(3, 5))
 
         stockcodelist = self._getstockslist()
         for code in stockcodelist:
@@ -276,15 +276,15 @@ class liangyeeCrawler():
                     parseDailyKData(code[0], kData)
 
                     fiveMinData = self.get5MinKData(code[0])
-                    parse5MinKData(fiveMinData)
+                    parse5MinKData(code[0], fiveMinData)
 
                     marketData = self.getMarketData([code[0]])
-                    parseMarketData(marketData)
+                    parseMarketData(code[0], marketData)
 
                     self._updateDataTime(code[0], nowDate)
                 except Exception:
-                    self._logger.error("liangyee crawler crawl error. ")
-                    time.sleep(1)
+                    self._logger.error("liangyee crawler crawl error stock code:" + code[0])
+                    time.sleep(random.randint(3, 5))
                     break
                 # kData = self.getDailyKData(code[0], lastDate, nowDate)
                 # parseDailyKData(code[0], kData)
