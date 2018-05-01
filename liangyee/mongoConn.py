@@ -29,6 +29,8 @@ class mongoConn():
         self._logfile_handler = logging.FileHandler (filename)
         self._logfile_handler.setFormatter(formatter)
         self._logger.addHandler(self._logfile_handler)
+        # default log level
+        self._logger.setLevel(logging.DEBUG)
 
         #init mongo connection
         self._dbConf = self._mongoConf['mongo']
@@ -54,9 +56,9 @@ class mongoConn():
             # sys.exit (1)
 
     def __del__(self):
-        self._conn.close()
         self._logger.warn("stockcode crawler stopped.")
         self._logger.removeHandler(self._logfile_handler)
+        self._conn.close()
 
     # 检查是否连接成功
     def _check_connected (self, conn):
@@ -105,7 +107,6 @@ class mongoConn():
             timelimit = 0
 
         return key, timelimit
-        # return "6F49F56DCE594273BF0B927C8ABE0A12", 200
 
 
 

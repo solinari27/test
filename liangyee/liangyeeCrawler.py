@@ -12,6 +12,7 @@ import logging
 import time
 import random
 import mongoConn
+import os
 
 import urlAgent
 
@@ -31,26 +32,24 @@ class liangyeeCrawler():
         self._logfile_handler = logging.FileHandler(filename)
         self._logfile_handler.setFormatter(formatter)
         self._logger.addHandler(self._logfile_handler)
+        # default log level
+        self._logger.setLevel(logging.DEBUG)
 
-        self._logger.warn("liangyee crwler started.")
+        self._logger.warn("liangyee crawler started.")
 
         #init other：
         self._conf = self._liangyeeConf['crawler']
         self._debug = self._conf['debug']
         self._repeatTime = self._conf['requestrepeat']
         self._agent = urlAgent.urlAgent()
-        # userkey = '6F49F56DCE594273BF0B927C8ABE0A12'
-        # self._agent.setUseKey(userkey)
-        # self._logger.debug("liangyee crwler set userkey: " + userkey + " .")
-        # self._agent.setTimesLimit(200)
-        # self._logger.debug("liangyee crwler set time limit: " + 200 + " .")
-
         self._conn = mongoConn.mongoConn()
         self._logger.debug("liangyee crawler init mongo connection.")
 
         key, timelimit = self._getNextID()
         if (key != None):
             self._setID(key, timelimit)
+            self._logger.debug("liangyee crawler set userkey: " + key + " .")
+            self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + " .")
         else:
             self._setID(None, 0)
 
@@ -98,6 +97,7 @@ class liangyeeCrawler():
                 self._setID(userKey, timelimit)
                 return self.getDailyKData(stock, startDay, endDay)
             else:
+                self._logger.warn("liangyee crawler getDailyKData timelimit.")
                 return None
 
     def get5MinKData(self, stock):
@@ -110,6 +110,7 @@ class liangyeeCrawler():
                 self._setID(userKey, timelimit)
                 return self.get5MinKData(stock)
             else:
+                self._logger.warn("liangyee crawler get5MinKData timelimit.")
                 return None
 
     def getMarketData(self, stocks):
@@ -122,6 +123,7 @@ class liangyeeCrawler():
                 self._setID(userKey, timelimit)
                 return self.getMarketData(stocks)
             else:
+                self._logger.warn("liangyee crawler getMarketData timelimit.")
                 return None
 
     def _recordDailyKData(self, data):
@@ -287,23 +289,6 @@ class liangyeeCrawler():
                     self._logger.error("liangyee crawler crawl error stock code:" + code[0])
                     break
                 time.sleep(random.randint(5, 10))
-                # kData = self.getDailyKData(code[0], lastDate, nowDate)
-                # parseDailyKData(code[0], kData)
-                #
-                # fiveMinData = self.get5MinKData(code[0])
-                # parse5MinKData(fiveMinData)
-                #
-                # marketData = self.getMarketData([code[0]])
-                # parseMarketData(marketData)
-                #
-                # self._updateDataTime(code[0], nowDate)
-
-        #debuginfo
-        # print self.getDailyKData(code[0], lastDate, nowDate)
-        # time.sleep(3)
-        # print self.get5MinKData(code[0])
-        # time.sleep(3)
-        # print self.getMarketData([code[0]])
 
 
 
