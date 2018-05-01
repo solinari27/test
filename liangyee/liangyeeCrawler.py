@@ -48,8 +48,8 @@ class liangyeeCrawler():
         key, timelimit = self._getNextID()
         if (key != None):
             self._setID(key, timelimit)
-            self._logger.debug("liangyee crawler set userkey: " + key + " .")
-            self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + " .")
+            self._logger.debug("liangyee crawler set userkey: " + key + ".")
+            self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + ".")
         else:
             self._setID(None, 0)
 
