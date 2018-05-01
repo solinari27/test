@@ -270,6 +270,7 @@ class liangyeeCrawler():
                 lastDate = time_local
             now = time.gmtime()
             nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
+            print "code: ", code[0], "last: ", lastDate, "| now: ", nowDate
             if not date_cmp(nowDate, lastDate):
                 try:
                     kData = self.getDailyKData(code[0], lastDate, nowDate)

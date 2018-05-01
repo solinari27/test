@@ -37,7 +37,7 @@ class mongoConn():
         self._username = self._dbConf['username']
         self._password = self._dbConf['password']
 
-        self._logger.warn("stockcode crwler started.")
+        self._logger.warn("stockcode crawler started.")
 
         try:
             self._conn = MongoClient(self._host, self._port)
@@ -55,7 +55,7 @@ class mongoConn():
 
     def __del__(self):
         self._conn.close()
-        self._logger.warn("stockcode crwler stopped.")
+        self._logger.warn("stockcode crawler stopped.")
         self._logger.removeHandler(self._logfile_handler)
 
     # 检查是否连接成功
