@@ -6,7 +6,6 @@
 # @File    : try.py
 # @Software: PyCharm
 
-import time
 import liangyee.liangyeeCrawler
 ll = liangyee.liangyeeCrawler.liangyeeCrawler()
 ll.crawlliangyee()
