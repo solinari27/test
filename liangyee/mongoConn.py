@@ -21,7 +21,7 @@ class mongoConn():
 
         #init logging:
         self._logConf = self._mongoConf['logging']
-        self._name = self._logConf['name']
+        self._name = self._logConf['name'] + " mongodb"
         self._logger = logging.getLogger(self._name)
         formatter = logging.Formatter('%(asctime)s %(levelname)-8s: %(message)s')
         date_str = time.strftime('%Y_%m_%d', time.gmtime ())
