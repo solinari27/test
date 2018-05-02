@@ -28,7 +28,9 @@ class mongoConn():
         filename = self._logConf['logpath'] + "/crawler_" + date_str + ".log"
         self._logfile_handler = logging.FileHandler (filename)
         self._logfile_handler.setFormatter(formatter)
-        self._logger.addHandler(self._logfile_handler)
+        # self._logger.addHandler(self._logfile_handler)
+        self._flushlog()
+
         # default log level
         self._logger.setLevel(logging.DEBUG)
 
@@ -40,11 +42,13 @@ class mongoConn():
         self._password = self._dbConf['password']
 
         self._logger.warn("stockcode crawler started.")
+        self._flushlog()
 
         try:
             self._conn = MongoClient(self._host, self._port)
             if not self._check_connected(self._conn):
                 self._logger.error("mongodb connection failed.")
+                self._flushlog()
                 sys.exit(1)
 
             # self.connected = self.db.authenticate (self._username, self._password)
@@ -53,12 +57,18 @@ class mongoConn():
 
         except Exception:
             self._logger.error("mongodb connection failed.")
+            self._flushlog()
             # sys.exit (1)
 
     def __del__(self):
         self._logger.warn("stockcode crawler stopped.")
         self._logger.removeHandler(self._logfile_handler)
         self._conn.close()
+
+    def _flushlog(self):
+        if (self._logger != None):
+            self._logger.removeHandler(self._logfile_handler)
+        self._logger.addHandler(self._logfile_handler)
 
     # 检查是否连接成功
     def _check_connected (self, conn):
@@ -73,6 +83,7 @@ class mongoConn():
             return stockslist
         except Exception:
             self._logger.error("mongodb get stocklist error.")
+            self._flushlog()
 
     def updateTime(self, code, date):
         data = {}

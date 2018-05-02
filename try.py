@@ -8,6 +8,6 @@
 
 import liangyee.liangyeeCrawler
 ll = liangyee.liangyeeCrawler.liangyeeCrawler()
-ll.crawlliangyee()
+# ll.crawlliangyee()
 
 
