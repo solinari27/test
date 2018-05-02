@@ -7,11 +7,12 @@
 """  
 
 from pymongo import MongoClient
-from Tools.swtich import switch
 import sys
 import json
 import time
 import logging
+
+from Tools.swtich import switch
 
 class mongoConn():
 
