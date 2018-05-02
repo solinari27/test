@@ -15,6 +15,7 @@ import mongoConn
 import os
 
 import urlAgent
+from Tools.swtich import switch
 
 class liangyeeCrawler():
 
@@ -32,8 +33,30 @@ class liangyeeCrawler():
         self._logfile_handler = logging.FileHandler(filename)
         self._logfile_handler.setFormatter(formatter)
         self._logger.addHandler(self._logfile_handler)
+
         # default log level
-        self._logger.setLevel(logging.DEBUG)
+        for case in switch(self._logConf['level']):
+            if case('NOTSET'):
+                self._logger.setLevel(logging.NOTSET)
+                break
+            if case('DEBUG'):
+                self._logger.setLevel(logging.DEBUG)
+                break
+            if case('INFO'):
+                self._logger.setLevel(logging.INFO)
+                break
+            if case('WARN'):
+                self._logger.setLevel(logging.WARN)
+                break
+            if case('ERROR'):
+                self._logger.setLevel(logging.ERROR)
+                break
+            if case('FATAL'):
+                self._logger.setLevel(logging.FATAL)
+                break
+            if case():  # default, could also just omit condition or 'if True'
+                self._logger.setLevel(logging.WARN)
+                # No need to break here, it'll stop anyway
 
         self._logger.warn("liangyee crawler started.")
 
@@ -272,7 +295,7 @@ class liangyeeCrawler():
                 lastDate = time_local
             now = time.gmtime()
             nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
-            print "code: ", code[0], "last: ", lastDate, "| now: ", nowDate
+            # print "code: ", code[0], "last: ", lastDate, "| now: ", nowDate
             if not date_cmp(nowDate, lastDate):
                 try:
                     kData = self.getDailyKData(code[0], lastDate, nowDate)

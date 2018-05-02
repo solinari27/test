@@ -7,6 +7,7 @@
 """  
 
 from pymongo import MongoClient
+from Tools.swtich import switch
 import sys
 import json
 import time
@@ -29,8 +30,30 @@ class mongoConn():
         self._logfile_handler = logging.FileHandler (filename)
         self._logfile_handler.setFormatter(formatter)
         self._logger.addHandler(self._logfile_handler)
-        # default log level
-        self._logger.setLevel(logging.DEBUG)
+
+        # set logging level
+        for case in switch(self._logConf['level']):
+            if case('NOTSET'):
+                self._logger.setLevel(logging.NOTSET)
+                break
+            if case('DEBUG'):
+                self._logger.setLevel(logging.DEBUG)
+                break
+            if case('INFO'):
+                self._logger.setLevel(logging.INFO)
+                break
+            if case('WARN'):
+                self._logger.setLevel(logging.WARN)
+                break
+            if case('ERROR'):
+                self._logger.setLevel(logging.ERROR)
+                break
+            if case('FATAL'):
+                self._logger.setLevel(logging.FATAL)
+                break
+            if case():  # default, could also just omit condition or 'if True'
+                self._logger.setLevel(logging.WARN)
+                # No need to break here, it'll stop anyway
 
         #init mongo connection
         self._dbConf = self._mongoConf['mongo']
