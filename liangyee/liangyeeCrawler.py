@@ -36,7 +36,6 @@ class liangyeeCrawler():
         self._logger.setLevel(logging.DEBUG)
 
         self._logger.warn("liangyee crawler started.")
-        self._flushlog()
 
         #init other：
         self._conf = self._liangyeeConf['crawler']
@@ -45,14 +44,12 @@ class liangyeeCrawler():
         self._agent = urlAgent.urlAgent()
         self._conn = mongoConn.mongoConn()
         self._logger.debug("liangyee crawler init mongo connection.")
-        self._flushlog()
 
         key, timelimit = self._getNextID()
         if (key != None):
             self._setID(key, timelimit)
             self._logger.debug("liangyee crawler set userkey: " + key + ".")
             self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + ".")
-            self._flushlog()
         else:
             self._setID(None, 0)
 
@@ -60,17 +57,11 @@ class liangyeeCrawler():
         self._logger.warn("liangyee crawler stopped.")
         self._logger.removeHandler(self._logfile_handler)
 
-    def _flushlog(self):
-        if (self._logger != None):
-            self._logger.removeHandler(self._logfile_handler)
-        self._logger.addHandler(self._logfile_handler)
-
     def _setID(self, userKey, timelimit):
         self._agent.setUserKey(userKey)
         self._logger.debug("liangyee crawler set userkey: " + str(userKey) + " .")
         self._agent.setTimesLimit(timelimit)
         self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + " .")
-        self._flushlog()
 
     def _getNextID(self):
         return self._conn.getUserID(self._agent.getUserKey(), self._agent.getTimes(), self._debug)
@@ -83,13 +74,10 @@ class liangyeeCrawler():
                 return content
             except requests.exceptions.ConnectionError:
                 self._logger.error("liangyee crawler request url " + url + " connection error.")
-                self._flushlog()
             except requests.exceptions.ChunkedEncodingError:
                 self._logger.error("liangyee crawler request url " + url + " chunked encoding error.")
-                self._flushlog()
             except:
                 self._logger.error("liangyee crawler request url " + url + " other error.")
-                self._flushlog()
         return {}
 
     def _getstockslist(self):
@@ -109,7 +97,6 @@ class liangyeeCrawler():
                 return self.getDailyKData(stock, startDay, endDay)
             else:
                 self._logger.warn("liangyee crawler getDailyKData timelimit.")
-                self._flushlog()
                 return None
 
     def get5MinKData(self, stock):
@@ -123,7 +110,7 @@ class liangyeeCrawler():
                 return self.get5MinKData(stock)
             else:
                 self._logger.warn("liangyee crawler get5MinKData timelimit.")
-                self._flushlog()
+
                 return None
 
     def getMarketData(self, stocks):
@@ -137,7 +124,6 @@ class liangyeeCrawler():
                 return self.getMarketData(stocks)
             else:
                 self._logger.warn("liangyee crawler getMarketData timelimit.")
-                self._flushlog()
                 return None
 
     def _recordDailyKData(self, data):
@@ -301,7 +287,6 @@ class liangyeeCrawler():
                     self._updateDataTime(code[0], nowDate)
                 except Exception:
                     self._logger.error("liangyee crawler crawl error stock code:" + code[0])
-                    self._flushlog()
                     break
                 time.sleep(random.randint(5, 10))
 
