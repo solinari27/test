@@ -182,7 +182,7 @@ class liangyeeCrawler():
                 data['end'] = end
                 data['count'] = count
                 self._recordDailyKData(data)
-            time.sleep(random.randint(3, 5))
+            time.sleep(random.randint(1, 3))
 
         def parse5MinKData(code, kdata):
             for i in kdata:
@@ -206,7 +206,7 @@ class liangyeeCrawler():
                 data['end'] = end
                 data['count'] = count
                 self._record5MinyKData(data)
-            time.sleep(random.randint(3, 6))
+            time.sleep(random.randint(1, 3))
 
         def parseMarketData(code, marketdata):
             for i in marketdata:
@@ -281,7 +281,7 @@ class liangyeeCrawler():
                 data['sell5_count'] = sell5_count
                 data['sell5_price'] = sell5_price
                 self._recordMarketData(data)
-            time.sleep(random.randint(5, 8))
+            time.sleep(random.randint(2, 3))
 
         stockcodelist = self._getstockslist()
         for code in stockcodelist:
@@ -308,8 +308,7 @@ class liangyeeCrawler():
                     self._updateDataTime(code[0], nowDate)
                 except Exception:
                     self._logger.error("liangyee crawler crawl error stock code:" + code[0])
-                    break
-                time.sleep(random.randint(5, 10))
+                    continue
 
 
 
