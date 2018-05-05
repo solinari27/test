@@ -68,11 +68,9 @@ class liangyeeCrawler():
         self._conn = mongoConn.mongoConn()
         self._logger.debug("liangyee crawler init mongo connection.")
 
-        key, timelimit = self._getNextID()
-        if (key != None):
-            self._setID(key, timelimit)
-            self._logger.debug("liangyee crawler set userkey: " + key + ".")
-            self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + ".")
+        userkey, timelimit = self._getNextID()
+        if (userkey != None):
+            self._setID(userkey, timelimit)
         else:
             self._setID(None, 0)
 

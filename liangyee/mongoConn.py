@@ -116,7 +116,8 @@ class mongoConn():
 
     def getUserID(self, id, times, debug):
         #TODO update time
-        #id mailbox passwd updatetime times
+        key = None
+        timelimit = 0
 
         try:
             if (id != None):
@@ -127,8 +128,7 @@ class mongoConn():
             key = nextid['key']
             timelimit = nextid['timelimit']
         except Exception:
-            key = None
-            timelimit = 0
+            return None, 0
 
         return key, timelimit
 

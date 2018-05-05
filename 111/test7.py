@@ -16,3 +16,4 @@ print str.split(' ', 1 )
 
 str2 = 'aaa,bbb'
 print str2.split(',')
+
