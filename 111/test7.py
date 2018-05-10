@@ -17,3 +17,14 @@ print str.split(' ', 1 )
 str2 = 'aaa,bbb'
 print str2.split(',')
 
+#Code highlighting produced by Actipro CodeHighlighter (freeware)http://www.CodeHighlighter.com/-->
+
+import base64
+
+s1 = base64.encodestring('hello world')
+s2 = base64.decodestring(s1)
+print s1,s2
+
+# aGVsbG8gd29ybGQ=\n
+# hello world
+
