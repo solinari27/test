@@ -57,7 +57,7 @@ class Taobao:
         # 登录的URL
         self.loginURL = "https://cloud.189.cn/"
         # 检查是否需要滑块解锁的URL
-        self.needCodeURL = "https://login.taobao.com/member/request_nick_check.do?_input_charset=utf-8"
+        self.needCodeURL = "https://cloud.189.cn/"
         # 用户消息中心
         self.accountInfoURL = "http://ad.alimama.com/earned/settle/getAccountInfo.json"
         self.TPL_username = '18167105607'
@@ -67,15 +67,15 @@ class Taobao:
             # '--proxy-type=http',
         ]
 
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--disable-gpu')
-        self.driver = webdriver.Chrome(chrome_options=chrome_options,
-                                  executable_path='/home/solinari/chromedriver')  # 如果没有把chromedriver加入到PATH中,就需要指明路径
+        # chrome_options = webdriver.ChromeOptions()
+        # chrome_options.add_argument('--headless')
+        # chrome_options.add_argument('--disable-gpu')
+        # self.driver = webdriver.Chrome(chrome_options=chrome_options,
+        #                           executable_path='/home/solinari/chromedriver')  # 如果没有把chromedriver加入到PATH中,就需要指明路径
 
         # self.driver = webdriver.PhantomJS(executable_path="D:\\python\\phantomjs\\bin\\phantomjs.exe", service_args=self.service_args)
-        # self.driver = webdriver.PhantomJS(service_args=self.service_args)
-        # self.driver.set_window_size(1920, 1080)
+        self.driver = webdriver.PhantomJS(service_args=self.service_args)
+        self.driver.set_window_size(1920, 1080)
         # 代理IP地址，防止自己的IP被封禁
         # self.proxyURL = 'http://120.193.146.97:843'
         # 登录POST数据时发送的头部信息
