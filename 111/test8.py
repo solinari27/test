@@ -80,8 +80,9 @@ class Taobao:
         # self.proxyURL = 'http://120.193.146.97:843'
         # 登录POST数据时发送的头部信息
         self.loginHeaders = {
-                                'Host': 'login.taobao.com',
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:35.0) Gecko/20100101 Firefox/35.0',
+                                'Host': 'https://cloud.189.cn/',
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '  
+                        'Chrome/51.0.2704.63 Safari/537.36',
                                 'Referer': 'https://cloud.189.cn/',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                                 'Connection': 'Keep-Alive'
@@ -112,8 +113,8 @@ class Taobao:
 
     def login(self):
         self.driver.get(self.loginURL)
+        time.sleep(5)
         print self.driver.page_source.encode('utf-8')
-        time.sleep(3)
         # self.switchFromLogin()  #切换username/password方式登录，不扫二维码
         self.inputUserName()    #填入username
         self.inputPassword()    #填入password
