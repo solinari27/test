@@ -83,14 +83,14 @@ class eDrive:
     def login(self):
         self.driver.get(self.loginURL)
         time.sleep(3)
-        print self.driver.page_source.encode('utf-8')
+#        print self.driver.page_source.encode('utf-8')
         # self.switchFromLogin()  
-#        self.inputUserName()    #username
-#        self.inputPassword()    #password
-#        self.driver.find_element_by_id("j-login").click()    #click to login
-#        time.sleep(1)
-#        cookie = self.driver.get_cookies()
-#        print cookie
+        self.inputUserName()    #username
+        self.inputPassword()    #password
+        self.driver.find_element_by_id("j-login").click()    #click to login
+        time.sleep(1)
+        cookie = self.driver.get_cookies()
+        print cookie
 #        return Null
 #        cookiefilepath = './userCookie.txt'
 #        cookiestr = self.saveCookie(cookie, cookiefilepath)
@@ -111,7 +111,7 @@ class eDrive:
     def inputPassword(self):
         password = self.driver.find_element_by_id('password')
         password.clear()
-        password.send_keys(self.TPL_passwor)
+        password.send_keys(self.TPL_password)
 
          
     def saveCookie(self, cookies, cookfilepath):
