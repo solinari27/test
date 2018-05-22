@@ -81,8 +81,7 @@ class Taobao:
         # 登录POST数据时发送的头部信息
         self.loginHeaders = {
                                 'Host': 'https://cloud.189.cn/',
-                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) '  
-                        'Chrome/51.0.2704.63 Safari/537.36',
+                                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36',
                                 'Referer': 'https://cloud.189.cn/',
                                 'Content-Type': 'application/x-www-form-urlencoded',
                                 'Connection': 'Keep-Alive'
