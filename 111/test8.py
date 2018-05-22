@@ -67,15 +67,12 @@ class Taobao:
             # '--proxy-type=http',
         ]
 
-        # chrome_options = webdriver.ChromeOptions()
-        # chrome_options.add_argument('--headless')
-        # chrome_options.add_argument('--disable-gpu')
-        # self.driver = webdriver.Chrome(chrome_options=chrome_options,
-        #                           executable_path='/home/solinari/chromedriver')  # 如果没有把chromedriver加入到PATH中,就需要指明路径
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--headless')
+        chrome_options.add_argument('--disable-gpu')
+        self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:\Program Files (x86)\Google\chromedriver\chromedriver')  # 如果没有把chromedriver加入到PATH中,就需要指明路径
 
-        # self.driver = webdriver.PhantomJS(executable_path="D:\\python\\phantomjs\\bin\\phantomjs.exe", service_args=self.service_args)
-        self.driver = webdriver.PhantomJS(service_args=self.service_args)
-        self.driver.set_window_size(1920, 1080)
+#        # se111r.set_window_size(1920, 1080)
         # 代理IP地址，防止自己的IP被封禁
         # self.proxyURL = 'http://120.193.146.97:843'
         # 登录POST数据时发送的头部信息
@@ -112,20 +109,20 @@ class Taobao:
 
     def login(self):
         self.driver.get(self.loginURL)
-        time.sleep(5)
+        time.sleep(3)
         print self.driver.page_source.encode('utf-8')
         # self.switchFromLogin()  #切换username/password方式登录，不扫二维码
-        self.inputUserName()    #填入username
-        self.inputPassword()    #填入password
-        self.driver.find_element_by_id("j-login").click()    #点击登录
-        time.sleep(1)
-        cookie = self.driver.get_cookies()
-        print cookie
-        return Null
-        cookiefilepath = './userCookie.txt'
-        cookiestr = self.saveCookie(cookie, cookiefilepath)
-        self.driver.close()
-        return cookiestr
+#        self.inputUserName()    #填入username
+#        self.inputPassword()    #填入password
+#        self.driver.find_element_by_id("j-login").click()    #点击登录
+#        time.sleep(1)
+#        cookie = self.driver.get_cookies()
+#        print cookie
+#        return Null
+#        cookiefilepath = './userCookie.txt'
+#        cookiestr = self.saveCookie(cookie, cookiefilepath)
+#        self.driver.close()
+#        return cookiestr
 
     # 监测是否需要滑动解锁 todo
     def needCode(self):

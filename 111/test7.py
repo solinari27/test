@@ -1,10 +1,10 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-# @Time    : 2018/4/19 19:27
-# @Author  : Aries
-# @Site    : 
-# @File    : test7.py
-# @Software: PyCharm
+#@Time    : 2018/4/19 19:27
+#@Author  : Aries
+#@Site    : 
+#@File    : test7.py
+#@Software: PyCharm
 
 # import random
 #
@@ -28,12 +28,12 @@
 # # aGVsbG8gd29ybGQ=\n
 # # hello world
 
-# coding: utf-8
+
 from selenium import webdriver
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-gpu')
-client = webdriver.Chrome(chrome_options=chrome_options, executable_path='/home/solinari/chromedriver')# 如果没有把chromedriver加入到PATH中,就需要指明路径
+client = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:\Program Files (x86)\Google\chromedriver\chromedriver')
 
 client.get("https://www.baidu.com")
 content = client.page_source.encode('utf-8')
