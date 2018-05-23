@@ -80,7 +80,7 @@ class eDrive:
 
     def login(self):
         self.driver.get(self.loginURL)
-        time.sleep(3)
+        time.sleep(30)
         print self.driver.page_source.encode('utf-8')
         # self.switchFromLogin()  
         self.inputUserName()    #username
