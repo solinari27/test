@@ -31,12 +31,18 @@ import sys
 
 
 from selenium import webdriver
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-client = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:\Program Files (x86)\Google\chromedriver\chromedriver')
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--disable-gpu')
+# client = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:\Program Files (x86)\Google\chromedriver\chromedriver')
+#
+# client.get("https://www.baidu.com")
+# content = client.page_source.encode('utf-8')
+# print content
+# client.quit()
 
-client.get("https://www.baidu.com")
-content = client.page_source.encode('utf-8')
-print content
-client.quit()
+
+from selenium import webdriver
+
+browser = webdriver.Firefox()
+browser.get('https://cloud.189.cn/')

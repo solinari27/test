@@ -52,7 +52,7 @@ class eDrive:
 
     def __init__(self):
         # login URL
-        self.loginURL = "https://ux.21cn.com/api/htmlReportRest/getJs.js?pid=25577E0DEEDF48ADBD4459911F5825E4"
+        self.loginURL = "https://cloud.189.cn/"
         # message center
         self.TPL_username = '18167105607'
         self.TPL_password = 'ASdf1234!'
@@ -61,12 +61,13 @@ class eDrive:
             # '--proxy-type=http',
         ]
 
-        chrome_options = webdriver.ChromeOptions()
-        chrome_options.add_argument('--headless')
-        chrome_options.add_argument('--disable-gpu')
-        self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:\Program Files (x86)\Google\chromedriver\chromedriver')
+        # chrome_options = webdriver.ChromeOptions()
+        # chrome_options.add_argument('--headless')
+        # chrome_options.add_argument('--disable-gpu')
+        # self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:\Program Files (x86)\Google\chromedriver\chromedriver')
 
-#        # se111r.set_window_size(1920, 1080)
+        self.driver = webdriver.Firefox ()
+        self.driver.set_window_size(1920, 1080)
         self.loginHeaders = {
                                 'Host': 'https://cloud.189.cn/',
                                 'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36',
