@@ -82,19 +82,19 @@ class eDrive:
 
     def login(self):
         self.driver.get(self.loginURL)
-        time.sleep(30)
-        print self.driver.page_source.encode('utf-8')
+        time.sleep(5)
+        # print self.driver.page_source.encode('utf-8')
         # self.switchFromLogin()  
         self.inputUserName()    #username
         self.inputPassword()    #password
         self.driver.find_element_by_id("j-login").click()    #click to login
-        time.sleep(1)
+        time.sleep(3)
         cookie = self.driver.get_cookies()
-        print cookie
+        print "cookie:", cookie
 #        return Null
 #        cookiefilepath = './userCookie.txt'
 #        cookiestr = self.saveCookie(cookie, cookiefilepath)
-#        self.driver.close()
+        self.driver.close()
 #        return cookiestr
 
     def needCode(self):
