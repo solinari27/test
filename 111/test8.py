@@ -52,7 +52,7 @@ class eDrive:
 
     def __init__(self):
         # login URL
-        self.loginURL = "https://cloud.189.cn/"
+        self.loginURL = "https://cloud.189.cn/udb/udb_login.jsp?pageId=1&amp;redirectURL=/main.action"
         # message center
         self.TPL_username = '18167105607'
         self.TPL_password = 'ASdf1234!'
@@ -66,7 +66,9 @@ class eDrive:
         # chrome_options.add_argument('--disable-gpu')
         # self.driver = webdriver.Chrome(chrome_options=chrome_options, executable_path='C:\Program Files (x86)\Google\chromedriver\chromedriver')
 
-        self.driver = webdriver.Firefox ()
+        options = webdriver.FirefoxOptions()
+        options.add_argument('-headless')
+        self.driver = webdriver.Firefox(options=options)
         self.driver.set_window_size(1920, 1080)
         self.loginHeaders = {
                                 'Host': 'https://cloud.189.cn/',
