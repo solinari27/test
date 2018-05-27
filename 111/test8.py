@@ -139,8 +139,8 @@ class eDrive:
 
         cookfilepath = self.login();
 
-taobao = eDrive()
-taobao.main()
+edrive = eDrive()
+edrive.main()
 
 
 
