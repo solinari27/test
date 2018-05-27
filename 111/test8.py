@@ -53,6 +53,8 @@ class eDrive:
     def __init__(self):
         # login URL
         self.loginURL = "https://cloud.189.cn/udb/udb_login.jsp?pageId=1&amp;redirectURL=/main.action"
+        self.cloudDiskURL="https://cloud.189.cn/main.action"
+        self.databackupURL="https://cloud.189.cn/main.action#home/folder/4138132079430963"
         # message center
         self.TPL_username = '18167105607'
         self.TPL_password = 'ASdf1234!'
@@ -92,11 +94,18 @@ class eDrive:
         self.driver.find_element_by_id("j-login").click()    #click to login
         time.sleep(3)
         cookie = self.driver.get_cookies()
-        print "cookie:", cookie
-#        return Null
-#        cookiefilepath = './userCookie.txt'
-#        cookiestr = self.saveCookie(cookie, cookiefilepath)
-#        return cookiestr
+        # print "cookie:", cookie
+       # return Null
+       # cookiefilepath = './userCookie.txt'
+       # cookiestr = self.saveCookie(cookie, cookiefilepath)
+       # return cookiestr
+
+    def test(self):
+        time.sleep(3)
+        # self.driver.get(self.cloudDiskURL)
+        self.driver.get (self.databackupURL)
+        time.sleep(3)
+        print self.driver.page_source.encode('utf-8')
 
     def needCode(self):
         return False
@@ -142,6 +151,7 @@ class eDrive:
 
 edrive = eDrive()
 edrive.main()
+edrive.test()
 
 
 
