@@ -79,6 +79,8 @@ class eDrive:
                             },
         self._tb_token_ = ''
 
+    def __del__(self):
+        self.driver.close ()
 
     def login(self):
         self.driver.get(self.loginURL)
@@ -94,7 +96,6 @@ class eDrive:
 #        return Null
 #        cookiefilepath = './userCookie.txt'
 #        cookiestr = self.saveCookie(cookie, cookiefilepath)
-        self.driver.close()
 #        return cookiestr
 
     def needCode(self):
@@ -114,24 +115,24 @@ class eDrive:
         password.send_keys(self.TPL_password)
 
          
-    def saveCookie(self, cookies, cookfilepath):
-        cookie = []
-        for item in cookies:
-            if (item["name"] == '_tb_token_'):
-                self._tb_token_ = item["value"]
-
-        cookie = [item["name"] + "=" + item["value"] for item in cookies]
-        cookiestr = ';'.join(item for item in cookie)
-        f = open(cookfilepath, "a+")
-        f.write(cookiestr)
-        f.close()
-        return cookiestr
-
-    # save to File
-    def saveFile(self, content, filepath):
-        f = open(filepath, "a+")
-        f.write(content)
-        f.close()
+    # def saveCookie(self, cookies, cookfilepath):
+    #     cookie = []
+    #     for item in cookies:
+    #         if (item["name"] == '_tb_token_'):
+    #             self._tb_token_ = item["value"]
+    #
+    #     cookie = [item["name"] + "=" + item["value"] for item in cookies]
+    #     cookiestr = ';'.join(item for item in cookie)
+    #     f = open(cookfilepath, "a+")
+    #     f.write(cookiestr)
+    #     f.close()
+    #     return cookiestr
+    #
+    # # save to File
+    # def saveFile(self, content, filepath):
+    #     f = open(filepath, "a+")
+    #     f.write(content)
+    #     f.close()
 
     def main(self):
         reload(sys)
