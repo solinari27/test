@@ -45,7 +45,7 @@ import os
 import requests
 from requests.cookies import RequestsCookieJar
 
-import urllib2, cookielib
+import urllib2, cookielib, MultipartPostHandler
 
 from selenium.webdriver.common.proxy import *
 from selenium import webdriver
@@ -145,12 +145,12 @@ class eDrive:
         #
         # return respone_code, respone
 
-        cookies = cookielib.CookieJar()
-        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookies), MultipartPostHandler.MultipartPostHandler)
+        # cookies = cookielib.CookieJar()
+        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.driver.get_cookies()), MultipartPostHandler.MultipartPostHandler)
 
-        params = {'filename': open("1.xls", "rb")}
+        params = {'filename': open("white.jpg", "rb")}
 
-        opener.open("http://127.0.0.1/upload/", params)
+        opener.open(self.uploadURL, params)
 
         time.sleep(10)
 
