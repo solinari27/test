@@ -84,12 +84,13 @@ class eDrive:
                             },
         self._tb_token_ = ''
 
+        self.session = requests.Session()
+
     def __del__(self):
+        self.session.close()
         self.driver.close ()
 
     def initRequests(self, cookies):
-        self.session = requests.Session()
-
         self.session.verify = False
         self.session.headers = {
             "User-Agent": "User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
@@ -99,10 +100,18 @@ class eDrive:
         for cookie in cookies:
             jar.set(cookie['name'], cookie['value'])
 
-        r = self.session.get(self.cloudDiskURL, cookies=jar)
-        r.encoding = "utf-8"
-        print "=========================requests============================"
-        print(r.text)
+        # r = self.session.get(self.cloudDiskURL, cookies=jar)
+        # r.encoding = "utf-8"
+        # print "=========================requests============================"
+        # print(r.text)
+
+        # print type(body)
+        # print type(json.dumps(body))
+        # 这里有个细节，如果body需要json形式的话，需要做处理
+        # 可以是data = json.dumps(body)
+        response = requests.post(url, data=json.dumps(body))
+        # 也可以直接将data字段换成json字段，2.4.3版本之后支持
+        # response  = requests.post(url, json = body, headers = headers)
 
     def login(self):
         #clean cookies
