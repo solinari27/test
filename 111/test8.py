@@ -45,6 +45,8 @@ import os
 import requests
 from requests.cookies import RequestsCookieJar
 
+import urllib2, cookielib
+
 from selenium.webdriver.common.proxy import *
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -116,30 +118,41 @@ class eDrive:
         # response  = requests.post(url, json = body, headers = headers)
 
     def uploadfile(self, url, param_dict, param_header, upfile = '', param_type = 'json'):
-        respone_code = None
-        respone = None
+        # respone_code = None
+        # respone = None
+        #
+        # try:
+        #     if param_type == 'x-www-form-urlencode':
+        #         params = param_dict
+        #     elif param_type == 'json':
+        #         params = json.dumps(param_dict)
+        #
+        #     if upfile == '':
+        #         ret = requests.post(url, data=params, headers=param_header)
+        #     else:
+        #         files = {'file': open(upfile, 'rb').read()}
+        #         # files = {'file': ('white.jpg', open(upfile, 'rb'))}
+        #         print "files", files
+        #         ret = requests.post(url, data=params, headers=param_header, files=files)
+        #
+        #     time.sleep(30)
+        #     respone_code = ret.status_code
+        #     respone = ret.text
+        # except requests.HTTPError, e:
+        #     respone_code = e.getcode()
+        #     respone = e.read().decode("utf-8")
+        # print respone
+        #
+        # return respone_code, respone
 
-        try:
-            if param_type == 'x-www-form-urlencode':
-                params = param_dict
-            elif param_type == 'json':
-                params = json.dumps(param_dict)
+        cookies = cookielib.CookieJar()
+        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(cookies), MultipartPostHandler.MultipartPostHandler)
 
-            if upfile == '':
-                ret = requests.post(url, data=params, headers=param_header)
-            else:
-                files = {'file': open(upfile, 'rb').read()}
-                print "files", files
-                ret = requests.post(url, data=params, headers=param_header, files=files)
+        params = {'filename': open("1.xls", "rb")}
 
-            respone_code = ret.status_code
-            respone = ret.text
-        except requests.HTTPError, e:
-            respone_code = e.getcode()
-            respone = e.read().decode("utf-8")
-        print respone
+        opener.open("http://127.0.0.1/upload/", params)
 
-        return respone_code, respone
+        time.sleep(10)
 
     def login(self):
         #clean cookies
