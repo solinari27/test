@@ -42,6 +42,9 @@ import json
 import sys
 import time
 import os
+import requests
+from requests.cookies import RequestsCookieJar
+
 from selenium.webdriver.common.proxy import *
 from selenium import webdriver
 from selenium.webdriver.common.action_chains import ActionChains
@@ -84,7 +87,27 @@ class eDrive:
     def __del__(self):
         self.driver.close ()
 
+    def initRequests(self, cookies):
+        self.session = requests.Session()
+
+        self.session.verify = False
+        self.session.headers = {
+            "User-Agent": "User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
+        }
+
+        jar = RequestsCookieJar()
+        for cookie in cookies:
+            jar.set(cookie['name'], cookie['value'])
+
+        r = self.session.get(self.cloudDiskURL, cookies=jar)
+        r.encoding = "utf-8"
+        print "=========================requests============================"
+        print(r.text)
+
     def login(self):
+        #clean cookies
+        self.driver.delete_all_cookies()
+
         self.driver.get(self.loginURL)
         time.sleep(5)
         # print self.driver.page_source.encode('utf-8')
@@ -94,7 +117,10 @@ class eDrive:
         self.driver.find_element_by_id("j-login").click()    #click to login
         time.sleep(3)
         cookie = self.driver.get_cookies()
+
+        self.initRequests(cookie)
         # print "cookie:", cookie
+
        # return Null
        # cookiefilepath = './userCookie.txt'
        # cookiestr = self.saveCookie(cookie, cookiefilepath)
@@ -151,8 +177,7 @@ class eDrive:
 
 edrive = eDrive()
 edrive.main()
-edrive.test()
-
+# edrive.test()
 
 
 
