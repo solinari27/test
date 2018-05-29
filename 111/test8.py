@@ -56,8 +56,9 @@ class eDrive:
     def __init__(self):
         # login URL
         self.loginURL = "https://cloud.189.cn/udb/udb_login.jsp?pageId=1&amp;redirectURL=/main.action"
-        self.cloudDiskURL="https://cloud.189.cn/main.action"
-        self.databackupURL="https://cloud.189.cn/main.action#home/folder/4138132079430963"
+        self.cloudDiskURL = "https://cloud.189.cn/main.action"
+        self.uploadURL = "https://upload.cloud.189.cn/v5/V5WebUploadSmallFileAction"
+        self.databackupURL = "https://cloud.189.cn/main.action#home/folder/4138132079430963"
         # message center
         self.TPL_username = '18167105607'
         self.TPL_password = 'ASdf1234!'
@@ -65,6 +66,7 @@ class eDrive:
             # '--proxy=218.241.30.187:8123',
             # '--proxy-type=http',
         ]
+        self.session_key = None
 
         # chrome_options = webdriver.ChromeOptions()
         # chrome_options.add_argument('--headless')
@@ -93,7 +95,7 @@ class eDrive:
     def initRequests(self, cookies):
         self.session.verify = False
         self.session.headers = {
-            "User-Agent": "User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36"
+            "User-Agent": "User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101 Firefox/60.0"
         }
 
         jar = RequestsCookieJar()
@@ -109,9 +111,34 @@ class eDrive:
         # print type(json.dumps(body))
         # 这里有个细节，如果body需要json形式的话，需要做处理
         # 可以是data = json.dumps(body)
-        response = requests.post(url, data=json.dumps(body))
+        # response = requests.post(url, data=json.dumps(body))
         # 也可以直接将data字段换成json字段，2.4.3版本之后支持
         # response  = requests.post(url, json = body, headers = headers)
+
+    def uploadfile(self, url, param_dict, param_header, upfile = '', param_type = 'json'):
+        respone_code = None
+        respone = None
+
+        try:
+            if param_type == 'x-www-form-urlencode':
+                params = param_dict
+            elif param_type == 'json':
+                params = json.dumps(param_dict)
+
+            if upfile == '':
+                ret = requests.post(url, data=params, headers=param_header)
+            else:
+                files = {'file': open(upfile, 'rb')}
+                ret = requests.post(url, data=params, headers=param_header, files=files)
+
+            respone_code = ret.status_code
+            respone = ret.text
+        except requests.HTTPError, e:
+            respone_code = e.getcode()
+            respone = e.read().decode("utf-8")
+        print respone
+
+        return respone_code, respone
 
     def login(self):
         #clean cookies
@@ -127,6 +154,7 @@ class eDrive:
         time.sleep(3)
         cookie = self.driver.get_cookies()
 
+        self.session_key = self.driver.session_id
         self.initRequests(cookie)
         # print "cookie:", cookie
 
@@ -136,11 +164,25 @@ class eDrive:
        # return cookiestr
 
     def test(self):
-        time.sleep(3)
-        # self.driver.get(self.cloudDiskURL)
-        self.driver.get (self.databackupURL)
-        time.sleep(3)
-        print self.driver.page_source.encode('utf-8')
+        # time.sleep(3)
+        # # self.driver.get(self.cloudDiskURL)
+        # self.driver.get (self.databackupURL)
+        # time.sleep(3)
+        # print self.driver.page_source.encode('utf-8')
+        params = {'sessionKey': self.session_key,
+                  'parentId': '9139432089925930',
+                  'albumId': 'undefined',
+                  'fname': 'whitepng.jpg'
+                  }
+
+        headers = {'Host': 'upload.cloud.189.cn',
+                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101 Firefox/60.0',
+                   'Accept': '*/*',
+                   'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+                   'Accept-Encoding': 'gzip, deflate, br',
+                   'Referer': 'https://cloud.189.cn/main.action'
+                   }
+        self.uploadfile(url=self.uploadURL, file='white.jpg', param_dict=params, param_header=headers)
 
     def needCode(self):
         return False
@@ -186,7 +228,9 @@ class eDrive:
 
 edrive = eDrive()
 edrive.main()
-# edrive.test()
+edrive.test()
+
+
 
 
 
