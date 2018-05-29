@@ -182,7 +182,7 @@ class eDrive:
                    'Accept-Encoding': 'gzip, deflate, br',
                    'Referer': 'https://cloud.189.cn/main.action'
                    }
-        self.uploadfile(url=self.uploadURL, file='white.jpg', param_dict=params, param_header=headers)
+        self.uploadfile(url=self.uploadURL, upfile='white.jpg', param_dict=params, param_header=headers)
 
     def needCode(self):
         return False
