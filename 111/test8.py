@@ -128,7 +128,8 @@ class eDrive:
             if upfile == '':
                 ret = requests.post(url, data=params, headers=param_header)
             else:
-                files = {'file': open(upfile, 'rb')}
+                files = {'file': open(upfile, 'rb').read()}
+                print "files", files
                 ret = requests.post(url, data=params, headers=param_header, files=files)
 
             respone_code = ret.status_code
