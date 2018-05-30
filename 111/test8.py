@@ -117,42 +117,43 @@ class eDrive:
         # 也可以直接将data字段换成json字段，2.4.3版本之后支持
         # response  = requests.post(url, json = body, headers = headers)
 
-    def uploadfile(self, url, param_dict, param_header, upfile = '', param_type = 'json'):
-        # respone_code = None
-        # respone = None
-        #
-        # try:
-        #     if param_type == 'x-www-form-urlencode':
-        #         params = param_dict
-        #     elif param_type == 'json':
-        #         params = json.dumps(param_dict)
-        #
-        #     if upfile == '':
-        #         ret = requests.post(url, data=params, headers=param_header)
-        #     else:
-        #         files = {'file': open(upfile, 'rb').read()}
-        #         # files = {'file': ('white.jpg', open(upfile, 'rb'))}
-        #         print "files", files
-        #         ret = requests.post(url, data=params, headers=param_header, files=files)
-        #
-        #     time.sleep(30)
-        #     respone_code = ret.status_code
-        #     respone = ret.text
-        # except requests.HTTPError, e:
-        #     respone_code = e.getcode()
-        #     respone = e.read().decode("utf-8")
-        # print respone
-        #
-        # return respone_code, respone
+    def uploadfile(self, url, param_dict, param_header, upfile = '', param_type = 'x-www-form-urlencode'):
+        respone_code = None
+        respone = None
+
+        try:
+            if param_type == 'x-www-form-urlencode':
+                params = param_dict
+            elif param_type == 'json':
+                params = json.dumps(param_dict)
+
+            if upfile == '':
+                ret = requests.post(url, data=params, headers=param_header)
+            else:
+                files = {'file': open(upfile, 'rb').read()}
+                # files = {'file': ('white.jpg', open(upfile, 'rb'))}
+                print "files", files
+                ret = requests.post(url, data=params, headers=param_header, files=files)
+
+            time.sleep(30)
+            respone_code = ret.status_code
+            respone = ret.text
+        except requests.HTTPError, e:
+            respone_code = e.getcode()
+            respone = e.read().decode("utf-8")
+        print respone
+
+        return respone_code, respone
 
         # cookies = cookielib.CookieJar()
-        opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.driver.get_cookies()), MultipartPostHandler.MultipartPostHandler)
-
-        params = {'filename': open("white.jpg", "rb")}
-
-        opener.open(self.uploadURL, params)
-
-        time.sleep(10)
+        #
+        # opener = urllib2.build_opener(urllib2.HTTPCookieProcessor(self.driver.get_cookies()), MultipartPostHandler.MultipartPostHandler)
+        #
+        # params = {'filename': open("white.jpg", "rb")}
+        #
+        # opener.open(self.uploadURL, params)
+        #
+        # time.sleep(10)
 
     def login(self):
         #clean cookies
