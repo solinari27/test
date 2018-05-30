@@ -130,10 +130,10 @@ class eDrive:
             if upfile == '':
                 ret = requests.post(url, data=params, headers=param_header)
             else:
-                files = {'file': open(upfile, 'rb').read()}
+                files = {'file': open(upfile, 'rb')}
                 # files = {'file': ('white.jpg', open(upfile, 'rb'))}
-                print "files", files
-                ret = requests.post(url, data=params, headers=param_header, files=files)
+                ret = requests.post (url, data=params)
+                # ret = requests.post(url, data=params, headers=param_header, files=files)
 
             time.sleep(30)
             respone_code = ret.status_code
@@ -186,8 +186,8 @@ class eDrive:
         # print self.driver.page_source.encode('utf-8')
         params = {'sessionKey': self.session_key,
                   'parentId': '9139432089925930',
-                  'albumId': 'undefined',
-                  'fname': 'whitepng.jpg'
+                  'fname': 'whitepng.jpg',
+                  'file': open('white.jpg', 'rb')
                   }
 
         headers = {'Host': 'upload.cloud.189.cn',
