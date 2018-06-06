@@ -182,14 +182,13 @@ class eDrive:
             #     # ret = requests.post(url, data=params, headers=param_header, files=files)
 
             time.sleep(100)
-            response_code = req.status_code
-            response = req.text
+            print req
         except requests.HTTPError, e:
             response_code = e.getcode()
             response = e.read().decode("utf-8")
-        print response
+            print response
 
-        return response_code, response
+        return
 
         # cookies = cookielib.CookieJar()
         #
