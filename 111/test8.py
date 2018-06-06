@@ -127,13 +127,48 @@ class eDrive:
             elif param_type == 'json':
                 params = json.dumps(param_dict)
 
-            if upfile == '':
-                ret = requests.post(url, data=params, headers=param_header)
-            else:
-                files = {'file': open(upfile, 'rb')}
-                # files = {'file': ('white.jpg', open(upfile, 'rb'))}
-                ret = requests.post (url, data=params)
-                # ret = requests.post(url, data=params, headers=param_header, files=files)
+            #构造body
+            boundary = '-----------------------------1585359196875797843831364763'
+            data = []
+            data.append('--%s' % boundary)
+            data.append('Content-Disposition: form-data; name="sessionKey"\r\n')
+            data.append(self.session_key)
+            data.append('--%s' % boundary)
+            data.append('Content-Disposition: form-data; name="parentId"\r\n')
+            data.append('9139432089925930')
+            data.append('--%s' % boundary)
+            data.append('Content-Disposition: form-data; name="albumId"\r\n')
+            data.append('undefined')
+            data.append('--%s' % boundary)
+            data.append('Content-Disposition: form-data; name="opertype"\r\n')
+            data.append('5')
+            data.append('--%s' % boundary)
+            data.append('Content-Disposition: form-data; name="fname"\r\n')
+            data.append(upfile)
+            data.append('--%s' % boundary)
+            data.append('Content-Disposition: form-data; name="Filedata"; filename="Readme.txt"')
+            data.append('Content-Type: text/plain\r\n')
+
+            fr = open(upfile, 'rb')
+            content = fr.read()
+            data.append(content)
+            fr.close()
+            data.append('--%s--\r\n' % boundary)
+            httpBody = '\r\n'.join(data)
+
+            req = requests.Request (url, headers=param_header, data=httpBody)
+
+
+
+
+
+            # if upfile == '':
+            #     ret = requests.post(url, data=params, headers=param_header)
+            # else:
+            #     files = {'file': open(upfile, 'rb')}
+            #     # files = {'file': ('white.jpg', open(upfile, 'rb'))}
+            #     ret = requests.post (url, data=params)
+            #     # ret = requests.post(url, data=params, headers=param_header, files=files)
 
             time.sleep(30)
             respone_code = ret.status_code
