@@ -249,7 +249,7 @@ class eDrive:
                    'Pragma': 'no-cache',
                    'Cache-Control': 'no-cache'
                    }
-        self.uploadfile(url=self.uploadURL, upfile='white.jpg', param_dict=params, param_header=headers)
+        self.uploadfile(url=self.uploadURL, upfile='Readme.txt', param_dict=params, param_header=headers)
 
     def needCode(self):
         return False
