@@ -156,6 +156,9 @@ class eDrive:
             data.append('--%s--\r\n' % boundary)
             httpBody = '\r\n'.join(data)
 
+            print httpBody
+            print len(httpBody)-14
+
             #构造header
             headers = {'Host': 'upload.cloud.189.cn',
                        'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0',
@@ -163,7 +166,7 @@ class eDrive:
                        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
                        'Accept-Encoding': 'gzip, deflate, br',
                        'Referer': 'https://cloud.189.cn/main.action',
-                       'Content-Length': str(len(httpBody)),
+                       'Content-Length': str(len(httpBody)-14),
                        'Content-Type': 'multipart/form-data; boundary=---------------------------1585359196875797843831364763',
                        'Origin': 'https://cloud.189.cn',
                        'Connection': 'keep-alive',
@@ -171,7 +174,7 @@ class eDrive:
                        'Cache-Control': 'no-cache'
                        }
 
-            req = requests.Request(url, headers=headers, data=httpBody)
+            req = requests.post(url, headers=headers, data=httpBody)
 
             # if upfile == '':
             #     ret = requests.post(url, data=params, headers=param_header)
@@ -182,6 +185,7 @@ class eDrive:
             #     # ret = requests.post(url, data=params, headers=param_header, files=files)
 
             time.sleep(100)
+
             print req
         except requests.HTTPError, e:
             response_code = e.getcode()
