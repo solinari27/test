@@ -226,11 +226,17 @@ class eDrive:
                   }
 
         headers = {'Host': 'upload.cloud.189.cn',
-                   'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101 Firefox/60.0',
+                   'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0',
                    'Accept': '*/*',
                    'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
                    'Accept-Encoding': 'gzip, deflate, br',
-                   'Referer': 'https://cloud.189.cn/main.action'
+                   'Referer': 'https://cloud.189.cn/main.action',
+                   'Content-Length': '',
+                   'Content-Type': 'multipart/form-data; boundary=---------------------------1585359196875797843831364763',
+                   'Origin': 'https://cloud.189.cn',
+                   'Connection': 'keep-alive',
+                   'Pragma': 'no-cache',
+                   'Cache-Control': 'no-cache'
                    }
         self.uploadfile(url=self.uploadURL, upfile='white.jpg', param_dict=params, param_header=headers)
 
