@@ -41,6 +41,7 @@ httpBody = '\r\n'.join (data)
 
 # print type (httpBody)
 print httpBody
+print len(httpBody)
 
 postDataUrl = 'http://xxxxxxxx'
 # req = urllib2.Request (postDataUrl, data=httpBody)

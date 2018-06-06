@@ -156,11 +156,22 @@ class eDrive:
             data.append('--%s--\r\n' % boundary)
             httpBody = '\r\n'.join(data)
 
-            req = requests.Request (url, headers=param_header, data=httpBody)
+            #构造header
+            headers = {'Host': 'upload.cloud.189.cn',
+                       'User-Agent': 'Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0',
+                       'Accept': '*/*',
+                       'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
+                       'Accept-Encoding': 'gzip, deflate, br',
+                       'Referer': 'https://cloud.189.cn/main.action',
+                       'Content-Length': str(len(httpBody)),
+                       'Content-Type': 'multipart/form-data; boundary=---------------------------1585359196875797843831364763',
+                       'Origin': 'https://cloud.189.cn',
+                       'Connection': 'keep-alive',
+                       'Pragma': 'no-cache',
+                       'Cache-Control': 'no-cache'
+                       }
 
-
-
-
+            req = requests.Request(url, headers=headers, data=httpBody)
 
             # if upfile == '':
             #     ret = requests.post(url, data=params, headers=param_header)
@@ -170,15 +181,15 @@ class eDrive:
             #     ret = requests.post (url, data=params)
             #     # ret = requests.post(url, data=params, headers=param_header, files=files)
 
-            time.sleep(30)
-            respone_code = ret.status_code
-            respone = ret.text
+            time.sleep(100)
+            response_code = req.status_code
+            response = req.text
         except requests.HTTPError, e:
-            respone_code = e.getcode()
-            respone = e.read().decode("utf-8")
-        print respone
+            response_code = e.getcode()
+            response = e.read().decode("utf-8")
+        print response
 
-        return respone_code, respone
+        return response_code, response
 
         # cookies = cookielib.CookieJar()
         #
