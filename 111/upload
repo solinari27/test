@@ -45,3 +45,40 @@ Readme.txt   : Explanation text file for the super_pi.
  Attention : All of the above mentioned files are not permitted for the
              re-distribution.
 -----------------------------1585359196875797843831364763--
+
+
+
+-------------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="sessionKey"
+
+e23e571c-9cbc-4e63-8166-10450b58e011
+-------------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="parentId"
+
+9139432089925930
+-------------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="albumId"
+
+undefined
+-------------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="opertype"
+
+5
+-------------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="fname"
+
+Readme.txt
+-------------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="Filedata"; filename="Readme.txt"
+Content-Type: text/plain
+
+super_pi     : Shell script for running super_pi program under the
+               terminal mode of Mac OS/X.
+pi           : Execution module called by the super_pi.
+Readme.txt   : Explanation text file for the super_pi.
+
+ Attention : All of the above mentioned files are not permitted for the
+             re-distribution.
+-------------------------------1585359196875797843831364763--
+
+1181

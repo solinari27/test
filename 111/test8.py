@@ -45,7 +45,7 @@ import os
 import requests
 from requests.cookies import RequestsCookieJar
 
-import urllib2, cookielib, MultipartPostHandler
+# import urllib2, cookielib, MultipartPostHandler
 
 from selenium.webdriver.common.proxy import *
 from selenium import webdriver
@@ -157,7 +157,7 @@ class eDrive:
             httpBody = '\r\n'.join(data)
 
             print httpBody
-            print len(httpBody)-14
+            print len(httpBody)-20
 
             #构造header
             headers = {'Host': 'upload.cloud.189.cn',
@@ -166,7 +166,7 @@ class eDrive:
                        'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
                        'Accept-Encoding': 'gzip, deflate, br',
                        'Referer': 'https://cloud.189.cn/main.action',
-                       'Content-Length': str(len(httpBody)-14),
+                       'Content-Length': str(len(httpBody)-20),
                        'Content-Type': 'multipart/form-data; boundary=---------------------------1585359196875797843831364763',
                        'Origin': 'https://cloud.189.cn',
                        'Connection': 'keep-alive',
@@ -174,7 +174,11 @@ class eDrive:
                        'Cache-Control': 'no-cache'
                        }
 
-            req = requests.post(url, headers=headers, data=httpBody)
+            jar = RequestsCookieJar()
+            for cookie in self.cookie:
+                jar.set(cookie['name'], cookie['value'])
+
+            req = requests.post(url, headers=headers, data=httpBody, cookies=jar)
 
             # if upfile == '':
             #     ret = requests.post(url, data=params, headers=param_header)
@@ -217,6 +221,7 @@ class eDrive:
         self.driver.find_element_by_id("j-login").click()    #click to login
         time.sleep(3)
         cookie = self.driver.get_cookies()
+        self.cookie = cookie
 
         self.session_key = self.driver.session_id
         self.initRequests(cookie)
