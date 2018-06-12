@@ -178,7 +178,7 @@ class eDrive:
             for cookie in self.cookie:
                 jar.set(cookie['name'], cookie['value'])
 
-            req = requests.post(url, headers=headers, data=httpBody, cookies=jar)
+            req = requests.post(url, headers=param_header, data=httpBody, cookies=jar)
 
             # if upfile == '':
             #     ret = requests.post(url, data=params, headers=param_header)
