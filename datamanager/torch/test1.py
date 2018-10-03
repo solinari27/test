@@ -63,9 +63,9 @@ class CSD08(data.Dataset):
                     self.train_labels += entry['fine_labels']
                 fo.close()
 
-            self.train_data = np.concatenate(self.train_data)
-            self.train_data = self.train_data.reshape((50000, 3, 32, 32))
-            self.train_data = self.train_data.transpose((0, 2, 3, 1))  # convert to HWC
+            # self.train_data = np.concatenate(self.train_data)
+            # self.train_data = self.train_data.reshape((50000, 3, 32, 32))
+            # self.train_data = self.train_data.transpose((0, 2, 3, 1))  # convert to HWC
         else:
             f = self.test_list[0][0]
             file = os.path.join(self.root, self.base_folder, f)
