@@ -27,7 +27,8 @@ class CSD08(data.Dataset):
     # ]
 
     def __init__(self, root, train=True,
-                 transform=None, target_transform=None):
+                 transform=None, target_transform=None,
+                 train_list=[], test_list=[]):
         """
         root = ./data
         :param root:
@@ -39,6 +40,8 @@ class CSD08(data.Dataset):
         self.transform = transform
         self.target_transform = target_transform
         self.train = train  # training set or test set
+        self.train_list = train_list
+        self.test_list = test_list
 
         # if not self._check_integrity():
         #     raise RuntimeError('Dataset not found or corrupted.' +
