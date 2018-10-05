@@ -30,11 +30,13 @@ class CSD08(data.Dataset):
                  transform=None, target_transform=None,
                  train_list=[], test_list=[]):
         """
-        root = ./data
-        :param root:
-        :param train:
+        extract file ["data"]:[...] ["lables"]:[...]
+        :param root: default = "./data"
+        :param train: True = train / False = test
         :param transform:
         :param target_transform:
+        :param train_list: [file1, file2, file3, ...]
+        :param test_list: [file1, file2, file3, ...]
         """
         self.root = os.path.expanduser(root)
         self.transform = transform
@@ -52,39 +54,38 @@ class CSD08(data.Dataset):
             self.train_data = []
             self.train_labels = []
             for fentry in self.train_list:
-                f = fentry[0]
-                file = os.path.join(self.root, self.base_folder, f)
+                # file = os.path.join(self.root, self.base_folder, fentry)
+                file = os.path.join(self.root, fentry)
                 fo = open(file, 'rb')
                 if sys.version_info[0] == 2:
                     entry = pickle.load(fo)
                 else:
                     entry = pickle.load(fo, encoding='latin1')
+                # add train data
                 self.train_data.append(entry['data'])
-                if 'labels' in entry:
-                    self.train_labels += entry['labels']
-                else:
-                    self.train_labels += entry['fine_labels']
+                # add train labels
+                self.train_labels += entry['labels']
                 fo.close()
 
             # self.train_data = np.concatenate(self.train_data)
             # self.train_data = self.train_data.reshape((50000, 3, 32, 32))
             # self.train_data = self.train_data.transpose((0, 2, 3, 1))  # convert to HWC
         else:
-            f = self.test_list[0][0]
-            file = os.path.join(self.root, self.base_folder, f)
-            fo = open(file, 'rb')
-            if sys.version_info[0] == 2:
-                entry = pickle.load(fo)
-            else:
-                entry = pickle.load(fo, encoding='latin1')
-            self.test_data = entry['data']
-            if 'labels' in entry:
-                self.test_labels = entry['labels']
-            else:
-                self.test_labels = entry['fine_labels']
+            self.test_list = []
+            self.test_labels = []
+            for fentry in self.test_list:
+                file = os.path.join(self.root, fentry)
+            # file = os.path.join(self.root, self.base_folder, f)
+                fo = open(file, 'rb')
+                if sys.version_info[0] == 2:
+                    entry = pickle.load(fo)
+                else:
+                    entry = pickle.load(fo, encoding='latin1')
+                self.test_data.append(entry['data'])
+                self.test_labels += entry['labels']
             fo.close()
-            self.test_data = self.test_data.reshape((10000, 3, 32, 32))
-            self.test_data = self.test_data.transpose((0, 2, 3, 1))  # convert to HWC
+            # self.test_data = self.test_data.reshape((10000, 3, 32, 32))
+            # self.test_data = self.test_data.transpose((0, 2, 3, 1))  # convert to HWC
 
     def __getitem__(self, index):
         """
