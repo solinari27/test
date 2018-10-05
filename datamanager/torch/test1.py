@@ -10,6 +10,7 @@ else:
 
 import torch.utils.data as data
 import torch
+import torchvision
 
 
 class CSD08(data.Dataset):
@@ -67,10 +68,11 @@ class CSD08(data.Dataset):
                 # add train labels
                 self.train_labels.append(entry['labels'])
                 fo.close()
-
-            # self.train_data = np.concatenate(self.train_data)
+            self.train_data = np.concatenate(self.train_data)
+            self.train_labels = np.concatenate(self.train_labels)
             # self.train_data = self.train_data.reshape((50000, 3, 32, 32))
             # self.train_data = self.train_data.transpose((0, 2, 3, 1))  # convert to HWC
+            print self.train_data, self.train_labels
         else:
             self.test_list = []
             self.test_labels = []
@@ -85,6 +87,8 @@ class CSD08(data.Dataset):
                 self.test_data.append(entry['data'])
                 self.test_labels.append(entry['labels'])
             fo.close()
+            self.test_data = np.concatenate (self.test_data)
+            self.test_labels = np.concatenate (self.test_labels)
             # self.test_data = self.test_data.reshape((10000, 3, 32, 32))
             # self.test_data = self.test_data.transpose((0, 2, 3, 1))  # convert to HWC
 
@@ -148,3 +152,6 @@ train_loader = torch.utils.data.DataLoader(dataset=d,
                                            shuffle=True)
 for i, (data, labels) in enumerate(train_loader):
     print data, labels
+
+e = torchvision.datasets.CIFAR10(root='./data', train=True, download=True)
+train_loader = torch.utils.data.DataLoader(dataset=e, batch_size=100)
