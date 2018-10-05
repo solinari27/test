@@ -65,7 +65,7 @@ class CSD08(data.Dataset):
                 # add train data
                 self.train_data.append(entry['data'])
                 # add train labels
-                self.train_labels += entry['labels']
+                self.train_labels.append(entry['labels'])
                 fo.close()
 
             # self.train_data = np.concatenate(self.train_data)
@@ -83,7 +83,7 @@ class CSD08(data.Dataset):
                 else:
                     entry = pickle.load(fo, encoding='latin1')
                 self.test_data.append(entry['data'])
-                self.test_labels += entry['labels']
+                self.test_labels.append(entry['labels'])
             fo.close()
             # self.test_data = self.test_data.reshape((10000, 3, 32, 32))
             # self.test_data = self.test_data.transpose((0, 2, 3, 1))  # convert to HWC
@@ -105,11 +105,11 @@ class CSD08(data.Dataset):
         # to return a PIL Image
         # img = Image.fromarray(img)
 
-        # if self.transform is not None:
-        #     img = self.transform(img)
-        #
-        # if self.target_transform is not None:
-        #     target = self.target_transform(target)
+        if self.transform is not None:
+            data = self.transform(data)
+
+        if self.target_transform is not None:
+            target = self.target_transform(target)
 
         return data, target
 
@@ -144,7 +144,7 @@ f.close()
 
 d = CSD08(root=".", train=True, train_list=['file1', 'file2'])
 train_loader = torch.utils.data.DataLoader(dataset=d,
-                                           batch_size=100,
+                                           batch_size=1,
                                            shuffle=True)
 for i, (data, labels) in enumerate(train_loader):
     print data, labels
