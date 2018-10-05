@@ -9,6 +9,7 @@ else:
     import pickle
 
 import torch.utils.data as data
+import torch
 
 
 class CSD08(data.Dataset):
@@ -96,21 +97,21 @@ class CSD08(data.Dataset):
             tuple: (image, target) where target is index of the target class.
         """
         if self.train:
-            img, target = self.train_data[index], self.train_labels[index]
+            data, target = self.train_data[index], self.train_labels[index]
         else:
             img, target = self.test_data[index], self.test_labels[index]
 
         # doing this so that it is consistent with all other datasets
         # to return a PIL Image
-        img = Image.fromarray(img)
+        # img = Image.fromarray(img)
 
-        if self.transform is not None:
-            img = self.transform(img)
+        # if self.transform is not None:
+        #     img = self.transform(img)
+        #
+        # if self.target_transform is not None:
+        #     target = self.target_transform(target)
 
-        if self.target_transform is not None:
-            target = self.target_transform(target)
-
-        return img, target
+        return data, target
 
     def __len__(self):
         if self.train:
@@ -130,3 +131,20 @@ class CSD08(data.Dataset):
         # tmp = '    Target Transforms (if any): '
         # fmt_str += '{0}{1}'.format(tmp, self.target_transform.__repr__().replace('\n', '\n' + ' ' * len(tmp)))
         return fmt_str
+
+file1 = {"data": ["aaa", "bbb"], "labels": ["a", "b"]}
+file2 = {"data": ["ccc", "ddd"], "labels": ["c", "d"]}
+
+f=open('file1','w')
+pickle.dump(file1,f,0)
+f.close()
+f=open('file2','w')
+pickle.dump(file2,f,0)
+f.close()
+
+d = CSD08(root=".", train=True, train_list=['file1', 'file2'])
+train_loader = torch.utils.data.DataLoader(dataset=d,
+                                           batch_size=100,
+                                           shuffle=True)
+for i, (data, labels) in enumerate(train_loader):
+    print data, labels
