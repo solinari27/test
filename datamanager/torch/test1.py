@@ -155,3 +155,5 @@ for i, (data, labels) in enumerate(train_loader):
 
 e = torchvision.datasets.CIFAR10(root='./data', train=True, download=True)
 train_loader = torch.utils.data.DataLoader(dataset=e, batch_size=100)
+for i, (data, labels) in enumerate(train_loader):
+    print data, labels
