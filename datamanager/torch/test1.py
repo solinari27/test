@@ -11,6 +11,7 @@ else:
 
 import torch.utils.data as data
 import torch
+import torchvision.transforms as transforms
 import torchvision
 
 
@@ -104,7 +105,7 @@ class CSD08(data.Dataset):
         if self.train:
             data, target = self.train_data[index], self.train_labels[index]
         else:
-            img, target = self.test_data[index], self.test_labels[index]
+            data, target = self.test_data[index], self.test_labels[index]
 
         # doing this so that it is consistent with all other datasets
         # to return a PIL Image
@@ -141,36 +142,45 @@ file1 = {"data": ["aaa", "bbb"], "labels": ["a", "b"]}
 file2 = {"data": ["ccc", "ddd"], "labels": ["c", "d"]}
 
 f=open('file1','wb')
-pickle.dump(file1,f,0)
+pickle.dump(file1, f)
 f.close()
 f=open('file2','wb')
-pickle.dump(file2,f,0)
+pickle.dump(file2, f)
 f.close()
 
-d = CSD08(root=".", train=True, train_list=['file1', 'file2'])
-train_loader = torch.utils.data.DataLoader(dataset=d,
-                                           batch_size=1,
+# dataset = CSD08(root=".", train=True, transform=transforms.ToTensor(), train_list=['file1', 'file2'])
+dataset = CSD08(root=".", train=True, transform=None, train_list=['file1', 'file2'])
+train_loader = torch.utils.data.DataLoader(dataset=dataset,
+                                           batch_size=4,
                                            shuffle=True)
 dataiter = iter(train_loader)
 a, b = dataiter.next()
 print ("iter", a, b)
 for i, (data, labels) in enumerate(train_loader):
     print (data, labels)
+    print ("type data: ", type(data))
+    print ("type labels: ", type(labels))
 
 
-# # functions to show an image
-# def imgshow(img):
-#     img = img / 2 + 0.5     # unnormalize
-#     npimg = img.numpy()
-#     plt.imshow(np.transpose(npimg, (1, 2, 0)))
-#     plt.show()
-#
-# trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-#                                         download=True, transform=None)
-# trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
-#                                           shuffle=True, num_workers=2)
-# dataiter = iter(trainloader)
-# images, labels = dataiter.next()
+# functions to show an image
+def imgshow(img):
+    img = img / 2 + 0.5     # unnormalize
+    npimg = img.numpy()
+    plt.imshow(np.transpose(npimg, (1, 2, 0)))
+    plt.show()
+
+trans = transforms.Compose([transforms.CenterCrop(10),transforms.ToTensor()])
+
+trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
+                                        download=False, transform=trans)
+trainloader = torch.utils.data.DataLoader(trainset, batch_size=100,
+                                          shuffle=True)
+dataiter = iter(trainloader)
+images, labels = dataiter.next()
+print (type(images))
+print (type(labels))
+print ("images: ", images)
+print ("labels: ", labels)
 # imgshow(torchvision.utils.make_grid(images))
 
 
