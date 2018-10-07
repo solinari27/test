@@ -1,3 +1,8 @@
+#!usr/bin/env python
+#-*- coding:utf-8 _*-
+"""
+
+"""
 # from __future__ import print_function
 import os
 import os.path
