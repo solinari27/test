@@ -74,9 +74,8 @@ class CSD08(data.Dataset):
             self.train_labels = np.concatenate(self.train_labels)
             # self.train_data = self.train_data.reshape((50000, 3, 32, 32))
             # self.train_data = self.train_data.transpose((0, 2, 3, 1))  # convert to HWC
-            print (self.train_data, self.train_labels)
         else:
-            self.test_list = []
+            self.test_data = []
             self.test_labels = []
             for fentry in self.test_list:
                 file = os.path.join(self.root, fentry)
@@ -88,7 +87,7 @@ class CSD08(data.Dataset):
                     entry = pickle.load(fo, encoding='latin1')
                 self.test_data.append(entry['data'])
                 self.test_labels.append(entry['labels'])
-            fo.close()
+                fo.close()
             self.test_data = np.concatenate (self.test_data)
             self.test_labels = np.concatenate (self.test_labels)
             # self.test_data = self.test_data.reshape((10000, 3, 32, 32))
@@ -151,7 +150,9 @@ pickle.dump(file2, f)
 f.close()
 
 # dataset = CSD08(root=".", train=True, transform=transforms.ToTensor(), train_list=['file1', 'file2'])
-dataset = CSD08(root=".", train=True, transform=None, train_list=['file1', 'file2'])
+dataset = CSD08(root=".", train=True, transform=None,
+                train_list=['file1', 'file2'],
+                test_list=['file1', 'file2'])
 train_loader = torch.utils.data.DataLoader(dataset=dataset,
                                            batch_size=4,
                                            shuffle=True)
