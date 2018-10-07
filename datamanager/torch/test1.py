@@ -138,8 +138,8 @@ class CSD08(data.Dataset):
         # fmt_str += '{0}{1}'.format(tmp, self.target_transform.__repr__().replace('\n', '\n' + ' ' * len(tmp)))
         return fmt_str
 
-file1 = {"data": [{"a":1, "b": 2}, {"a":10, "b":0}], "labels": [1, 2]}
-file2 = {"data": [{"a": 9, "b": 2}, {"a": 2, "b": 9}], "labels": [3, 4]}
+# file1 = {"data": [{"a":1, "b": 2}, {"a":10, "b":0}], "labels": [1, 2]}
+# file2 = {"data": [{"a": 9, "b": 2}, {"a": 2, "b": 9}], "labels": [3, 4]}
 file1 = {"data": [[1, 1, 1], [2, 2, 2]], "labels": [1, 2]}
 file2 = {"data": [[3, 3, 3], [4, 4, 4]], "labels": [3, 4]}
 
