@@ -72,7 +72,7 @@ class CSD08(data.Dataset):
             self.train_labels = np.concatenate(self.train_labels)
             # self.train_data = self.train_data.reshape((50000, 3, 32, 32))
             # self.train_data = self.train_data.transpose((0, 2, 3, 1))  # convert to HWC
-            print self.train_data, self.train_labels
+            print (self.train_data, self.train_labels)
         else:
             self.test_list = []
             self.test_labels = []
@@ -139,10 +139,10 @@ class CSD08(data.Dataset):
 file1 = {"data": ["aaa", "bbb"], "labels": ["a", "b"]}
 file2 = {"data": ["ccc", "ddd"], "labels": ["c", "d"]}
 
-f=open('file1','w')
+f=open('file1','wb')
 pickle.dump(file1,f,0)
 f.close()
-f=open('file2','w')
+f=open('file2','wb')
 pickle.dump(file2,f,0)
 f.close()
 
@@ -151,9 +151,9 @@ train_loader = torch.utils.data.DataLoader(dataset=d,
                                            batch_size=1,
                                            shuffle=True)
 for i, (data, labels) in enumerate(train_loader):
-    print data, labels
+    print (data, labels)
 
 e = torchvision.datasets.CIFAR10(root='./data', train=True, download=True)
 train_loader = torch.utils.data.DataLoader(dataset=e, batch_size=100)
 for i, (data, labels) in enumerate(train_loader):
-    print data, labels
+    print (data, labels)
