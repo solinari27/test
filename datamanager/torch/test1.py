@@ -140,7 +140,7 @@ class CSD08(data.Dataset):
 
 # file1 = {"data": [{"a":1, "b": 2}, {"a":10, "b":0}], "labels": [1, 2]}
 # file2 = {"data": [{"a": 9, "b": 2}, {"a": 2, "b": 9}], "labels": [3, 4]}
-file1 = {"data": [[1, 1, 1], [2, 2, 2]], "labels": [1, 2]}
+file1 = {"data": [[1, 1, 1], [2, 2, 2], [5, 5, 5]], "labels": [1, 2, 5]}
 file2 = {"data": [[3, 3, 3], [4, 4, 4]], "labels": [3, 4]}
 
 f = open('file1', 'wb')
@@ -158,10 +158,16 @@ train_loader = torch.utils.data.DataLoader(dataset=dataset,
 dataiter = iter(train_loader)
 a, b = dataiter.next()
 print ("iter", a, b)
-for i, (data, labels) in enumerate(train_loader):
-    print (data, labels)
-    print ("type data: ", type(data))
-    print ("type labels: ", type(labels))
+print ("iter type:", type(a), type(b))
+
+a, b = dataiter.next()
+print ("iter", a, b)
+print ("iter type:", type(a), type(b))
+
+# for i, (data, labels) in enumerate(train_loader):
+#     print (data, labels)
+#     print ("type data: ", type(data))
+#     print ("type labels: ", type(labels))
 
 
 # ===============================================分割线=====================================================
