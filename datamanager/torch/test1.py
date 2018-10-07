@@ -2,6 +2,7 @@
 import os
 import os.path
 import numpy as np
+import matplotlib.pyplot as plt
 import sys
 if sys.version_info[0] == 2:
     import cPickle as pickle
@@ -150,10 +151,28 @@ d = CSD08(root=".", train=True, train_list=['file1', 'file2'])
 train_loader = torch.utils.data.DataLoader(dataset=d,
                                            batch_size=1,
                                            shuffle=True)
+dataiter = iter(train_loader)
+a, b = dataiter.next()
+print ("iter", a, b)
 for i, (data, labels) in enumerate(train_loader):
     print (data, labels)
 
-e = torchvision.datasets.CIFAR10(root='./data', train=True, download=True)
-train_loader = torch.utils.data.DataLoader(dataset=e, batch_size=100)
-for i, (data, labels) in enumerate(train_loader):
-    print (data, labels)
+
+# # functions to show an image
+# def imgshow(img):
+#     img = img / 2 + 0.5     # unnormalize
+#     npimg = img.numpy()
+#     plt.imshow(np.transpose(npimg, (1, 2, 0)))
+#     plt.show()
+#
+# trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
+#                                         download=True, transform=None)
+# trainloader = torch.utils.data.DataLoader(trainset, batch_size=4,
+#                                           shuffle=True, num_workers=2)
+# dataiter = iter(trainloader)
+# images, labels = dataiter.next()
+# imgshow(torchvision.utils.make_grid(images))
+
+
+
+
