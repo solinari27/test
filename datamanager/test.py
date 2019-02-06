@@ -21,6 +21,11 @@ sys.path.append('/home/solinari/workspace/test')
 # print (_path)
 
 from datamanager.collection import collection
+from datamanager.collection import data_show
+
 c = collection.Collection()
 result = c.getData(code="600000", start_date="2016-01-01", end_date="2018-12-31")
 print result
+
+show = data_show.Plt()
+print show
