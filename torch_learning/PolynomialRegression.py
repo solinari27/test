@@ -1,10 +1,10 @@
-#!usr/bin/env python  
-#-*- coding:utf-8 _*-  
-""" 
-@author: solinari 
-@file: PolynomialRegression.py 
-@time: 2018/11/11 
-"""  
+#!usr/bin/env python
+#-*- coding:utf-8 _*-
+"""
+@author: solinari
+@file: PolynomialRegression.py
+@time: 2018/11/11
+"""
 
 from itertools import count
 import torch
@@ -72,14 +72,3 @@ def poly_desc(W, b):
 print('Loss: {:.6f} after {} batches'.format(loss, batch_idx))
 print('==> Learned function:\t' + poly_desc(fc.weight.view(-1), fc.bias))
 print('==> Actual function:\t' + poly_desc(W_target.view(-1), b_target))
-
-
-
-
-
-
-
-
-
-
-

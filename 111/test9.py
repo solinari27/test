@@ -23,4 +23,3 @@ def requestJson(url):
 url = "http://quotes.money.163.com/service/chddata.html?code=0601857&start=20071105&end=20150618&fields=TCLOSE;HIGH;LOW;TOPEN;LCLOSE;CHG;PCHG;TURNOVER;VOTURNOVER;VATURNOVER;TCAP;MCAP"
 url = "http://quotes.money.163.com/service/chddata.html?code=0601857&start=20071105&end=20150618"
 requestJson(url)
-
