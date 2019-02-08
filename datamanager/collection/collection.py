@@ -1,5 +1,5 @@
 #!usr/bin/env python
-#-*- coding:utf-8 _*-
+# -*- coding:utf-8 _*-
 """
 @author: solinari
 @file: collection.py
@@ -14,8 +14,10 @@ from utils.common.switch import switch
 
 class Collection(object):
     def __init__(self):
-        self.sohuconn = SohuConn("/home/solinari/workspace/stockCrawler/Conf/sohu.conf")
-        self.neteaseconn = NeteaseConn("/home/solinari/workspace/stockCrawler/Conf/netease.conf")
+        self.sohuconn = SohuConn(
+            "/home/solinari/workspace/stockCrawler/Conf/sohu.conf")
+        self.neteaseconn = NeteaseConn(
+            "/home/solinari/workspace/stockCrawler/Conf/netease.conf")
 
     def __del__(self):
         # self.sohuconn = None
@@ -34,8 +36,10 @@ class Collection(object):
         assert start_date is not None
         assert end_date is not None
 
-        netease_result = self.neteaseconn.getDailyData(code=str(code), date1=start_date, date2=end_date)
-        sohu_result = self.sohuconn.getDailyData(code=str(code), date1=start_date, date2=end_date)
+        netease_result = self.neteaseconn.getDailyData(
+            code=str(code), date1=start_date, date2=end_date)
+        sohu_result = self.sohuconn.getDailyData(
+            code=str(code), date1=start_date, date2=end_date)
         # assert (len(netease_result) == len(sohu_result))
 
         result = []
@@ -46,59 +50,62 @@ class Collection(object):
             for key in netease_item.keys():
                 for case in switch(key):
 
+                    if case('HIGH'):
+                        item[key] = netease_item[key]
+                        break
+                    if case('LOW'):
+                        item[key] = netease_item[key]
+                        break
 
-                  if case('HIGH'):
-                    item[key] = netease_item[key]
-                    break
-                  if case('LOW'):
-                    item[key] = netease_item[key]
-                    break
+                    if case('DATE'):
+                        item[key] = netease_item[key]
+                        break
 
-                #drop this
-                  if case('CODE'):
-                    break
-                  if case('DATE'):
-                    break
-                  if case('NAME'):
-                    break
-                  if case('_id'):
-                      break
+                # drop this
+                    if case('CODE'):
+                        break
+                    if case('DATE'):
+                        break
+                    if case('NAME'):
+                        break
+                    if case('_id'):
+                        break
 
-                  if case('TCAP'):
-                    item[key] = netease_item[key]
-                    break
-                  if case('MCAP'):
-                    item[key] = netease_item[key]
-                    break
+                    if case('TCAP'):
+                        item[key] = netease_item[key]
+                        break
+                    if case('MCAP'):
+                        item[key] = netease_item[key]
+                        break
 
-                  if case('CHG'):
-                    item[key] = netease_item[key]
-                    break
-                  if case('PCHG'):
-                    item[key] = netease_item[key]
-                    break
+                    if case('CHG'):
+                        item[key] = netease_item[key]
+                        break
+                    if case('PCHG'):
+                        item[key] = netease_item[key]
+                        break
 
-                  if case('LCLOSE'):
-                    item[key] = netease_item[key]
-                    break
-                  if case('TOPEN'):
-                    item[key] = netease_item[key]
-                    break
-                  if case('TCLOSE'):
-                    item[key] = netease_item[key]
-                    break
-                  if case('VATURNOVER'):
-                    item[key] = netease_item[key]
-                    break
+                    if case('LCLOSE'):
+                        item[key] = netease_item[key]
+                        break
+                    if case('TOPEN'):
+                        item[key] = netease_item[key]
+                        break
+                    if case('TCLOSE'):
+                        item[key] = netease_item[key]
+                        break
+                    if case('VATURNOVER'):
+                        item[key] = netease_item[key]
+                        break
 
-                  if case('VOTURNOVER'):
-                    item[key] = netease_item[key]
-                    break
-                  if case('TURNOVER'):
-                    item[key] = netease_item[key]
-                    break
-                  if case(): # default, could also just omit condition or 'if True'
-                    pass
-                    # No need to break here, it'll stop anyway
+                    if case('VOTURNOVER'):
+                        item[key] = netease_item[key]
+                        break
+                    if case('TURNOVER'):
+                        item[key] = netease_item[key]
+                        break
+                    if case():  # default, could also just omit condition or 'if True'
+                        pass
+                        # No need to break here, it'll stop anyway
             result.append(item)
         return result
