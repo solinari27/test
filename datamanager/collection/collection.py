@@ -5,9 +5,12 @@
 @file: collection.py
 @time: 2018/10/09
 """
+import time
+
 from common.mongo.sohuConn import SohuConn
 from common.mongo.neteaseConn import NeteaseConn
-import time
+from utils.common.switch import switch
+
 
 class Collection(object):
     def __init__(self):

@@ -8,10 +8,10 @@
 import sys
 import os
 
-sys.path.append('/home/ubuntu/stockCrawler')
-sys.path.append('/home/solinari/workspace/stockCrawler')
 sys.path.append('/home/ubuntu/test')
 sys.path.append('/home/solinari/workspace/test')
+# sys.path.append('/home/ubuntu/stockCrawler')
+# sys.path.append('/home/solinari/workspace/stockCrawler')
 # os.system("export PYTHONPATH=/home/ubuntu/stockCrawler:/home/solinari/workspace/stockCrawler:%PYTHONPATH")
 # os.system("export PYTHONPATH=/home/ubuntu/test:/home/solinari/workspace/test:%PYTHONPATH")
 # paths = os.getcwd().split('/')
