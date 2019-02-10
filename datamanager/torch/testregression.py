@@ -12,6 +12,8 @@ import torch.autograd
 import torch.nn.functional as F
 
 POLY_DEGREE = 1
+W_target = torch.randn(POLY_DEGREE, 1)
+b_target = torch.randn(1)
 
 
 def make_features(x):
@@ -39,8 +41,6 @@ def get_batch(batch_size=32):
 
 def iter_batch():
 
-    W_target = torch.randn(POLY_DEGREE, 1)
-    b_target = torch.randn(1)
     # Define model
     fc = torch.nn.Linear(W_target.size(0), 1)
 
@@ -66,17 +66,18 @@ def iter_batch():
         if loss < 1e-3:
             break
 
-iter_batch()
 
-# def poly_desc(W, b):
-#     """Creates a string description of a polynomial."""
-#     result = 'y = '
-#     for i, w in enumerate(W):
-#         result += '{:+.2f} x^{} '.format(w, len(W) - i)
-#     result += '{:+.2f}'.format(b[0])
-#     return result
-#
-#
-# print('Loss: {:.6f} after {} batches'.format(loss, batch_idx))
-# print('==> Learned function:\t' + poly_desc(fc.weight.view(-1), fc.bias))
-# print('==> Actual function:\t' + poly_desc(W_target.view(-1), b_target))
+    # def poly_desc(W, b):
+    #     """Creates a string description of a polynomial."""
+    #     result = 'y = '
+    #     for i, w in enumerate(W):
+    #         result += '{:+.2f} x^{} '.format(w, len(W) - i)
+    #     result += '{:+.2f}'.format(b[0])
+    #     return result
+    #
+    #
+    # print('Loss: {:.6f} after {} batches'.format(loss, batch_idx))
+    # print('==> Learned function:\t' + poly_desc(fc.weight.view(-1), fc.bias))
+    # print('==> Actual function:\t' + poly_desc(W_target.view(-1), b_target))
+
+iter_batch()
