@@ -67,7 +67,7 @@ def iter_batch(data):
             param.data.add_(-0.1 * param.grad.data)
 
         # Stop criterion
-        if loss < 1e-1:
+        if loss < 1e+1:
             break
 
 
