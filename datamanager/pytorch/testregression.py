@@ -5,7 +5,7 @@
 @file: testregression.py
 @time: 2019/02/09
 """
-
+import numpy as np
 from itertools import count
 import torch
 import torch.autograd
@@ -14,7 +14,6 @@ import torch.nn.functional as F
 POLY_DEGREE = 1
 W_target = torch.randn(POLY_DEGREE, 1)
 b_target = torch.randn(1)
-dataset = []
 
 def make_features(x):
     """Builds features i.e. a matrix with columns [x, x^2, x^3, x^4]."""
@@ -28,18 +27,22 @@ def f(x):
     return x.mm(W_target) + b_target.item()
 
 
-def get_batch(batch_size=32):
+def get_batch(dataset, batch_size=32):
     """Builds a batch i.e. (x, f(x)) pair."""
     # random = torch.randn(batch_size)
     # x = make_features(random)
     # y = f(x)
+    # print x, y
     # return x, y
-    x_rand = torch.rand(batch_size, 1)
-    x_list = x_rand * 100
-    for i in range(batch_size):
-        print x_list[i]
-
-
+    data_count = len(dataset)
+    x_rand = np.random.randint(0, data_count, size=batch_size)
+    y_list = []
+    for i in range(0, batch_size):
+        y_list.append(dataset[x_rand[i]]['TCLOSE'])
+    batch_x = torch.tensor([x_rand])
+    batch_y = torch.tensor([y_list])
+    print batch_x, batch_y
+    return batch_x, batch_y
 
 
 ###################训练#########################
@@ -53,7 +56,7 @@ def iter_batch(data):
 
     for batch_idx in count(1):
         # Get data
-        batch_x, batch_y = get_batch(batch_size=10)
+        batch_x, batch_y = get_batch(dataset=dataset, batch_size=10)
 
         # Reset gradients
         fc.zero_grad()
