@@ -22,10 +22,12 @@ sys.path.append('/home/solinari/workspace/test')
 
 from datamanager.collection import collection
 from datamanager.collection import data_show
+from datamanager.torch.testregression import *
 
 c = collection.Collection()
 result = c.getData(code="600000", start_date="2016-01-01", end_date="2018-12-31")
 
-show = data_show.Plt()
-show.load_data(data=result)
-show.plot()
+iter_batch(result)
+# show = data_show.Plt()
+# show.load_data(data=result)
+# show.plot()

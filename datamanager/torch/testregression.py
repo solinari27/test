@@ -14,7 +14,7 @@ import torch.nn.functional as F
 POLY_DEGREE = 1
 W_target = torch.randn(POLY_DEGREE, 1)
 b_target = torch.randn(1)
-
+dataset = []
 
 def make_features(x):
     """Builds features i.e. a matrix with columns [x, x^2, x^3, x^4]."""
@@ -30,23 +30,30 @@ def f(x):
 
 def get_batch(batch_size=32):
     """Builds a batch i.e. (x, f(x)) pair."""
-    random = torch.randn(batch_size)
-    x = make_features(random)
-    y = f(x)
-    return x, y
+    # random = torch.randn(batch_size)
+    # x = make_features(random)
+    # y = f(x)
+    # return x, y
+    x_rand = torch.rand(batch_size, 1)
+    x_list = x_rand * 100
+    for i in range(batch_size):
+        print x_list[i]
+
+
 
 
 ###################训练#########################
 
 
-def iter_batch():
+def iter_batch(data):
 
     # Define model
     fc = torch.nn.Linear(W_target.size(0), 1)
+    dataset = data
 
     for batch_idx in count(1):
         # Get data
-        batch_x, batch_y = get_batch()
+        batch_x, batch_y = get_batch(batch_size=10)
 
         # Reset gradients
         fc.zero_grad()
@@ -80,4 +87,4 @@ def iter_batch():
     # print('==> Learned function:\t' + poly_desc(fc.weight.view(-1), fc.bias))
     # print('==> Actual function:\t' + poly_desc(W_target.view(-1), b_target))
 
-iter_batch()
+# iter_batch()
