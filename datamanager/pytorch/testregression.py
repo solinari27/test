@@ -29,19 +29,13 @@ def f(x):
 
 def get_batch(dataset, batch_size=32):
     """Builds a batch i.e. (x, f(x)) pair."""
-    # random = torch.randn(batch_size)
-    # x = make_features(random)
-    # y = f(x)
-    # print x, y
-    # return x, y
     data_count = len(dataset)
     x_rand = np.random.randint(0, data_count, size=batch_size)
     y_list = []
     for i in range(0, batch_size):
         y_list.append(dataset[x_rand[i]]['TCLOSE'])
-    batch_x = torch.tensor([x_rand])
-    batch_y = torch.tensor([y_list])
-    print batch_x, batch_y
+    batch_x = torch.tensor(np.array([x_rand]).T).float()
+    batch_y = torch.tensor(np.array([y_list]).T).float()
     return batch_x, batch_y
 
 
@@ -56,7 +50,7 @@ def iter_batch(data):
 
     for batch_idx in count(1):
         # Get data
-        batch_x, batch_y = get_batch(dataset=dataset, batch_size=10)
+        batch_x, batch_y = get_batch(dataset=dataset, batch_size=32)
 
         # Reset gradients
         fc.zero_grad()
@@ -73,21 +67,21 @@ def iter_batch(data):
             param.data.add_(-0.1 * param.grad.data)
 
         # Stop criterion
-        if loss < 1e-3:
+        if loss < 1e-1:
             break
 
 
-    # def poly_desc(W, b):
-    #     """Creates a string description of a polynomial."""
-    #     result = 'y = '
-    #     for i, w in enumerate(W):
-    #         result += '{:+.2f} x^{} '.format(w, len(W) - i)
-    #     result += '{:+.2f}'.format(b[0])
-    #     return result
-    #
-    #
-    # print('Loss: {:.6f} after {} batches'.format(loss, batch_idx))
-    # print('==> Learned function:\t' + poly_desc(fc.weight.view(-1), fc.bias))
-    # print('==> Actual function:\t' + poly_desc(W_target.view(-1), b_target))
+    def poly_desc(W, b):
+        """Creates a string description of a polynomial."""
+        result = 'y = '
+        for i, w in enumerate(W):
+            result += '{:+.2f} x^{} '.format(w, len(W) - i)
+        result += '{:+.2f}'.format(b[0])
+        return result
+
+
+    print('Loss: {:.6f} after {} batches'.format(loss, batch_idx))
+    print('==> Learned function:\t' + poly_desc(fc.weight.view(-1), fc.bias))
+    print('==> Actual function:\t' + poly_desc(W_target.view(-1), b_target))
 
 # iter_batch()
