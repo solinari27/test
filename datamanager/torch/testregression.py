@@ -11,8 +11,9 @@ import torch
 import torch.autograd
 import torch.nn.functional as F
 
-
 POLY_DEGREE = 1
+
+
 def make_features(x):
     """Builds features i.e. a matrix with columns [x, x^2, x^3, x^4]."""
     x = x.unsqueeze(1)
