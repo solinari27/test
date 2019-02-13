@@ -25,9 +25,10 @@ from collection import data_show
 
 
 c = collection.Collection()
-result = c.getData(code="600000", start_date="2017-01-01", end_date="2017-12-31")
+# result = c.getData(code="600000", start_date="2017-01-01", end_date="2017-12-31")
 
-iter_batch(result)
-show = data_show.Plt()
-show.load_data(data=result)
-show.plot()
+for result in c.getData(code="600000", start_date="2017-01-01", end_date="2017-12-31"):
+    iter_batch(result)
+    show = data_show.Plt()
+    show.load_data(data=result)
+    show.plot()
