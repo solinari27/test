@@ -17,18 +17,23 @@ class Plt(object):
     def load_data(self, data):
         self._data = data
 
-    def plot(self):
+    def plot(self, **kwargs):
+        w, b = kwargs['w'], kwargs['b']
         date = []
         open = []
         high = []
         low = []
         close = []
+        line_scatters = []
+        _x = 0
         for item in self._data:
             date.append(item['DATE'])
             open.append(item['TOPEN'])
             high.append(item['HIGH'])
             low.append(item['LOW'])
             close.append(item['TCLOSE'])
+            line_scatters.append(w*_x+b)
+            _x += 1
 
         trace = go.Ohlc(x=date,
                         open=open,
@@ -36,6 +41,16 @@ class Plt(object):
                         low=low,
                         close=close,
                         increasing=dict(line=dict(color='red')),
-                        decreasing=dict(line=dict(color='green')))
-        data = [trace]
+                        decreasing=dict(line=dict(color='green')),
+                        showlegend=False)
+
+        line = go.Scatter(
+            x=date,
+            y=line_scatters,
+            mode = 'lines+markers',
+            name='Regression',
+            showlegend=False,
+        )
+
+        data = [trace, line]
         pyoff.plot(data)
