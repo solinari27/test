@@ -25,9 +25,11 @@ x = torch.randn(num_examples, num_inputs)
 y = true_w[0] * x[:, 0] + true_w[1] * x[:, 1] + true_b
 
 y = y + torch.randn(y.size()) * 0.01
-
-dataset = TensorDataset(x, y)
-trainloader = DataLoader(dataset, batch_size=256, shuffle=True)
+print (x)
+print (y)
+#
+# dataset = TensorDataset(x, y)
+# trainloader = DataLoader(dataset, batch_size=256, shuffle=True)
 
 # for data, label in trainloader:
 #     print(data, label)
@@ -47,8 +49,8 @@ def get_batch(dataset):
     for i in range(0, size):
         x_rand.append(i)
         y_list.append(dataset[i]['TCLOSE'])
-    batch_x = torch.tensor(np.array([x_rand]).T).float()
-    batch_y = torch.tensor(np.array([y_list]).T).float()
+    batch_x = torch.tensor(x_rand).float()
+    batch_y = torch.tensor(y_list).float()
     return batch_x, batch_y
 
 class Net(nn.Module):
@@ -63,34 +65,38 @@ class Net(nn.Module):
 
 def do_regression(dataset, epochs, **kwargs):
     batch_x, batch_y = get_batch(dataset=dataset)
-    # net = Net()
-    # criterion = nn.MSELoss()
-    # optimizer = optim.SGD(net.parameters(), lr=0.1)
-    #
-    # for epoch in range(epochs):
-    #     total_loss = 0
-    #     for i, data in enumerate(trainloader, 0):
-    #         inputs, labels = data
-    #         data = Variable(inputs)
-    #         label = Variable(labels).float()
-    #
-    #         optimizer.zero_grad()
-    #
-    #         out = net(data)
-    #
-    #         loss = criterion(out, label)
-    #
-    #
-    #         loss.backward()
-    #         optimizer.step()
-    #
-    #         total_loss = total_loss + loss.item()
-    #     print("Epoch %d, average loss: %f" % (epoch, total_loss/num_examples))
-    #
-    #
-    # params = list(net.parameters())
-    # k = params[0]
-    # b = params[1]
-    # # print(params[0])
-    # # print(params[1])
-    # return k, b
+    # print (batch_x)
+    # print (batch_y)
+    dataset = TensorDataset(batch_x, batch_y)
+    trainloader = DataLoader(dataset, batch_size=256, shuffle=True)
+    net = Net()
+    criterion = nn.MSELoss()
+    optimizer = optim.SGD(net.parameters(), lr=0.1)
+
+    for epoch in range(epochs):
+        total_loss = 0
+        for i, data in enumerate(trainloader, 0):
+            inputs, labels = data
+            data = Variable(inputs)
+            label = Variable(labels).float()
+
+            optimizer.zero_grad()
+
+            out = net(data)
+
+            loss = criterion(out, label)
+
+
+            loss.backward()
+            optimizer.step()
+
+            total_loss = total_loss + loss.item()
+        print("Epoch %d, average loss: %f" % (epoch, total_loss/num_examples))
+
+
+    params = list(net.parameters())
+    k = params[0]
+    b = params[1]
+    print(params[0])
+    print(params[1])
+    return k, b
