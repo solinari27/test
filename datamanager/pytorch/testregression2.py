@@ -15,12 +15,12 @@ from torch.autograd import Variable
 from torch.utils.data import TensorDataset, DataLoader
 
 
-# num_inputs = 2
-# num_examples = 1000
-#
-# true_w = [2, -3.4]
-# true_b = 4.2
-#
+num_inputs = 2
+num_examples = 1000
+
+true_w = [2, -3.4]
+true_b = 4.2
+
 # x = torch.randn(num_examples, num_inputs)
 # y = true_w[0] * x[:, 0] + true_w[1] * x[:, 1] + true_b
 #
@@ -43,15 +43,15 @@ def get_batch(dataset):
     for i in range(0, size):
         x_rand.append(i)
         y_list.append(dataset[i]['TCLOSE'])
-    batch_x = torch.tensor(x_rand).float()
+    batch_x = torch.tensor(np.array([x_rand]).T).float()
     batch_y = torch.tensor(y_list).float()
     return batch_x, batch_y
 
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.fc = nn.Linear(1,1)
-        print(self.fc.weight)
+        self.fc = nn.Linear(1, 1)
+        # print(self.fc.weight)
 
     def forward(self, x):
         x = self.fc(x)
@@ -59,8 +59,7 @@ class Net(nn.Module):
 
 def do_regression(dataset, epochs, **kwargs):
     batch_x, batch_y = get_batch(dataset=dataset)
-    # print (batch_x)
-    print (y)
+    print (batch_x)
     print (batch_y)
     dataset = TensorDataset(batch_x, batch_y)
     trainloader = DataLoader(dataset, batch_size=256, shuffle=True)
@@ -90,8 +89,8 @@ def do_regression(dataset, epochs, **kwargs):
 
 
     params = list(net.parameters())
-    k = params[0]
-    b = params[1]
-    print(params[0])
-    print(params[1])
-    return k, b
+    # k = params[0]
+    # b = params[1]
+    # print(params[0])
+    # print(params[1])
+    # return k, b
