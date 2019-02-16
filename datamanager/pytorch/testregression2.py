@@ -15,18 +15,18 @@ from torch.autograd import Variable
 from torch.utils.data import TensorDataset, DataLoader
 
 
-num_inputs = 2
-num_examples = 1000
-
-true_w = [2, -3.4]
-true_b = 4.2
-
-x = torch.randn(num_examples, num_inputs)
-y = true_w[0] * x[:, 0] + true_w[1] * x[:, 1] + true_b
-
-y = y + torch.randn(y.size()) * 0.01
-print (x)
-print (y)
+# num_inputs = 2
+# num_examples = 1000
+#
+# true_w = [2, -3.4]
+# true_b = 4.2
+#
+# x = torch.randn(num_examples, num_inputs)
+# y = true_w[0] * x[:, 0] + true_w[1] * x[:, 1] + true_b
+#
+# y = y + torch.randn(y.size()) * 0.01
+# print (x)
+# print (y)
 #
 # dataset = TensorDataset(x, y)
 # trainloader = DataLoader(dataset, batch_size=256, shuffle=True)
@@ -34,12 +34,6 @@ print (y)
 # for data, label in trainloader:
 #     print(data, label)
 #     break
-
-def make_features(x):
-    """Builds features i.e. a matrix with columns [x, x^2, x^3, x^4]."""
-    x = x.unsqueeze(1)
-    # torch.cat 实现tensor拼接
-    return torch.cat([x ** i for i in range(1, POLY_DEGREE + 1)], 1)
 
 def get_batch(dataset):
     """Builds a batch i.e. (x, f(x)) pair."""
@@ -56,7 +50,7 @@ def get_batch(dataset):
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
-        self.fc = nn.Linear(2,1)
+        self.fc = nn.Linear(1,1)
         print(self.fc.weight)
 
     def forward(self, x):
@@ -66,7 +60,8 @@ class Net(nn.Module):
 def do_regression(dataset, epochs, **kwargs):
     batch_x, batch_y = get_batch(dataset=dataset)
     # print (batch_x)
-    # print (batch_y)
+    print (y)
+    print (batch_y)
     dataset = TensorDataset(batch_x, batch_y)
     trainloader = DataLoader(dataset, batch_size=256, shuffle=True)
     net = Net()
