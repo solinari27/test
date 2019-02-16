@@ -56,8 +56,9 @@ def iter_batch(data):
         fc.zero_grad()
 
         # Forward pass
-        output = F.smooth_l1_loss(fc(batch_x), batch_y)
+        output = F.mse_loss(fc(batch_x), batch_y)
         loss = output.item()
+        print "iteration loss: ", loss
 
         # Backward pass
         output.backward()

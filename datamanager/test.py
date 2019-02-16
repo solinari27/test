@@ -16,7 +16,7 @@ sys.path.append('/home/solinari/workspace/test')
 # paths = os.getcwd().split('/')
 # del(paths[len(paths)-2])
 # del(paths[len(paths)-1])
-# _path = os.path.join(paths)
+# _path = os.path.join(paths)f
 # print (_path)
 
 from pytorch.testregression import iter_batch
