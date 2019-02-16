@@ -19,7 +19,7 @@ sys.path.append('/home/solinari/workspace/test')
 # _path = os.path.join(paths)f
 # print (_path)
 
-from pytorch.testregression import iter_batch
+from pytorch.testregression2 import do_regression
 from collection import collection
 from collection import data_show
 
@@ -27,7 +27,8 @@ from collection import data_show
 c = collection.Collection()
 
 for result in c.getData(code="600000", start_date="2017-01-01", end_date="2017-12-31"):
-    w, b = iter_batch(result)
+    # w, b = iter_batch(result)
+    w, b = do_regression(result, epochs=100)
     print w, b
     show = data_show.Plt()
     show.load_data(data=result)

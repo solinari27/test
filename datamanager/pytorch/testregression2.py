@@ -29,9 +29,27 @@ y = y + torch.randn(y.size()) * 0.01
 dataset = TensorDataset(x, y)
 trainloader = DataLoader(dataset, batch_size=256, shuffle=True)
 
-for data, label in trainloader:
-    print(data, label)
-    break
+# for data, label in trainloader:
+#     print(data, label)
+#     break
+
+def make_features(x):
+    """Builds features i.e. a matrix with columns [x, x^2, x^3, x^4]."""
+    x = x.unsqueeze(1)
+    # torch.cat 实现tensor拼接
+    return torch.cat([x ** i for i in range(1, POLY_DEGREE + 1)], 1)
+
+def get_batch(dataset):
+    """Builds a batch i.e. (x, f(x)) pair."""
+    size = len(dataset)
+    x_rand = []
+    y_list = []
+    for i in range(0, size):
+        x_rand.append(i)
+        y_list.append(dataset[i]['TCLOSE'])
+    batch_x = torch.tensor(np.array([x_rand]).T).float()
+    batch_y = torch.tensor(np.array([y_list]).T).float()
+    return batch_x, batch_y
 
 class Net(nn.Module):
     def __init__(self):
@@ -43,35 +61,36 @@ class Net(nn.Module):
         x = self.fc(x)
         return x
 
-net = Net()
-
-criterion = nn.MSELoss()
-
-optimizer = optim.SGD(net.parameters(), lr=0.1)
-
-epochs = 100
-for epoch in range(epochs):
-    total_loss = 0
-    for i, data in enumerate(trainloader, 0):
-        inputs, labels = data
-        data = Variable(inputs)
-        label = Variable(labels).float()
-
-        optimizer.zero_grad()
-
-        out = net(data)
-
-        loss = criterion(out, label)
-
-
-        loss.backward()
-        optimizer.step()
-
-        # total_loss = total_loss + loss.data[0]
-        print type(loss)
-    print("Epoch %d, average loss: %f" % (epoch, total_loss/num_examples))
-
-
-params = list(net.parameters())
-print(params[0])
-print(params[1])
+def do_regression(dataset, epochs, **kwargs):
+    batch_x, batch_y = get_batch(dataset=dataset)
+    # net = Net()
+    # criterion = nn.MSELoss()
+    # optimizer = optim.SGD(net.parameters(), lr=0.1)
+    #
+    # for epoch in range(epochs):
+    #     total_loss = 0
+    #     for i, data in enumerate(trainloader, 0):
+    #         inputs, labels = data
+    #         data = Variable(inputs)
+    #         label = Variable(labels).float()
+    #
+    #         optimizer.zero_grad()
+    #
+    #         out = net(data)
+    #
+    #         loss = criterion(out, label)
+    #
+    #
+    #         loss.backward()
+    #         optimizer.step()
+    #
+    #         total_loss = total_loss + loss.item()
+    #     print("Epoch %d, average loss: %f" % (epoch, total_loss/num_examples))
+    #
+    #
+    # params = list(net.parameters())
+    # k = params[0]
+    # b = params[1]
+    # # print(params[0])
+    # # print(params[1])
+    # return k, b
