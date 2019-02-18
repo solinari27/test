@@ -90,10 +90,11 @@ def do_regression(dataset, epochs, **kwargs):
             optimizer.step()
 
             total_loss = total_loss + loss.item()
-        print("Epoch %d, average loss: %f" % (epoch, total_loss/num_examples))
+        print("Epoch %d, average loss: %f" % (epoch, total_loss/32))
 
 
     params = list(net.parameters())
+    print (params)
     # k = params[0]
     # b = params[1]
     # print(params[0])
