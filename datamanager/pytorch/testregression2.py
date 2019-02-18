@@ -65,8 +65,6 @@ class Net(nn.Module):
 
 def do_regression(dataset, epochs, **kwargs):
     batch_x, batch_y = get_batch(dataset=dataset)
-    print (batch_x, batch_x.size())
-    print (batch_y, batch_y.size())
     dataset = TensorDataset(batch_x, batch_y)
     trainloader = DataLoader(dataset, batch_size=32, shuffle=True)
     net = Net()
@@ -79,16 +77,15 @@ def do_regression(dataset, epochs, **kwargs):
             inputs, labels = data
             data = Variable(inputs)
             label = Variable(labels).float()
-            print ("data", data)
-            print ("label", label)
 
             optimizer.zero_grad()
             out = net(data)
-            print ("out", out)
+            # print ("out", out)
             loss = criterion(out, label)
             loss.backward()
             optimizer.step()
 
+            print (net.parameters())
             total_loss = total_loss + loss.item()
         print("Epoch %d, average loss: %f" % (epoch, total_loss/32))
 
