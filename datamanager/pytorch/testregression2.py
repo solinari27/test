@@ -66,10 +66,11 @@ class Net(nn.Module):
 def do_regression(dataset, epochs, **kwargs):
     batch_x, batch_y = get_batch(dataset=dataset)
     dataset = TensorDataset(batch_x, batch_y)
-    trainloader = DataLoader(dataset, batch_size=10, shuffle=True)
+    batch_size = list(batch_y.size())[0]
+    trainloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     net = Net()
-    # criterion = nn.MSELoss()
-    criterion = nn.SmoothL1Loss()
+    criterion = nn.MSELoss()
+    # criterion = nn.SmoothL1Loss()
     optimizer = optim.SGD(net.parameters(), lr=0.1)
 
     for epoch in range(epochs):
