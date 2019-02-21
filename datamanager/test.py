@@ -27,9 +27,9 @@ from collection import data_show
 c = collection.Collection()
 
 for result in c.getData(code="600000", start_date="2017-01-01", end_date="2017-12-31"):
-    # w, b = iter_batch(result)
-    w, b = do_regression(result, epochs=100)
-    print w, b
+    # w, b = iter_batch(result) # testregression
+    k, b = do_regression(result, epochs=100)
+    print k, b
     show = data_show.Plt()
     show.load_data(data=result)
-    show.plot(w=w, b=b)
+    show.plot(w=k, b=b)
