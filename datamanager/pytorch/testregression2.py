@@ -69,9 +69,9 @@ def do_regression(dataset, epochs, **kwargs):
     batch_size = list(batch_y.size())[0]
     trainloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     net = Net()
-    criterion = nn.MSELoss()
+    criterion = nn.MSELoss(reduce=True, size_average=True)
     # criterion = nn.SmoothL1Loss()
-    optimizer = optim.SGD(net.parameters(), lr=0.1)
+    optimizer = optim.SGD(net.parameters(), lr=0.00005)
 
     for epoch in range(epochs):
         total_loss = 0
@@ -85,10 +85,11 @@ def do_regression(dataset, epochs, **kwargs):
             loss = criterion(out, label)
             loss.backward()
             optimizer.step()
+            print (list(net.parameters())[0], list(net.parameters())[1])
 
             # print (list(net.parameters()))
             total_loss = total_loss + loss.item()
-        print("Epoch %d, average loss: %f" % (epoch, total_loss/32))
+        print("Epoch %d, total loss: %f" % (epoch, total_loss))
 
 
     params = list(net.parameters())
