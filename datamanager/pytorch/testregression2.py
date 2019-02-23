@@ -40,38 +40,43 @@ def get_batch(dataset):
     size = len(dataset)
     x_rand = []
     y_list = []
+    ymin = 1000
+    ymax = 0
     for i in range(0, size):
         x_rand.append(torch.tensor(i).float())
         y_list.append(dataset[i]['TCLOSE'])
-    # npx = np.array(x_rand)
-    # npy = np.array(y_list)
-    # npx.reshape(94, 1, 1)
-    # npy.reshape(94, 1)
-    # batch_x = torch.tensor(npx).float()
-    # batch_y = torch.tensor(npy).float()
+        if ymin > dataset[i]['TCLOSE']:
+            ymin = dataset[i]['TCLOSE']
+        if ymax < dataset[i]['TCLOSE']:
+            ymax = dataset[i]['TCLOSE']
+    x_stretch = len(x_rand)
+    y_stretch = ymax - ymin
+    x_scale = y_stretch/x_stretch
+    for i in range(0, size):
+        x_rand[i] = x_rand[i]*x_scale
     batch_x = torch.tensor(np.array([x_rand]).T)
     batch_y = torch.tensor(y_list).float()
-    return batch_x, batch_y
+    return batch_x, batch_y, x_scale
 
 class Net(nn.Module):
     def __init__(self):
         super(Net, self).__init__()
         self.fc = nn.Linear(1, 1)
-        # print(self.fc.weight)
 
     def forward(self, x):
         x = self.fc(x)
         return x
 
 def do_regression(dataset, epochs, **kwargs):
-    batch_x, batch_y = get_batch(dataset=dataset)
+    batch_x, batch_y, x_scale = get_batch(dataset=dataset)
+    print (batch_x, batch_y)
     dataset = TensorDataset(batch_x, batch_y)
     batch_size = list(batch_y.size())[0]
     trainloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     net = Net()
     criterion = nn.MSELoss(reduce=True, size_average=True)
     # criterion = nn.SmoothL1Loss()
-    optimizer = optim.SGD(net.parameters(), lr=0.00005)
+    optimizer = optim.SGD(net.parameters(), lr=0.0001)
 
     for epoch in range(epochs):
         total_loss = 0
@@ -87,7 +92,6 @@ def do_regression(dataset, epochs, **kwargs):
             optimizer.step()
             print (list(net.parameters())[0], list(net.parameters())[1])
 
-            # print (list(net.parameters()))
             total_loss = total_loss + loss.item()
         print("Epoch %d, total loss: %f" % (epoch, total_loss))
 
