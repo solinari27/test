@@ -75,7 +75,7 @@ def do_regression(dataset, epochs, **kwargs):
     net = Net()
     criterion = nn.MSELoss(reduce=True, size_average=True)
     # criterion = nn.SmoothL1Loss()
-    optimizer = optim.SGD(net.parameters(), lr=0.1)
+    optimizer = optim.SGD(net.parameters(), lr=0.05)
 
     for epoch in range(epochs):
         total_loss = 0
