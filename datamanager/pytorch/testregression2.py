@@ -69,14 +69,13 @@ class Net(nn.Module):
 
 def do_regression(dataset, epochs, **kwargs):
     batch_x, batch_y, x_scale = get_batch(dataset=dataset)
-    print (batch_x, batch_y)
     dataset = TensorDataset(batch_x, batch_y)
     batch_size = list(batch_y.size())[0]
     trainloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
     net = Net()
     criterion = nn.MSELoss(reduce=True, size_average=True)
     # criterion = nn.SmoothL1Loss()
-    optimizer = optim.SGD(net.parameters(), lr=0.0001)
+    optimizer = optim.SGD(net.parameters(), lr=0.1)
 
     for epoch in range(epochs):
         total_loss = 0
