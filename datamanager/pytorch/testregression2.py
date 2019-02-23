@@ -96,6 +96,6 @@ def do_regression(dataset, epochs, **kwargs):
 
 
     params = list(net.parameters())
-    k = (params[0].item())
+    k = (params[0].item())*x_scale
     b = (params[1].item())
     return k, b
