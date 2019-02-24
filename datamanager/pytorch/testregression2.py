@@ -77,12 +77,11 @@ def do_regression(dataset, epochs, **kwargs):
     net = Net()
     criterion = nn.MSELoss(reduce=True, size_average=True)
     # criterion = nn.SmoothL1Loss()
-    # lr = 0.05
-    # optimizer = optim.SGD(net.parameters(), lr=lr)
+    # optimizer = optim.SGD(net.parameters(), lr=0.05)
 
     for epoch in range(epochs):
         total_loss = 0
-        lr = 0.05 / math.log(epoch + 2)
+        lr = 0.03 / math.log(epoch + 2)
         optimizer = optim.SGD(net.parameters(), lr=lr)
         for i, data in enumerate(trainloader, 0):
             inputs, labels = data
@@ -94,7 +93,6 @@ def do_regression(dataset, epochs, **kwargs):
             loss = criterion(out, label)
             loss.backward()
             optimizer.step()
-            print (list(net.parameters())[0], list(net.parameters())[1])
 
             total_loss = total_loss + loss.item()
         print("Epoch %d, total loss: %f" % (epoch, total_loss))
