@@ -5,8 +5,8 @@
 @file: testregression.py
 @time: 2019/02/16
 """
-
 from __future__ import print_function
+import math
 import torch
 import torch.nn as nn
 import torch.optim as optim
@@ -51,12 +51,13 @@ def get_batch(dataset):
             ymax = dataset[i]['TCLOSE']
     x_stretch = len(x_rand)
     y_stretch = ymax - ymin
-    x_scale = y_stretch/x_stretch
+    x_scale = y_stretch / x_stretch
     for i in range(0, size):
-        x_rand[i] = x_rand[i]*x_scale
+        x_rand[i] = x_rand[i] * x_scale
     batch_x = torch.tensor(np.array([x_rand]).T)
     batch_y = torch.tensor(y_list).float()
     return batch_x, batch_y, x_scale
+
 
 class Net(nn.Module):
     def __init__(self):
@@ -67,6 +68,7 @@ class Net(nn.Module):
         x = self.fc(x)
         return x
 
+
 def do_regression(dataset, epochs, **kwargs):
     batch_x, batch_y, x_scale = get_batch(dataset=dataset)
     dataset = TensorDataset(batch_x, batch_y)
@@ -75,10 +77,13 @@ def do_regression(dataset, epochs, **kwargs):
     net = Net()
     criterion = nn.MSELoss(reduce=True, size_average=True)
     # criterion = nn.SmoothL1Loss()
-    optimizer = optim.SGD(net.parameters(), lr=0.05)
+    # lr = 0.05
+    # optimizer = optim.SGD(net.parameters(), lr=lr)
 
     for epoch in range(epochs):
         total_loss = 0
+        lr = 0.05 / math.log(epoch + 2)
+        optimizer = optim.SGD(net.parameters(), lr=lr)
         for i, data in enumerate(trainloader, 0):
             inputs, labels = data
             data = Variable(inputs)
@@ -94,8 +99,7 @@ def do_regression(dataset, epochs, **kwargs):
             total_loss = total_loss + loss.item()
         print("Epoch %d, total loss: %f" % (epoch, total_loss))
 
-
     params = list(net.parameters())
-    k = (params[0].item())*x_scale
+    k = (params[0].item()) * x_scale
     b = (params[1].item())
     return k, b
