@@ -65,10 +65,10 @@ def iter_batch(data):
 
         # Apply gradients
         for param in fc.parameters():
-            param.data.add_(-0.1 * param.grad.data)
+            param.data.add_(-0.0000001 * param.grad.data)
 
         # Stop criterion
-        if loss < 1e-1:
+        if loss < 1e+1:
             break
 
 
