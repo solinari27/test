@@ -63,7 +63,7 @@ def do_regression(dataset, epochs, **kwargs):
 
     for epoch in range(epochs):
         total_loss = 0
-        lr = 0.03 / math.log(epoch + 2)
+        lr = 0.05 / math.log(epoch + 2, 10)
         optimizer = optim.SGD(net.parameters(), lr=lr)
         for i, data in enumerate(trainloader, 0):
             inputs, labels = data
