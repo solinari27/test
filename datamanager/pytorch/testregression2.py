@@ -14,34 +14,16 @@ import numpy as np
 from torch.autograd import Variable
 from torch.utils.data import TensorDataset, DataLoader
 
-
-# num_inputs = 1
-# num_examples = 1000
-#
-# true_w = [2, -3.4]
-# true_b = 4.2
-#
-# x = torch.randn(num_examples, num_inputs)
-# y = true_w[0] * x[:, 0] + true_w[1] * x[:, 0] + true_b
-#
-# y = y + torch.randn(y.size()) * 0.01
-# print (x, x.size())
-# print (y, y.size())
-#
-# dataset = TensorDataset(x, y)
-# trainloader = DataLoader(dataset, batch_size=256, shuffle=True)
-
-# for data, label in trainloader:
-#     print(data, label)
-#     break
+MIN_PRICE = 0
+MAX_PRICE = 10000
 
 def get_batch(dataset):
     """Builds a batch i.e. (x, f(x)) pair."""
     size = len(dataset)
     x_rand = []
     y_list = []
-    ymin = 1000
-    ymax = 0
+    ymin = MAX_PRICE
+    ymax = MIN_PRICE
     for i in range(0, size):
         x_rand.append(torch.tensor(i).float())
         y_list.append(dataset[i]['TCLOSE'])
