@@ -17,6 +17,14 @@ def get_batch(dataset):
         y_list.append([dataset[i]['TCLOSE']])
     return x_rand, y_list
 
+def valid(dataset, model):
+    X, y = dataset[0], dataset[1]
+    diff = model.predict(X) - y
+    for _d in diff:
+        if _d > 0.1:
+            print _d
+
+
 def do_regression(dataset, **kwargs):
     X, y = get_batch(dataset)
     model = linear_model.LinearRegression()
@@ -24,5 +32,6 @@ def do_regression(dataset, **kwargs):
 
     w = model.coef_[0][0]
     b = model.intercept_[0]
+    valid([X, y], model)
 
     return w, b
