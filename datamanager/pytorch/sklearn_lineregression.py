@@ -9,11 +9,6 @@ from sklearn import linear_model        #表示，可以调用sklearn中的linea
 import numpy as np
 
 def get_batch(dataset):
-    # X = [[6], [8], [10], [14], [18]]
-    # y = [[7], [9], [13], [17.5], [18]]
-    # # X = [[6], [8], [10]]
-    # # y = [[11], [9], [7]]
-    # return X, y
     size = len(dataset)
     x_rand = []
     y_list = []
