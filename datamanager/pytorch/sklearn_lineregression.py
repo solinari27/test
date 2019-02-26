@@ -20,9 +20,12 @@ def get_batch(dataset):
 def valid(dataset, model):
     X, y = dataset[0], dataset[1]
     diff = model.predict(X) - y
+    _excps = []
     for _d in diff:
         if _d > 0.1:
-            print _d
+            _excps.append([_d])
+            # print _d
+    print _excps
 
 
 def do_regression(dataset, **kwargs):
