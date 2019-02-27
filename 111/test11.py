@@ -5,63 +5,63 @@
 @file: test.py
 @time: 2019/02/10
 """
-# import pandas as pd
-# from sklearn.ensemble import IsolationForest
-# ilf = IsolationForest(n_estimators=100,
-#                       n_jobs=-1,          # 使用全部cpu
-#                       verbose=2,
-#     )
-# data = pd.read_csv('data.csv', index_col="id")
-# data = data.fillna(0)
-# # 选取特征，不使用标签(类型)
-# X_cols = ["age", "salary", "sex"]
-# print data.shape
-#
-# # 训练
-# ilf.fit(data[X_cols])
-# shape = data.shape[0]
-# batch = 10**6
-#
-# all_pred = []
-# for i in range(shape/batch+1):
-#     start = i * batch
-#     end = (i+1) * batch
-#     test = data[X_cols][start:end]
-#     # 预测
-#     pred = ilf.predict(test)
-#     all_pred.extend(pred)
-#
-# data['pred'] = all_pred
-# data.to_csv('outliers.csv', columns=["pred",], header=False)
-
-import numpy as np
-# import matplotlib.pyplot as plt
+import pandas as pd
 from sklearn.ensemble import IsolationForest
+ilf = IsolationForest(n_estimators=100,
+                      n_jobs=-1,          # 使用全部cpu
+                      verbose=2,
+    )
+data = pd.read_csv('data.csv', index_col="id")
+data = data.fillna(0)
+# 选取特征，不使用标签(类型)
+X_cols = ["number_count", "p_count", "prefix_count"]
+print data.shape
 
-rng = np.random.RandomState(42)
+# 训练
+ilf.fit(data[X_cols])
+shape = data.shape[0]
+batch = 10**6
 
-# Generate train data
-X = 0.3 * rng.randn(100, 2)
-X_train = np.r_[X + 2, X - 2]
-# Generate some regular novel observations
-X = 0.3 * rng.randn(20, 2)
-X_test = np.r_[X + 2, X - 2]
-# Generate some abnormal novel observations
-X_outliers = rng.uniform(low=-4, high=4, size=(20, 2))
+all_pred = []
+for i in range(shape/batch+1):
+    start = i * batch
+    end = (i+1) * batch
+    test = data[X_cols][start:end]
+    # 预测
+    pred = ilf.predict(test)
+    all_pred.extend(pred)
 
-# fit the model
-clf = IsolationForest(behaviour='new', max_samples=100,
-                      random_state=rng, contamination='auto')
-clf.fit(X_train)
-y_pred_train = clf.predict(X_train)
-y_pred_test = clf.predict(X_test)
-y_pred_outliers = clf.predict(X_outliers)
+data['pred'] = all_pred
+data.to_csv('outliers.csv', columns=["pred",], header=False)
 
-# plot the line, the samples, and the nearest vectors to the plane
-xx, yy = np.meshgrid(np.linspace(-5, 5, 50), np.linspace(-5, 5, 50))
-Z = clf.decision_function(np.c_[xx.ravel(), yy.ravel()])
-Z = Z.reshape(xx.shape)
-print Z
+# import numpy as np
+# # import matplotlib.pyplot as plt
+# from sklearn.ensemble import IsolationForest
+#
+# rng = np.random.RandomState(42)
+#
+# # Generate train data
+# X = 0.3 * rng.randn(100, 2)
+# X_train = np.r_[X + 2, X - 2]
+# # Generate some regular novel observations
+# X = 0.3 * rng.randn(20, 2)
+# X_test = np.r_[X + 2, X - 2]
+# # Generate some abnormal novel observations
+# X_outliers = rng.uniform(low=-4, high=4, size=(20, 2))
+#
+# # fit the model
+# clf = IsolationForest(behaviour='new', max_samples=100,
+#                       random_state=rng, contamination='auto')
+# clf.fit(X_train)
+# y_pred_train = clf.predict(X_train)
+# y_pred_test = clf.predict(X_test)
+# y_pred_outliers = clf.predict(X_outliers)
+#
+# # plot the line, the samples, and the nearest vectors to the plane
+# xx, yy = np.meshgrid(np.linspace(-5, 5, 50), np.linspace(-5, 5, 50))
+# Z = clf.decision_function(np.c_[xx.ravel(), yy.ravel()])
+# Z = Z.reshape(xx.shape)
+# print Z
 
 # plt.title("IsolationForest")
 # plt.contourf(xx, yy, Z, cmap=plt.cm.Blues_r)
