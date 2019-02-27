@@ -55,7 +55,7 @@ X_outliers = rng.uniform(low=-4, high=4, size=(20, 2))
 # clf = IsolationForest(behaviour='new', max_samples=100,
 #                       random_state=rng, contamination='auto')
 clf = IsolationForest(behaviour='new', max_samples=100,
-                      n_jobs=-1, verbose=2, contamination='auto')
+                      n_jobs=-1, verbose=2, contamination=0.001)
 print "X_train: ", type(X_train), X_train
 clf.fit(X_train)
 y_pred_train = clf.predict(X_train)
@@ -68,7 +68,8 @@ for _i in range(0, len(y_pred_test)):
     if y_pred_test[_i] == -1:
         print X_test[_i]
     else:
-        print "ok ", X_test[_i]
+        # print "ok ", X_test[_i]
+        pass
 
 # plot the line, the samples, and the nearest vectors to the plane
 xx, yy = np.meshgrid(np.linspace(-5, 5, 50), np.linspace(-5, 5, 50))
