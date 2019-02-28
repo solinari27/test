@@ -5,6 +5,7 @@
 @file: sklearn_lineregression.py
 @time: 2019/02/24
 """
+import math
 from sklearn import linear_model  # 表示，可以调用sklearn中的linear_model模块进行线性回归。
 import numpy as np
 from sklearn.ensemble import IsolationForest
@@ -22,7 +23,7 @@ def get_batch(dataset):
 
 def valid(dataset, model):
     X, y = dataset[0], dataset[1]
-    clf = IsolationForest(behaviour='new', max_samples=100,
+    clf = IsolationForest(behaviour='new', max_samples=10,
                           n_jobs=-1, verbose=2, contamination=0.01)
 
     diff = model.predict(X) - y
@@ -42,7 +43,9 @@ def valid(dataset, model):
     index_list = []
     for _i in range(0, len(pred)):
         if pred[_i] == -1:
-            index_list.append([_i, _excps[_i]])
+            _diff = math.sqrt(_excps[_i])
+            if y[_i][0]/_diff < 20:
+                index_list.append([_i, _excps[_i]])
 
     return index_list
 
