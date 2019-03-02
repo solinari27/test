@@ -18,6 +18,7 @@ ACCESS_KEY = 'AKIAJUL5J2M422GJ26QQ'
 SECRET_KEY = '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'
 BUCKET = 'stockcrawler'
 REGION = 'ap-northeast-2'
+RETRY_TIME = 50
 
 
 def make_tar():
@@ -45,7 +46,7 @@ def s3_upload(upload_file="test"):
 make_tar()
 today = datetime.datetime.today().strftime('%Y_%m_%d')
 filename = "mongodump_" + today
-for i in range(0, 10):
+for i in range(0, RETRY_TIME):
     try:
         s3_upload(upload_file=filename)
         break
