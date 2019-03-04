@@ -45,7 +45,7 @@ def valid(dataset, model):
         if pred[_i] == -1:
             _diff = math.sqrt(_excps[_i])
             if y[_i][0]/_diff < 20:
-                index_list.append([_i, _excps[_i]])
+                index_list.append([_i, X[_i][0], y[_i][0]])
 
     return index_list
 
@@ -58,9 +58,10 @@ def do_regression(dataset, **kwargs):
     w = model.coef_[0][0]
     b = model.intercept_[0]
     index_list = valid([X, y], model)
-    while index_list != []:
-        pass
-        print index_list
-        #do split
+    print index_list
+    # while index_list != []:
+        # pass
+        # print index_list
+        # do split
 
     return w, b
