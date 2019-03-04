@@ -49,6 +49,18 @@ def valid(dataset, model):
 
     return index_list
 
+def split_1(index_list):
+    indexs = []
+    slices = 0
+    indexs.append([index_list[0]])
+    for _i in range(1, len(index_list)):
+        if index_list[_i][0] - indexs[slices][len(indexs[slices])][0] < 3:
+            indexs[slices].append(index_list[_i])
+        else:
+            slices += 1
+            indexs.append([index_list[_i]])
+
+    return indexs
 
 def do_regression(dataset, **kwargs):
     X, y = get_batch(dataset)
@@ -59,6 +71,8 @@ def do_regression(dataset, **kwargs):
     b = model.intercept_[0]
     index_list = valid([X, y], model)
     print index_list
+    split1 = split_1(index_list)
+    print split1
     # while index_list != []:
         # pass
         # print index_list
