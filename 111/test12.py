@@ -29,3 +29,6 @@ X = np.concatenate((X1, X2))
 y_pred = DBSCAN(eps = 0.1, min_samples = 10).fit_predict(X)
 plt.scatter(X[:, 0], X[:, 1], c=y_pred)
 plt.show()
+
+for y in y_pred:
+    print y
