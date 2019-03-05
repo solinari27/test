@@ -10,6 +10,7 @@ from sklearn import linear_model  # 表示，可以调用sklearn中的linear_mod
 import numpy as np
 from sklearn.ensemble import IsolationForest
 from sklearn.cluster import DBSCAN
+from sklearn import preprocessing
 
 
 def get_batch(dataset):
@@ -70,10 +71,11 @@ def check_results(datasets, model, thres):
     for _i in range(0, len(diff)):
         _diff = math.fabs(diff[_i][0])
         if y[_i][0] / _diff < thres:
-            fars.append([X[_i][0], y[_i][0]])
+            fars.append([X[_i][0]])
 
     if len(fars) > 0:
-        y_pred = DBSCAN().fit_predict(np.array(fars))
+        fars_scale = preprocessing.scale(np.array(fars))
+        y_pred = DBSCAN().fit_predict(fars_scale)
         print y_pred
     return fars
 
