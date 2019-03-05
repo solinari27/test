@@ -28,6 +28,6 @@ c = collection.Collection()
 
 for result in c.getData(code="600000", start_date="2017-01-01", end_date="2018-12-31"):
     w, b = do_regression(result, epochs=10000, thres=20)
-    show = data_show.Plt()
-    show.load_data(data=result)
-    show.plot(w=w, b=b)
+    # show = data_show.Plt()
+    # show.load_data(data=result)
+    # show.plot(w=w, b=b)

@@ -9,6 +9,7 @@ import math
 from sklearn import linear_model  # 表示，可以调用sklearn中的linear_model模块进行线性回归。
 import numpy as np
 from sklearn.ensemble import IsolationForest
+from sklearn.cluster import DBSCAN
 
 
 def get_batch(dataset):
@@ -68,8 +69,12 @@ def check_results(datasets, model, thres):
     fars = []
     for _i in range(0, len(diff)):
         _diff = math.fabs(diff[_i][0])
-        if y[_i][0]/_diff < thres:
+        if y[_i][0] / _diff < thres:
             fars.append([X[_i][0], y[_i][0]])
+
+    if len(fars) > 0:
+        y_pred = DBSCAN().fit_predict(np.array(fars))
+        print y_pred
     return fars
 
 
