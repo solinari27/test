@@ -67,23 +67,39 @@ def get_batch(dataset):
 def check_results(datasets, model, thres):
     X, y = datasets[0], datasets[1]
     diff = model.predict(X) - y
+    far_x = []
     fars = []
     for _i in range(0, len(diff)):
         _diff = math.fabs(diff[_i][0])
         if y[_i][0] / _diff < thres:
-            fars.append([X[_i][0]])
+            far_x.append([X[_i][0]])
+            fars.append(_diff)
 
     ret = [[]]
-    if len(fars) > 0:
-        fars_scale = np.array(fars)
+    res = [[]]
+    if len(far_x) > 0:
+        fars_scale = np.array(far_x)
         y_pred = DBSCAN(eps=3, min_samples=4).fit_predict(fars_scale)
 
         for _i, pred in enumerate(y_pred):
             if pred>=0:
                 if pred > len(ret)-1:
-                    ret.append([fars[_i]])
+                    ret.append([far_x[_i][0]])
+                    res.append([fars[_i]])
                 else:
-                    ret[pred].append(fars[_i])
+                    ret[pred].append(far_x[_i][0])
+                    res[pred].append(fars[_i])
+
+        print ret
+        print res
+        for _i, group in enumerate(ret):
+            _y = 0
+            k = -1
+            for _j, y in enumerate(group):
+                if y>_y:
+                    k = _j
+                    _y = y
+            ret[_i] = k
     return ret
 
 
