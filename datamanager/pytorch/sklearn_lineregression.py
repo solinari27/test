@@ -75,8 +75,8 @@ def check_results(datasets, model, thres):
 
     if len(fars) > 0:
         # fars_scale = preprocessing.scale(np.array(fars))
-        fars_scale = preprocessing.scale(np.array(fars))
-        y_pred = DBSCAN().fit_predict(fars_scale)
+        fars_scale = np.array(fars)
+        y_pred = DBSCAN(eps=3, min_samples=3).fit_predict(fars_scale)
         print y_pred
     return fars
 
