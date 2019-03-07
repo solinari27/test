@@ -76,8 +76,13 @@ def check_results(datasets, model, thres):
     if len(fars) > 0:
         # fars_scale = preprocessing.scale(np.array(fars))
         fars_scale = np.array(fars)
-        y_pred = DBSCAN(eps=3, min_samples=3).fit_predict(fars_scale)
-        print y_pred
+        y_pred = DBSCAN(eps=3, min_samples=4).fit_predict(fars_scale)
+        # print y_pred
+        # print fars
+        ret = []
+        for _i, pred in enumerate(y_pred):
+            if pred>=0:
+                pass
     return fars
 
 
@@ -89,6 +94,5 @@ def do_regression(dataset, **kwargs):
     w = model.coef_[0][0]
     b = model.intercept_[0]
     far_points = check_results([X, y], model, kwargs['thres'])
-    print far_points
 
     return w, b
