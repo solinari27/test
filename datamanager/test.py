@@ -1,14 +1,13 @@
 #!usr/bin/env python
 # -*- coding:utf-8 _*-
-from collection import data_show
-from collection import collection
-from pytorch.sklearn_lineregression import do_regression
+
 """
 @author: solinari
 @file: test.py
 @time: 2019/02/10
 """
 import sys
+import time
 
 sys.path.append('/home/ubuntu/test')
 sys.path.append('/home/solinari/workspace/test')
@@ -21,18 +20,21 @@ sys.path.append('/home/solinari/workspace/test')
 # del(paths[len(paths)-1])
 # _path = os.path.join(paths)f
 # print (_path)
+from collection import data_show
+from collection import collection
+from pytorch.sklearn_lineregression import do_regression
 
 
 c = collection.Collection()
 
-for result in c.getData(code="600000", start_date="2015-01-01", end_date="2018-12-31"):
+for result in c.getData(code="600000", start_date="2017-01-01", end_date="2018-12-31"):
     ret = do_regression(result, epochs=10000, thres=10,
                         DBSCAN_eps=3, DBSCAN_minsamples=4)
-    # print ret
-    for item in result:
+    for item in ret:
         w = item[0]
         b = item[1]
         dataset = result[item[2]: item[3]]
         show = data_show.Plt()
         show.load_data(data=dataset)
         show.plot(w=w, b=b)
+        time.sleep(1)
