@@ -74,9 +74,10 @@ def check_results(datasets, model, thres, DBSCAN_eps, DBSCAN_minsamples):
     fars = []
     for _i in range(0, len(diff)):
         _diff = math.fabs(diff[_i][0])
-        if (y[_i][0] / _diff) < thres:
-            far_x.append([X[_i][0]])
-            fars.append(_diff)
+        if (_diff > 0):
+            if (y[_i][0] / _diff) < thres:
+                far_x.append([X[_i][0]])
+                fars.append(_diff)
 
     ret = [[]]
     ret = []
@@ -127,8 +128,14 @@ def do_regression(dataset, **kwargs):
             ret.append([w, b, 0, len(dataset)])
         else:
             x0 = 0
+            far_points.append(len(dataset) - 1)
             for x1 in far_points:
-                print x0, x1
+                res = do_regression(
+                    dataset[x0:x1], epochs=10000, thres=10, DBSCAN_eps=3, DBSCAN_minsamples=4)
+                for item in res:
+                    item[2] += x0
+                    item[3] += x0
+                    ret.append(item)
                 x0 = x1
 
     return ret
