@@ -14,9 +14,9 @@ import datetime
 import matplotlib.pyplot as plt
 import stockstats
 
-begin_time = '1990-01-01'
-end_time = '2017-11-01'
-code = "000001"
+begin_time = '1999-01-01'
+end_time = '2000-01-01'
+code = "600007"
 stock = ts.get_hist_data(code, start=begin_time, end=end_time)
 print "data", stock, "type:", type(stock)
 stock["date"] = stock.index.values  # 增加日期列。
@@ -32,6 +32,8 @@ print("init finish .")
 # The Volume Delta (Vol ∆)
 # stockStat[['volume', 'volume_delta']].plot(figsize=(20, 10), grid=True)
 print stockStat[['volume', 'volume_delta']]
+print stockStat[
+    ['close', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3']]
 # plt.show()
 # 交易量的delta转换。交易量是正，volume_delta把跌变成负值。
 # stockStat[['close', 'close_delta']].plot(
