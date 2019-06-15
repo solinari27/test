@@ -5,7 +5,7 @@
 @file: run_test.py
 @time: 2018/10/09
 """
-
+import sys
 import math
 import pandas as pd
 import numpy as np
@@ -14,11 +14,47 @@ import datetime
 import matplotlib.pyplot as plt
 import stockstats
 
+sys.path.append('/home/ubuntu/stockCrawler')
+sys.path.append('/home/solinari/workspace/stockCrawler')
+
+import collection.collection as collection
+
+ 
+data_dic = {'Science':{'A':2,'B':5},'Art':{'A':6,'B':7},'Fashion':{'A':5, 'B':8}}
+data_df = pd.DataFrame(data_dic).T # 如果需要转置，则改为pd.DataFrame(data_dic).T
+data_df = data_df.fillna(0)
+print data_df
+
+
+
+c = collection.Collection()
+alldata = c.getAllData(code="600007", start_date='1990-01-01', end_date='2019-01-01')
+# print alldata
+datadict = {}
+for item in alldata:
+    print item
+    datadict[item['DATE']] = {
+        # 'open':,
+        # 'high':,
+        # 'close':,
+        # 'low':,
+        # 'volume':,
+        # 'price_change':,
+        # 'p_change':,
+        # 'ma5'：
+        # 'ma10':
+        # 'ma20':
+        # 'v_ma5':
+        # 'v_ma10':
+        # 'vma_20':
+    }
+
+
 begin_time = '1999-01-01'
-end_time = '2000-01-01'
+end_time = '2019-01-01'
 code = "600007"
 stock = ts.get_hist_data(code, start=begin_time, end=end_time)
-print "data", stock, "type:", type(stock)
+print stock, "type:", type(stock)
 stock["date"] = stock.index.values  # 增加日期列。
 stock = stock.sort_index(0)  # 将数据按照日期排序下。
 # print(stock) [186 rows x 14 columns]
@@ -37,7 +73,7 @@ print stockStat[
 # plt.show()
 # 交易量的delta转换。交易量是正，volume_delta把跌变成负值。
 # stockStat[['close', 'close_delta']].plot(
-    # subplots=True, figsize=(20, 10), grid=True)
+# subplots=True, figsize=(20, 10), grid=True)
 # plt.show()
 
 
