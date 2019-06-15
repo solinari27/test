@@ -33,6 +33,8 @@ alldata = c.getAllData(code="600007", start_date='1990-01-01', end_date='2019-01
 datadict = {}
 for item in alldata:
     print item
+    # ma 5日均线
+    # v_ma 5日量均线
     datadict[item['DATE']] = {
         # 'open':,
         # 'high':,
