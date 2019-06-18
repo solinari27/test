@@ -32,17 +32,19 @@ alldata = c.getAllData(code="600007", start_date='1990-01-01', end_date='2019-01
 # print alldata
 datadict = {}
 for item in alldata:
-    print item
+    # print item
     # ma 5日均线
     # v_ma 5日量均线
-    datadict[item['DATE']] = {
-        # 'open':,
-        # 'high':,
-        # 'close':,
-        # 'low':,
-        # 'volume':,
-        # 'price_change':,
-        # 'p_change':,
+
+    datekey = item['DATE']
+    datadict[datekey] = {
+        'open': item['TOPEN'],
+        'high': item['HIGH'],
+        'close': item['TCLOSE'],
+        'low': item['LOW'],
+        'volume': item['VOTURNOVER']/100,
+        'price_change': item['CHG'],
+        'p_change': item['PCHG']
         # 'ma5'：
         # 'ma10':
         # 'ma20':
@@ -51,12 +53,16 @@ for item in alldata:
         # 'vma_20':
     }
 
+data_df = pd.DataFrame(datadict).T # 如果需要转置，则改为pd.DataFrame(data_dic).T
+print data_df
 
-begin_time = '1999-01-01'
+
+begin_time = '1990-01-01'
 end_time = '2019-01-01'
 code = "600007"
 stock = ts.get_hist_data(code, start=begin_time, end=end_time)
-print stock, "type:", type(stock)
+stock = data_df
+# print stock, "type:", type(stock)
 stock["date"] = stock.index.values  # 增加日期列。
 stock = stock.sort_index(0)  # 将数据按照日期排序下。
 # print(stock) [186 rows x 14 columns]
