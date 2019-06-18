@@ -54,6 +54,7 @@ for item in alldata:
     }
 
 data_df = pd.DataFrame(datadict).T # 如果需要转置，则改为pd.DataFrame(data_dic).T
+data_df.fillna(0)
 print data_df
 
 
