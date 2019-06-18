@@ -71,7 +71,7 @@ stockStat = stockstats.StockDataFrame.retype(stock)
 # The Volume Delta (Vol ∆)
 # stockStat[['volume', 'volume_delta']].plot(figsize=(20, 10), grid=True)
 # print stockStat[['volume', 'volume_delta']]
-print stockStat[['close', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3']]
+print stockStat[['close', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3', 'wr_55']]
 # plt.show()
 # 交易量的delta转换。交易量是正，volume_delta把跌变成负值。
 # stockStat[['close', 'close_delta']].plot(
