@@ -19,12 +19,6 @@ sys.path.append('/home/solinari/workspace/stockCrawler')
 
 import collection.collection as collection
 
- 
-data_dic = {'Science':{'A':2,'B':5},'Art':{'A':6,'B':7},'Fashion':{'A':5, 'B':8}}
-data_df = pd.DataFrame(data_dic).T # 如果需要转置，则改为pd.DataFrame(data_dic).T
-data_df = data_df.fillna(0)
-print data_df
-
 
 
 c = collection.Collection()
@@ -55,7 +49,7 @@ for item in alldata:
 
 data_df = pd.DataFrame(datadict).T # 如果需要转置，则改为pd.DataFrame(data_dic).T
 data_df.fillna(0)
-print data_df
+# print data_df
 
 
 begin_time = '1990-01-01'
@@ -70,15 +64,14 @@ stock = stock.sort_index(0)  # 将数据按照日期排序下。
 # 初始化统计类
 # stockStat = stockstats.StockDataFrame.retype(pd.read_csv('002032.csv'))
 stockStat = stockstats.StockDataFrame.retype(stock)
-print("init finish .")
+# print("init finish .")
 
 
 # volume delta against previous day
 # The Volume Delta (Vol ∆)
 # stockStat[['volume', 'volume_delta']].plot(figsize=(20, 10), grid=True)
-print stockStat[['volume', 'volume_delta']]
-print stockStat[
-    ['close', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3']]
+# print stockStat[['volume', 'volume_delta']]
+print stockStat[['close', 'cr', 'cr-ma1', 'cr-ma2', 'cr-ma3', 'wr_55']]
 # plt.show()
 # 交易量的delta转换。交易量是正，volume_delta把跌变成负值。
 # stockStat[['close', 'close_delta']].plot(
