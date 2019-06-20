@@ -10,9 +10,10 @@ import requests
 import json
 import logging
 import time
+import random
+import mongoConn
 
 import urlAgent
-import mongoConn
 
 class liangyeeCrawler():
 
@@ -35,7 +36,7 @@ class liangyeeCrawler():
 
         #init other：
         self._conf = self._liangyeeConf['crawler']
-        self._timeLimit = self._conf['timelimit']
+        self._debug = self._conf['debug']
         self._repeatTime = self._conf['requestrepeat']
         self._agent = urlAgent.urlAgent()
         # userkey = '6F49F56DCE594273BF0B927C8ABE0A12'
@@ -45,22 +46,23 @@ class liangyeeCrawler():
         # self._logger.debug("liangyee crwler set time limit: " + 200 + " .")
 
         self._conn = mongoConn.mongoConn()
-        self._logger.debug("liangyee crwler init mongo connection.")
+        self._logger.debug("liangyee crawler init mongo connection.")
 
-        self._setID(self._getNextID())
+        key, timelimit = self._getNextID()
+        self._setID(key, timelimit)
 
     def __del__(self):
-        self._logger.warn("liangyee crwler stopped.")
+        self._logger.warn("liangyee crawler stopped.")
         self._logger.removeHandler(self._logfile_handler)
 
-    def _setID(self, userKey):
+    def _setID(self, userKey, timelimit):
         self._agent.setUserKey(userKey)
-        self._logger.debug("liangyee crwler set userkey: " + userKey + " .")
-        self._agent.setTimesLimit(self._timeLimit)
-        self._logger.debug("liangyee crwler set time limit: " + str(self._timeLimit) + " .")
+        self._logger.debug("liangyee crawler set userkey: " + userKey + " .")
+        self._agent.setTimesLimit(timelimit)
+        self._logger.debug("liangyee crawler set time limit: " + str(timelimit) + " .")
 
     def _getNextID(self):
-        return self._conn.getUserID(self._agent.getUserKey(), self._timeLimit)
+        return self._conn.getUserID(self._agent.getUserKey(), self._agent.getTimes(), self._debug)
         # return '6F49F56DCE594273BF0B927C8ABE0A12'
 
     def _requestJson(self, url):
@@ -70,55 +72,87 @@ class liangyeeCrawler():
                 content = json.loads(response.content)
                 return content
             except requests.exceptions.ConnectionError:
-                self._logger.error("liangyee crwler request url " + url + " connection error.")
+                self._logger.error("liangyee crawler request url " + url + " connection error.")
             except requests.exceptions.ChunkedEncodingError:
-                self._logger.error("liangyee crwler request url " + url + " chunked encoding error.")
+                self._logger.error("liangyee crawler request url " + url + " chunked encoding error.")
             except:
-                self._logger.error("liangyee crwler request url " + url + " other error.")
+                self._logger.error("liangyee crawler request url " + url + " other error.")
         return {}
 
     def _getstockslist(self):
         return self._conn.getStocks()
+
+    def _updateDataTime(self, code, date):
+        self._conn.updateTime(code, date)
 
     def getDailyKData(self, stock, startDay, endDay):
         url = self._agent.getDailyKUrl(stock, startDay, endDay)
         if url != "":
             return self._requestJson(url=url)['result']
         else:
-            self._setID(self._getNextID())
-            return self.getDailyKData(stock, startDay, endDay)
+            userKey, timelimit = self._getNextID()
+            if (userKey != None):
+                self._setID(userKey, timelimit)
+                return self.getDailyKData(stock, startDay, endDay)
+            else:
+                return None
 
     def get5MinKData(self, stock):
         url = self._agent.get5MinKUrl(stock)
         if url != "":
             return self._requestJson(url=url)['result']
         else:
-            self._setID(self._getNextID())
-            return self.get5MinKData(stock)
+            userKey, timelimit = self._getNextID()
+            if (userKey != None):
+                self._setID(userKey, timelimit)
+                return self.get5MinKData(stock)
+            else:
+                return None
 
     def getMarketData(self, stocks):
         url = self._agent.getMarketDataUrl(stocks)
         if url != "":
             return self._requestJson(url=url)['result']
         else:
-            self._setID(self._getNextID())
-            return self.getMarketData(stocks)
+            userKey, timelimit = self._getNextID()
+            if (userKey != None):
+                self._setID(userKey, timelimit)
+                return self.getMarketData(stocks)
+            else:
+                return None
 
     def crawlliangyee(self):
+        def date_cmp(date1, date2):
+            if ((date1.tm_year == date2.tm_year) and (date1.tm_mon == date2.tm_mon) and (date1.tm_mday == date2.tm_mday)):
+                return True
+            else:
+                return False
+
         stockcodelist = self._getstockslist()
         for code in stockcodelist:
             # 0 for stockcode 1 for updatetime
-            print code
             if code[1] == None:
                 lastDate = time.strptime("2000:01:01", "%Y:%m:%d")
             else:
-                lastDate = code[1]
+                time_local = time.localtime(code[1])
+                lastDate = time_local
             now = time.gmtime()
             nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
-            # self.getDailyKData(code[0], lastDate, nowDate)
-            # self.get5MinKData(code[0])
-            # self.getMarketData([code[0]])
-            #TODO update database
+            if not date_cmp(nowDate, lastDate):
+                try:
+                    kData = self.getDailyKData(code[0], lastDate, nowDate)
+                    time.sleep(random.randint(1, 5))
+                    fiveMinData = self.get5MinKData(code[0])
+                    time.sleep(random.randint(1, 5))
+                    marketData = self.getMarketData([code[0]])
+                    print kData
+                    print fiveMinData
+                    print marketData
+                    #TODO update database
+                    self._updateDataTime(code[0], nowDate)
+                except Exception:
+                    continue
+                time.sleep(20)
 
         #debuginfo
         # print self.getDailyKData(code[0], lastDate, nowDate)

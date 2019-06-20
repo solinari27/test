@@ -14,7 +14,8 @@ class urlAgent():
     """
 
     def __init__(self, *args, **kwargs):
-        self._userkey = ''
+        self._userkey = None
+        self._timesLimit = 0
         self._userKeyTimes = {}
 
     def setUserKey(self, key):
@@ -23,6 +24,9 @@ class urlAgent():
 
     def getUserKey(self):
         return self._userkey
+
+    def getTimes(self):
+        return self._timesLimit
 
     def setTimesLimit(self, timeslimit):
         self._timesLimit = timeslimit
