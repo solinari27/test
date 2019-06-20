@@ -2,7 +2,10 @@
 __pycache__/
 *.py[cod]
 *$py.class
+*.xml
 *.pyc
+*.conf
+*.ini
 
 # C extensions
 *.so
@@ -21,13 +24,11 @@ lib64/
 parts/
 sdist/
 var/
+venv/
+Conf/
 *.egg-info/
 .installed.cfg
 *.egg
-.idea/
-
-#LOG
-Log/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -94,7 +95,3 @@ ENV/
 .ropeproject
 .idea
 .DS_Store
-
-*.xml
-*.pyc
-.gitignore

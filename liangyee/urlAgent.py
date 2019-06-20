@@ -20,7 +20,8 @@ class urlAgent():
 
     def setUserKey(self, key):
         self._userkey = key
-        self._userKeyTimes[key] = 0  # url 使用次数 liangyee数据限制200次访问
+        if key != None:
+            self._userKeyTimes[key] = 0  # url 使用次数 liangyee数据限制200次访问
 
     def getUserKey(self):
         return self._userkey

@@ -1,0 +1,48 @@
+Host: hd04.upload.cloud.189.cn
+User-Agent: Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0
+Accept: */*
+Accept-Language: en-US,en;q=0.5
+Accept-Encoding: gzip, deflate, br
+Referer: https://cloud.189.cn/main.action
+Content-Length: 1175
+Content-Type: multipart/form-data; boundary=---------------------------1585359196875797843831364763
+Origin: https://cloud.189.cn
+Connection: keep-alive
+Pragma: no-cache
+Cache-Control: no-cache
+
+
+
+-----------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="sessionKey"
+
+156f6992-a916-43e9-8c51-ea623e11fa2a
+-----------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="parentId"
+
+9139432089925930
+-----------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="albumId"
+
+undefined
+-----------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="opertype"
+
+5
+-----------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="fname"
+
+Readme.txt
+-----------------------------1585359196875797843831364763
+Content-Disposition: form-data; name="Filedata"; filename="Readme.txt"
+Content-Type: text/plain
+
+super_pi     : Shell script for running super_pi program under the
+               terminal mode of Mac OS/X.
+pi           : Execution module called by the super_pi.
+Readme.txt   : Explanation text file for the super_pi.
+
+ Attention : All of the above mentioned files are not permitted for the
+             re-distribution.
+-----------------------------1585359196875797843831364763--
+

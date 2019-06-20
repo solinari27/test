@@ -12,6 +12,8 @@ import json
 import time
 import logging
 
+from Tools.swtich import switch
+
 class mongoConn():
 
     def __init__(self):
@@ -21,7 +23,7 @@ class mongoConn():
 
         #init logging:
         self._logConf = self._mongoConf['logging']
-        self._name = self._logConf['name']
+        self._name = self._logConf['name'] + " mongodb"
         self._logger = logging.getLogger(self._name)
         formatter = logging.Formatter('%(asctime)s %(levelname)-8s: %(message)s')
         date_str = time.strftime('%Y_%m_%d', time.gmtime ())
@@ -30,6 +32,30 @@ class mongoConn():
         self._logfile_handler.setFormatter(formatter)
         self._logger.addHandler(self._logfile_handler)
 
+        # set logging level
+        for case in switch(self._logConf['level']):
+            if case('NOTSET'):
+                self._logger.setLevel(logging.NOTSET)
+                break
+            if case('DEBUG'):
+                self._logger.setLevel(logging.DEBUG)
+                break
+            if case('INFO'):
+                self._logger.setLevel(logging.INFO)
+                break
+            if case('WARN'):
+                self._logger.setLevel(logging.WARN)
+                break
+            if case('ERROR'):
+                self._logger.setLevel(logging.ERROR)
+                break
+            if case('FATAL'):
+                self._logger.setLevel(logging.FATAL)
+                break
+            if case():  # default, could also just omit condition or 'if True'
+                self._logger.setLevel(logging.WARN)
+                # No need to break here, it'll stop anyway
+
         #init mongo connection
         self._dbConf = self._mongoConf['mongo']
         self._host = self._dbConf['host']
@@ -37,7 +63,7 @@ class mongoConn():
         self._username = self._dbConf['username']
         self._password = self._dbConf['password']
 
-        self._logger.warn("stockcode crwler started.")
+        self._logger.warn("stockcode crawler started.")
 
         try:
             self._conn = MongoClient(self._host, self._port)
@@ -47,15 +73,16 @@ class mongoConn():
 
             # self.connected = self.db.authenticate (self._username, self._password)
             self._stockdb = self._conn.stockinfo
+            self._datadb = self._conn.stockdata
 
         except Exception:
             self._logger.error("mongodb connection failed.")
             # sys.exit (1)
 
     def __del__(self):
-        self._conn.close()
-        self._logger.warn("stockcode crwler stopped.")
+        self._logger.warn("stockcode crawler stopped.")
         self._logger.removeHandler(self._logfile_handler)
+        self._conn.close()
 
     # 检查是否连接成功
     def _check_connected (self, conn):
@@ -78,9 +105,19 @@ class mongoConn():
         self._stockdb.stocklist.update({"code": code}, {"$set": data})
         return
 
+    def insertDailyKData(self, data):
+        self._datadb.dailyKData.insert(data)
+
+    def insert5MinKData(self, data):
+        self._datadb.fiveMinKData.insert(data)
+
+    def insertMarketData(self, data):
+        self._datadb.marketData.insert(data)
+
     def getUserID(self, id, times, debug):
         #TODO update time
-        #id mailbox passwd updatetime times
+        key = None
+        timelimit = 0
 
         try:
             if (id != None):
@@ -91,11 +128,9 @@ class mongoConn():
             key = nextid['key']
             timelimit = nextid['timelimit']
         except Exception:
-            key = None
-            timelimit = 0
+            return None, 0
 
         return key, timelimit
-        # return "6F49F56DCE594273BF0B927C8ABE0A12", 200
 
 
 
