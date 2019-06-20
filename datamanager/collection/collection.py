@@ -43,34 +43,42 @@ class Collection(object):
         # assert (len(netease_result) == len(sohu_result))
 
         result = []
+        name = None
         for index, sohu_item in enumerate(sohu_result):
             netease_item = netease_result[index]
+            if name is None:
+                name = netease_item['NAME']
+
+            if netease_item['NAME'] != name and name is not None:
+                yield result
+                result = []
+
             item = {}
 
             for key in netease_item.keys():
                 for case in switch(key):
-
+                    # base info
                     if case('HIGH'):
                         item[key] = netease_item[key]
                         break
                     if case('LOW'):
                         item[key] = netease_item[key]
                         break
-
+                    if case('CODE'):
+                        item[key] = netease_item[key]
+                        break
                     if case('DATE'):
+                        item[key] = netease_item[key]
+                        break
+                    if case('NAME'):
                         item[key] = netease_item[key]
                         break
 
                 # drop this
-                    if case('CODE'):
-                        break
-                    if case('DATE'):
-                        break
-                    if case('NAME'):
-                        break
                     if case('_id'):
                         break
 
+                # advantage info
                     if case('TCAP'):
                         item[key] = netease_item[key]
                         break
@@ -108,4 +116,4 @@ class Collection(object):
                         pass
                         # No need to break here, it'll stop anyway
             result.append(item)
-        return result
+        yield result

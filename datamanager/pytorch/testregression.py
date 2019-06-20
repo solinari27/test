@@ -92,8 +92,7 @@ def poly_desc(W, b):
         return result
 
 
-    print('Loss: {:.6f} after {} batches'.format(loss, batch_idx))
-    print('==> Learned function:\t' + poly_desc(fc.weight.view(-1), fc.bias))
-    print('==> Actual function:\t' + poly_desc(W_target.view(-1), b_target))
-
-# iter_batch()
+    # print('Loss: {:.6f} after {} batches'.format(loss, batch_idx))
+    # print('==> Learned function:\t' + poly_desc(fc.weight.view(-1), fc.bias))
+    # print('==> Actual function:\t' + poly_desc(W_target.view(-1), b_target))
+    return fc.weight.view(-1).data.numpy()[0], fc.bias.data.numpy()[0]
