@@ -1,41 +1,43 @@
-#!usr/bin/env python  
+#!usr/bin/env python
 # -*- coding:utf-8 _*-
-""" 
-@author: solinari 
-@file: test4.py 
-@time: 2018/02/{DAY} 
 """
+@author: solinari
+@file: test4.py
+@time: 2018/02/{DAY}
+"""
+
+import time
 
 from pymongo import MongoClient
 
 conn = MongoClient('127.0.0.1', 27017)
 # 数据库test 集合test use test db.test.find()
-db = conn.test
-mySet = db.test
+db = conn['test']
+mySet = db['test']
 mySet.remove({})
 mySet.insert({"name": "zhangsan", "age": 18})
 
-mySet.update({"name": "zhangsan"},{"$set":{"age": 20}})
-#查一个collection
+mySet.update({"name": "zhangsan"}, {"$set": {"age": 20}})
+# 查一个collection
 # print(mySet)
 # print("test_collection")
-array = mySet.find({"name" : "zhangsan"})
+array = mySet.find({"name": "zhangsan"})
 for doc in array:
     print(doc)
 
 db2 = conn.stockinfo
-import time
 now = time.gmtime()
-nowDate = time.strptime(str(now.tm_year) + ":" + str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
+nowDate = time.strptime(str(now.tm_year) + ":" +
+                        str(now.tm_mon) + ":" + str(now.tm_mday), "%Y:%m:%d")
 print nowDate
 un_time = time.mktime(nowDate)
-print un_time  #1509636609.0
+print un_time  # 1509636609.0
 # data = {}
 # data['updatetime'] = nowDate
 # db2.stocklist.update({"code": "600011"}, {"$set":data})
 
-mySet.insert({"xxx":"aaa", "date": un_time})
-array = mySet.find({"xxx" : "aaa"})
+mySet.insert({"xxx": "aaa", "date": un_time})
+array = mySet.find({"xxx": "aaa"})
 for doc in array:
     print(doc)
     time_local = time.localtime(doc['date'])
@@ -59,5 +61,3 @@ for doc in array:
 #
 #
 # startDayStr = time.strftime('%Y-%m-%d', startDay)
-
-

@@ -77,14 +77,13 @@ def iter_batch(data):
     if loss < 1e-3:
         break
 
+        # Apply gradients
+        for param in fc.parameters():
+            param.data.add_(-0.0000001 * param.grad.data)
 
-def poly_desc(W, b):
-    """Creates a string description of a polynomial."""
-    result = 'y = '
-    for i, w in enumerate(W):
-        result += '{:+.2f} x^{} '.format(w, len(W) - i)
-    result += '{:+.2f}'.format(b[0])
-    return result
+        # Stop criterion
+        if loss < 1e+1:
+            break
 
 
     def poly_desc(W, b):
