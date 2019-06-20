@@ -55,7 +55,7 @@ for batch_idx in count(1):
     # output = F.smooth_l1_loss(fc(batch_x), batch_y)
     output = F.mse_loss(fc(batch_x), batch_y)
     loss = output.item()
-    print "iteration loss: ", loss
+    print "iteration loss: ", loss.data[0]
     #log loss
 
     # Backward pass

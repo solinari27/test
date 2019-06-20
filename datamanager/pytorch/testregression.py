@@ -68,6 +68,10 @@ def iter_batch(data):
     # Apply gradients
     for param in fc.parameters():
         param.data.add_(-0.1 * param.grad.data)
+        # Forward pass
+        output = F.mse_loss(fc(batch_x), batch_y)
+        loss = output.item()
+        print "iteration loss: ", loss
 
     # Stop criterion
     if loss < 1e-3:

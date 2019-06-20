@@ -16,19 +16,20 @@ sys.path.append('/home/solinari/workspace/test')
 # paths = os.getcwd().split('/')
 # del(paths[len(paths)-2])
 # del(paths[len(paths)-1])
-# _path = os.path.join(paths)
+# _path = os.path.join(paths)f
 # print (_path)
 
-from pytorch.testregression import iter_batch
+from pytorch.testregression2 import do_regression
 from collection import collection
 from collection import data_show
 
 
 c = collection.Collection()
 
-for result in c.getData(code="600000", start_date="2017-01-01", end_date="2017-12-31"):
-    w, b = iter_batch(result)
-    print w, b
+for result in c.getData(code="600000", start_date="2017-02-20", end_date="2017-03-22"):
+    # w, b = iter_batch(result) # testregression
+    k, b = do_regression(result, epochs=10000)
+    print k, b
     show = data_show.Plt()
     show.load_data(data=result)
-    show.plot(w=w, b=b)
+    show.plot(w=k, b=b)
