@@ -5,7 +5,7 @@
 @file: testregression.py
 @time: 2019/02/09
 """
-
+import numpy as np
 from itertools import count
 import torch
 import torch.autograd
@@ -14,7 +14,6 @@ import torch.nn.functional as F
 POLY_DEGREE = 1
 W_target = torch.randn(POLY_DEGREE, 1)
 b_target = torch.randn(1)
-
 
 POLY_DEGREE = 1
 def make_features(x):
@@ -33,12 +32,22 @@ def f(x):
     return x.mm(W_target) + b_target.item()
 
 
-def get_batch(batch_size=32):
+def get_batch(dataset, batch_size=32):
     """Builds a batch i.e. (x, f(x)) pair."""
-    random = torch.randn(batch_size)
-    x = make_features(random)
-    y = f(x)
-    return x, y
+    # random = torch.randn(batch_size)
+    # x = make_features(random)
+    # y = f(x)
+    # print x, y
+    # return x, y
+    data_count = len(dataset)
+    x_rand = np.random.randint(0, data_count, size=batch_size)
+    y_list = []
+    for i in range(0, batch_size):
+        y_list.append(dataset[x_rand[i]]['TCLOSE'])
+    batch_x = torch.tensor([x_rand])
+    batch_y = torch.tensor([y_list])
+    print batch_x, batch_y
+    return batch_x, batch_y
 
 
 # Define model
@@ -47,18 +56,17 @@ fc = torch.nn.Linear(W_target.size(0), 1)
 ###################训练#########################
 
 
-for batch_idx in count(1):
-    # Get data
-    batch_x, batch_y = get_batch()
+def iter_batch(data):
 
     # Reset gradients
     fc.zero_grad()
     # Define model
     fc = torch.nn.Linear(W_target.size(0), 1)
+    dataset = data
 
-    # Forward pass
-    output = F.smooth_l1_loss(fc(batch_x), batch_y)
-    loss = output.item()
+    for batch_idx in count(1):
+        # Get data
+        batch_x, batch_y = get_batch(dataset=dataset, batch_size=10)
 
     # Backward pass
     output.backward()
@@ -94,4 +102,4 @@ def poly_desc(W, b):
     # print('==> Learned function:\t' + poly_desc(fc.weight.view(-1), fc.bias))
     # print('==> Actual function:\t' + poly_desc(W_target.view(-1), b_target))
 
-iter_batch()
+# iter_batch()
