@@ -25,7 +25,12 @@ from keras.datasets import boston_housing
 
 (x_train, y_train), (x_test, y_test) = boston_housing.load_data()
 
+
 # (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+
+print (x_train)
+print (y_train)
+print (x_train.size, y_train.size)
 
 max_features = 1024
 
