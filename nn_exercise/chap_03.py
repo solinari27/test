@@ -9,53 +9,6 @@
 """
 
 
-# import tensorflow as tf
-# from tensorflow.examples.tutorials.mnist import input_data
-#
-# # number 1 to 10 data
-# mnist = input_data.read_data_sets('MNIST_data', one_hot=True)
-#
-#
-# def compute_accuracy(v_xs, v_ys):
-#     global prediction
-#     y_pre = sess.run(prediction, feed_dict={inputs: v_xs})
-#     correct_prediction = tf.equal(tf.argmax(y_pre, 1), tf.argmax(v_ys, 1))
-#     accuracy = tf.reduce_mean(tf.cast(correct_prediction, tf.float32))
-#     result = sess.run(accuracy, feed_dict={inputs: v_xs, outputs: v_ys})
-#     return result
-#
-#
-# # 定义相关参数
-# in_size = 784  # 输入的尺寸
-# out_size = 10  # 输出的尺寸
-# learning_rate = 0.1  # 学习率
-# max_epochs = 3000  # 最大训练步数
-#
-# inputs = tf.placeholder(tf.float32, [None, in_size])  # 28x28
-# outputs = tf.placeholder(tf.float32, [None, out_size])  # 10
-#
-# Weights = tf.Variable(tf.random_normal([in_size, out_size]))
-# biases = tf.Variable(tf.zeros([1, out_size]) + 0.1, )
-#
-# prediction = tf.nn.softmax(tf.matmul(inputs, Weights) + biases)
-# #################################################################
-# # 请在下面补全交叉熵 和 训练两个节点。
-# cross_entropy =
-#
-# train_step =
-#
-# #################################################################
-# sess = tf.Session()
-# init = tf.global_variables_initializer()  # 注意tensorflow 版本在 0.12 以后，才能执行这句命令
-# sess.run(init)
-# for i in range(max_epochs):
-#     batch_xs, batch_ys = mnist.train.next_batch(100)
-#     sess.run(train_step, feed_dict={inputs: batch_xs, outputs: batch_ys})
-#     if i % 500 == 0:
-#         print(compute_accuracy(
-#             mnist.test.images, mnist.test.labels))
-
-
 import torch
 import torchvision
 import torchvision.transforms as transforms
