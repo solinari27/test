@@ -12,7 +12,10 @@
 import torch
 import torchvision
 import torchvision.transforms as transforms
+import torch.nn.functional as F
+import torch.optim as optim
 from torch import nn
+from torch.autograd import Variable
 
 
 transform = transforms.ToTensor()
@@ -60,11 +63,11 @@ class simpleNet(nn.Module):
     定义了一个简单的三层全连接神经网络，每一层都是线性的
     """
 
-    def __init__(self, in_dim, n_hidden_1, n_hidden_2, out_dim):
+    def __init__(self):
         super(simpleNet, self).__init__()
-        self.layer1 = nn.Linear(in_dim, n_hidden_1)     #nn.XXX 这个花样比较多，线性的，卷积的，sequential...
-        self.layer2 = nn.Linear(n_hidden_1, n_hidden_2)
-        self.layer3 = nn.Linear(n_hidden_2, out_dim)
+        self.layer1 = nn.Linear(2800, 28)     #nn.XXX 这个花样比较多，线性的，卷积的，sequential...
+        self.layer2 = nn.Linear(28, 24)
+        self.layer3 = nn.Linear(24, 10)
 
     def forward(self, x):
         x = self.layer1(x)
@@ -77,10 +80,23 @@ if __name__ == '__main__':
     print ('start')
 
     model = simpleNet()
-
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.5)
 
+    for batch_idx, (data, target) in enumerate(trainloader):
+        data, target = Variable(data), Variable(target)
 
+        optimizer.zero_grad()
+        output = model(data)
+        # loss
+        loss = F.nll_loss(output, target)
+        loss.backward()
+        # update
+        optimizer.step()
+        if batch_idx % 100 == 0:
+            # print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
+            #     epoch, batch_idx * len(data), len(train_loader.dataset),
+            #     100. * batch_idx / len(train_loader), loss.data[0]))
+            print ('train 100.')
 
 
 

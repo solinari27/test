@@ -6,7 +6,7 @@
 # @File    : temp.py
 # @Software: PyCharm
 
-import torch
+import torch1`
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
