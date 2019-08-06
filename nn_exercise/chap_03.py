@@ -65,9 +65,9 @@ class simpleNet(nn.Module):
 
     def __init__(self):
         super(simpleNet, self).__init__()
-        self.layer1 = nn.Linear(2800, 28)     #nn.XXX 这个花样比较多，线性的，卷积的，sequential...
-        self.layer2 = nn.Linear(28, 24)
-        self.layer3 = nn.Linear(24, 10)
+        self.layer1 = nn.Linear(28, 24)     #nn.XXX 这个花样比较多，线性的，卷积的，sequential...
+        self.layer2 = nn.Linear(24, 20)
+        self.layer3 = nn.Linear(20, 10)
 
     def forward(self, x):
         x = self.layer1(x)
