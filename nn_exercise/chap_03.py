@@ -49,6 +49,12 @@ testloader = torch.utils.data.DataLoader(
     )
 
 
+# for item in trainloader:
+# #     for yuansu in item:
+# #         # print (yuansu.size())
+# #         pass
+
+
 class simpleNet(nn.Module):
     """
     定义了一个简单的三层全连接神经网络，每一层都是线性的
@@ -65,6 +71,22 @@ class simpleNet(nn.Module):
         x = self.layer2(x)
         x = self.layer3(x)
         return x
+
+
+if __name__ == '__main__':
+    print ('start')
+
+    model = simpleNet()
+
+    optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.5)
+
+
+
+
+
+
+
+
 
 
 # # 定义网络结构
