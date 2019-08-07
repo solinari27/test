@@ -65,30 +65,35 @@ class simpleNet(nn.Module):
 
     def __init__(self):
         super(simpleNet, self).__init__()
-        self.layer1 = nn.Linear(28, 24)     #nn.XXX 这个花样比较多，线性的，卷积的，sequential...
-        self.layer2 = nn.Linear(24, 20)
-        self.layer3 = nn.Linear(20, 10)
+        self.layer1 = nn.Linear(784, 520)     #nn.XXX 这个花样比较多，线性的，卷积的，sequential...
+        self.layer2 = nn.Linear(520, 120)
+        self.layer3 = nn.Linear(120, 10)
+        self.output = nn.Linear(10, 1)
 
     def forward(self, x):
+        x = x.view(-1, 784)
         x = self.layer1(x)
         x = self.layer2(x)
         x = self.layer3(x)
-        return x
+        x = self.output(x)
+        return F.log_softmax(x)
+        # return x
 
 
 if __name__ == '__main__':
-    print ('start')
-
     model = simpleNet()
     optimizer = optim.SGD(model.parameters(), lr=0.01, momentum=0.5)
 
     for batch_idx, (data, target) in enumerate(trainloader):
         data, target = Variable(data), Variable(target)
+        print ('data: ', data)
+        print ('target:', target)
 
         optimizer.zero_grad()
         output = model(data)
+        print (output)
         # loss
-        loss = F.nll_loss(output, target)
+        loss = F.mse_loss(output, target)
         loss.backward()
         # update
         optimizer.step()
