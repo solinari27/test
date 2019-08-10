@@ -64,20 +64,20 @@ class simpleNet(nn.Module):
     """
 
     def __init__(self):
-        super(simpleNet, self).__init__()
-        self.layer1 = nn.Linear(784, 520)     #nn.XXX 这个花样比较多，线性的，卷积的，sequential...
-        self.layer2 = nn.Linear(520, 120)
-        self.layer3 = nn.Linear(120, 10)
-        self.output = nn.Linear(10, 1)
+        super().__init__()
+        self.l1 = nn.Linear(784, 520)
+        self.l2 = nn.Linear(520, 320)
+        self.l3 = nn.Linear(320, 240)
+        self.l4 = nn.Linear(240, 120)
+        self.l5 = nn.Linear(120, 10)
 
     def forward(self, x):
         x = x.view(-1, 784)
-        x = self.layer1(x)
-        x = self.layer2(x)
-        x = self.layer3(x)
-        x = self.output(x)
-        return F.log_softmax(x)
-        # return x
+        x = F.relu(self.l1(x))
+        x = F.relu(self.l2(x))
+        x = F.relu(self.l3(x))
+        x = F.relu(self.l4(x))
+        return F.log_softmax(self.l5(x), dim=1)
 
 
 if __name__ == '__main__':
@@ -86,22 +86,19 @@ if __name__ == '__main__':
 
     for batch_idx, (data, target) in enumerate(trainloader):
         data, target = Variable(data), Variable(target)
-        print ('data: ', data)
-        print ('target:', target)
 
         optimizer.zero_grad()
         output = model(data)
-        print (output)
+        # print (output)
+        # print (target)
         # loss
-        loss = F.mse_loss(output, target)
+        # loss = F.nll_loss(output, target)
+        loss = F.cross_entropy(output, target)
         loss.backward()
         # update
         optimizer.step()
         if batch_idx % 100 == 0:
-            # print('Train Epoch: {} [{}/{} ({:.0f}%)]\tLoss: {:.6f}'.format(
-            #     epoch, batch_idx * len(data), len(train_loader.dataset),
-            #     100. * batch_idx / len(train_loader), loss.data[0]))
-            print ('train 100.')
+            print('Train Epoch.')
 
 
 
