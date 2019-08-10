@@ -91,6 +91,7 @@ if __name__ == '__main__':
         output = model(data)
         # print (output)
         # print (target)
+
         # loss
         # loss = F.nll_loss(output, target)
         loss = F.cross_entropy(output, target)
