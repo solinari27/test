@@ -85,7 +85,7 @@ def test():
         data, target = Variable(data, volatile=True), Variable(target)
         output = model(data)
         # sum up batch loss
-        test_loss += F.nll_loss(output, target).data[0]
+        test_loss += F.nll_loss(output, target).item()
         # get the index of the max
         #pred = output.data.max(1, keepdim=True)[1]
         pred = output.data.max(1)[1]
