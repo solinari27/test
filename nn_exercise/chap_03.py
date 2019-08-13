@@ -86,11 +86,13 @@ if __name__ == '__main__':
 
     for batch_idx, (data, target) in enumerate(trainloader):
         data, target = Variable(data), Variable(target)
+        # print (data.size()) #torch.Size([100, 1, 28, 28])
 
         optimizer.zero_grad()
         output = model(data)
-        # print (output)
-        # print (target)
+        # print (output.size())   # torch.Size([100, 10])
+        # print (target.size())   # torch.Size([100])
+        # 这里output和target不是完全匹配的tensor，部分loss function可以match这个问题
 
         # loss
         # loss = F.nll_loss(output, target)
