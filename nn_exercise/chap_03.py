@@ -86,6 +86,8 @@ if __name__ == '__main__':
 
     for batch_idx, (data, target) in enumerate(trainloader):
         data, target = Variable(data), Variable(target)
+        # data = data.view(-1, 28, 28)
+        # print (data.size())   #   torch.Size([100, 28, 28])
         # print (data.size()) #torch.Size([100, 1, 28, 28])
 
         optimizer.zero_grad()
