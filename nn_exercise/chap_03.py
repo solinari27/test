@@ -72,7 +72,7 @@ class simpleNet(nn.Module):
         self.l5 = nn.Linear(120, 10)
 
     def forward(self, x):
-        x = x.view(-1, 784)
+        x = x.view(-1, 784) # reshape: 2800, 28 -> 100 784
         x = F.relu(self.l1(x))
         x = F.relu(self.l2(x))
         x = F.relu(self.l3(x))
