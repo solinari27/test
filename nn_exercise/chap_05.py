@@ -51,13 +51,15 @@ class CNN(nn.Module):
                 # padding style is same(that means the convolution opration's input and output have the same size)
                 in_channels=1,
                 out_channels=32,
-                kernel_size=(7, 7),
+                kernel_size=7,
                 stride=1,
                 padding=0,
             ),
             nn.ReLU(),  # activation function
             nn.MaxPool2d(2),  # pooling operation
         )
+        # 28-7+1/2=11
+        # 32*11*11
         self.conv2 = nn.Sequential(  # ???
             # line 1 : convolution function, patch 5*5 , 32 in channels ;64 out channels; padding style is same; stride is 1
             # line 2 : choosing your activation funciont
@@ -65,13 +67,14 @@ class CNN(nn.Module):
             nn.Conv2d(
                 in_channels=32,
                 out_channels=64,
-                kernel_size=(5, 5),
+                kernel_size=5,
                 stride=1,
                 padding=0,
             ),
             nn.ReLU(),
-            nn.MaxPool2d(2),
+            nn.MaxPool2d(1),
         )
+        # 64*7*7
         self.out1 = nn.Linear(7 * 7 * 64, 1024,
                               bias=True)  # full connection layer one
 
@@ -81,7 +84,7 @@ class CNN(nn.Module):
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
-        x = x.view(BATCH_SIZE, 32, 7, 7)  # flatten the output of coonv2 to (batch_size ,32 * 7 * 7)    # ???
+        x = x.view(-1, 64*7*7)  # flatten the output of coonv2 to (batch_size ,32 * 7 * 7)    # ???
         out1 = self.out1(x)
         out1 = F.relu(out1)
         out1 = self.dropout(out1)
