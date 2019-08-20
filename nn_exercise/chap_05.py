@@ -127,5 +127,4 @@ if __name__ == '__main__':
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     cnn = CNN().to(device)
     test_x = test_x.to(device)
-    # test_y = test_y.to(device)
     train(cnn, device)
