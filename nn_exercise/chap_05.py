@@ -93,22 +93,24 @@ class CNN(nn.Module):
         return output
 
 
-def test(cnn):
+def test(cnn, device):
     global prediction
     y_pre = cnn(test_x)
     _, pre_index = torch.max(y_pre, 1)
     pre_index = pre_index.view(-1)
-    prediction = pre_index.data.numpy()
+    prediction = pre_index.data.to('cpu').numpy()
     correct = np.sum(prediction == test_y)
     return correct / 500.0
 
 
-def train(cnn):
+def train(cnn, device):
     optimizer = torch.optim.Adam(cnn.parameters(), lr=learning_rate)
     loss_func = nn.CrossEntropyLoss()
     for epoch in range(max_epoch):
         for step, (x_, y_) in enumerate(train_loader):
             x, y = Variable(x_), Variable(y_)
+            x = x.to(device)
+            y = y.to(device)
             output = cnn(x)
             loss = loss_func(output, y)
             optimizer.zero_grad()
@@ -116,10 +118,14 @@ def train(cnn):
             optimizer.step()
 
             if step != 0 and step % 20 == 0:
+                # print ("epoch.")
                 print("=" * 10, step, "=" * 5, "=" * 5, "test accuracy is ",
-                      test(cnn), "=" * 10)
+                      test(cnn, device), "=" * 10)
 
 
 if __name__ == '__main__':
-    cnn = CNN()
-    train(cnn)
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    cnn = CNN().to(device)
+    test_x = test_x.to(device)
+    # test_y = test_y.to(device)
+    train(cnn, device)
