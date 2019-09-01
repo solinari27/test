@@ -13,6 +13,11 @@ import torch.nn.functional as F
 import numpy as np
 
 def weights_init(m):
+    """
+
+    :param m:
+    :return:
+    """
     classname = m.__class__.__name__  #   obtain the class name
     if classname.find('Linear') != -1:
         weight_shape = list(m.weight.data.size())
@@ -25,6 +30,9 @@ def weights_init(m):
 
 
 class word_embedding(nn.Module):
+    """
+
+    """
     def __init__(self,vocab_length , embedding_dim):
         super(word_embedding, self).__init__()
         w_embeding_random_intial = np.random.uniform(-1,1,size=(vocab_length ,embedding_dim))
@@ -40,6 +48,9 @@ class word_embedding(nn.Module):
 
 
 class RNN_model(nn.Module):
+    """
+
+    """
     def __init__(self, batch_sz ,vocab_len ,word_embedding,embedding_dim, lstm_hidden_dim):
         super(RNN_model,self).__init__()
 
