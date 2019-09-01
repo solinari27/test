@@ -11,7 +11,7 @@ import torch
 from torch.autograd import Variable
 import torch.optim as optim
 
-import rnn
+import rnn as rnn_lstm
 
 start_token = 'G'
 end_token = 'E'
@@ -39,11 +39,10 @@ def process_poems1(file_name):
                 content = start_token + content + end_token
                 poems.append(content)
             except ValueError as e:
-                print("error")
+                # print("error")
                 pass
     # 按诗的字数排序
     poems = sorted(poems, key=lambda line: len(line))
-    # print(poems)
     # 统计每个字出现次数
     all_words = []
     for poem in poems:
@@ -98,6 +97,7 @@ def process_poems2(file_name):
     return poems_vector, word_int_map, words
 
 def generate_batch(batch_size, poems_vec, word_to_int):
+    # print (batch_size, poems_vec, word_to_int)
     n_chunk = len(poems_vec) // batch_size
     x_batches = []
     y_batches = []
@@ -129,7 +129,7 @@ def run_training():
     poems_vector, word_to_int, vocabularies = process_poems1('./poems.txt')
     # 生成batch
     print("finish  loadding data")
-    BATCH_SIZE = 100
+    BATCH_SIZE = 10
 
     torch.manual_seed(5)
     word_embedding = rnn_lstm.word_embedding( vocab_length= len(word_to_int) + 1 , embedding_dim= 100)
@@ -143,6 +143,7 @@ def run_training():
 
     for epoch in range(30):
         batches_inputs, batches_outputs = generate_batch(BATCH_SIZE, poems_vector, word_to_int)
+        # print (batches_inputs, batches_outputs)
         n_chunk = len(batches_inputs)
         for batch in range(n_chunk):
             batch_x = batches_inputs[batch]
@@ -153,7 +154,7 @@ def run_training():
                 x = np.array(batch_x[index], dtype = np.int64)
                 y = np.array(batch_y[index], dtype = np.int64)
                 x = Variable(torch.from_numpy(np.expand_dims(x,axis=1)))
-                y = Variable(torch.from_numpy(y ))
+                y = Variable(torch.from_numpy(y))
                 pre = rnn_model(x)
                 loss += loss_fun(pre , y)
                 if index == 0:
