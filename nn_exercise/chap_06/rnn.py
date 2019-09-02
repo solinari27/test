@@ -14,7 +14,12 @@ import numpy as np
 
 
 def weights_init(m):
-    classname = m.__class__.__name__  # obtain the class name
+    """
+
+    :param m:
+    :return:
+    """
+    classname = m.__class__.__name__  #   obtain the class name
     if classname.find('Linear') != -1:
         weight_shape = list(m.weight.data.size())
         fan_in = weight_shape[1]
@@ -26,7 +31,6 @@ def weights_init(m):
 
 
 class word_embedding(nn.Module):
-
 
 """
 word embedding: map a high-dimension space of all words to a low-dimension vector space
@@ -51,8 +55,11 @@ each word map into a vecotr in the space
 
 
 class RNN_model(nn.Module):
-    def __init__(self, batch_sz, vocab_len , word_embedding, embedding_dim, lstm_hidden_dim):
-        super(RNN_model, self).__init__()
+    """
+
+    """
+    def __init__(self, batch_sz ,vocab_len ,word_embedding,embedding_dim, lstm_hidden_dim):
+        super(RNN_model,self).__init__()
 
         self.word_embedding_lookup = word_embedding
         self.batch_size = batch_sz
