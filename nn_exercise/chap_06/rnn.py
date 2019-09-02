@@ -59,6 +59,12 @@ class RNN_model(nn.Module):
 
     """
     def __init__(self, batch_sz ,vocab_len ,word_embedding,embedding_dim, lstm_hidden_dim):
+        """
+        @param batch_sz: batch size
+        @param vocab_len vocaboary length
+        @param word_embedding: word embedding function
+        @param lstm_hideen_dim:
+        """
         super(RNN_model,self).__init__()
 
         self.word_embedding_lookup = word_embedding
