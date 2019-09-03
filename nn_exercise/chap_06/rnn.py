@@ -19,7 +19,7 @@ def weights_init(m):
     :param m:
     :return:
     """
-    classname = m.__class__.__name__  #   obtain the class name
+    classname = m.__class__.__name__  # obtain the class name
     if classname.find('Linear') != -1:
         weight_shape = list(m.weight.data.size())
         fan_in = weight_shape[1]
@@ -31,13 +31,11 @@ def weights_init(m):
 
 
 class word_embedding(nn.Module):
-
-"""
-word embedding: map a high-dimension space of all words to a low-dimension vector space
-each word map into a vecotr in the space
-"""
-
-   def __init__(self, vocab_length, embedding_dim):
+    """
+    word embedding: map a high-dimension space of all words to a low-dimension vector space
+    each word map into a vecotr in the space
+    """
+    def __init__(self, vocab_length, embedding_dim):
         super(word_embedding, self).__init__()
         w_embeding_random_intial = np.random.uniform(
             -1, 1, size=(vocab_length, embedding_dim))
@@ -58,7 +56,7 @@ class RNN_model(nn.Module):
     """
 
     """
-    def __init__(self, batch_sz ,vocab_len ,word_embedding,embedding_dim, lstm_hidden_dim):
+    def __init__(self, batch_sz, vocab_len, word_embedding, embedding_dim, lstm_hidden_dim):
         """
         @param batch_sz: batch size
         @param vocab_len vocaboary length
@@ -66,7 +64,11 @@ class RNN_model(nn.Module):
         @param lstm_hideen_dim:
         """
         super(RNN_model,self).__init__()
-
+        
+        print (batch_sz)    # 10
+        print (vocab_len)   # 61
+        print (embedding_dim)   # 100
+        print (lstm_hidden_dim) # 128
         self.word_embedding_lookup = word_embedding
         self.batch_size = batch_sz
         self.vocab_length = vocab_len

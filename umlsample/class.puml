@@ -36,6 +36,13 @@ DistSubscriber <|-- ProtobufSubscriber
 }
 
 namespace kps_prelabling.workflow #orange{
+
+Abstract Class Workflow{
+	- inference_handler
+	# void set_inferenceHandler()
 }
+}
+
+
 
 
