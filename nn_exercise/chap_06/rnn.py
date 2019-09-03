@@ -76,6 +76,7 @@ class RNN_model(nn.Module):
         # here you need to define the "self.rnn_lstm"  the input size is "embedding_dim" and the output size is "lstm_hidden_dim"
         # the lstm should have two layers, and the  input and output tensors are provided as (batch, seq, feature)
         # ???
+        self.rnn_lstm = nn.LSTM(self.word_embedding_dim, self.lstm_dim, 2)   # (input_size,hidden_size,num_layers)
 
         ##########################################
         self.fc = nn.Linear(lstm_hidden_dim, vocab_len)
