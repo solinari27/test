@@ -154,7 +154,7 @@ def run_training():
         for batch in range(n_chunk):
             batch_x = batches_inputs[batch]
             batch_y = batches_outputs[batch]  # (batch , time_step)
-            print (batch_x, batch_y)
+            # print (batch_x, batch_y)
 
             loss = 0
             for index in range(BATCH_SIZE):
