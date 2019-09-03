@@ -97,6 +97,9 @@ class RNN_model(nn.Module):
         # ???
 
         ################################################
+        output = torch.tensor(self.rnn_lstm(batch_input))
+        # print (output)
+
         out = output.contiguous().view(-1, self.lstm_dim)
 
         out = F.relu(self.fc(out))
