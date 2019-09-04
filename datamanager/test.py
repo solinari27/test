@@ -27,7 +27,7 @@ from pytorch.sklearn_lineregression import do_regression
 
 
 c = collection.Collection()
-result = c.getData(code="CN_A_600000", start_date="2010-01-01", end_date="2018-12-31")
+result = c.getData(code="600000", start_date="2010-01-01", end_date="2018-12-31")
 for item in result:
     print (item)
 
