@@ -6,7 +6,7 @@
 @time: 2019/02/24
 """
 import math
-from sklearn import linear_model  # 表示，可以调用sklearn中的linear_model模块进行线性回归。
+from sklearn import linear_model  # use sklearn do line regression
 import numpy as np
 from sklearn.ensemble import IsolationForest
 from sklearn.cluster import DBSCAN

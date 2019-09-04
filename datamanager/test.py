@@ -11,6 +11,7 @@ import time
 
 sys.path.append('/home/ubuntu/test')
 sys.path.append('/home/solinari/workspace/test')
+sys.path.append('/mnt/d/workspace/test')
 # sys.path.append('/home/ubuntu/stockCrawler')
 # sys.path.append('/home/solinari/workspace/stockCrawler')
 # os.system("export PYTHONPATH=/home/ubuntu/stockCrawler:/home/solinari/workspace/stockCrawler:%PYTHONPATH")

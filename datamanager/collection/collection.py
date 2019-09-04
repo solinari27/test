@@ -6,6 +6,7 @@
 @time: 2018/10/09
 """
 import time
+import os
 
 from common.mongo.sohuConn import SohuConn
 from common.mongo.neteaseConn import NeteaseConn
@@ -14,10 +15,18 @@ from utils.common.switch import switch
 
 class Collection(object):
     def __init__(self):
+        # self.sohuconn = SohuConn(
+        #     "/home/solinari/workspace/stockCrawler/Conf/sohu.conf")
+        # self.neteaseconn = NeteaseConn(
+        #     "/home/solinari/workspace/stockCrawler/Conf/netease.conf")
+        # self.sohuconn = SohuConn(
+        #     os.path.join(os.getcwd(), "Conf/sohu.conf"))
+        # self.neteaseconn = NeteaseConn(
+        #     os.path.join(os.getcwd(), "Conf/netease.conf"))
         self.sohuconn = SohuConn(
-            "/home/solinari/workspace/stockCrawler/Conf/sohu.conf")
+            "/mnt/d/workspace/test/Conf/sohu.conf")
         self.neteaseconn = NeteaseConn(
-            "/home/solinari/workspace/stockCrawler/Conf/netease.conf")
+            "/mnt/d/workspace/test/Conf/netease.conf")
 
     def __del__(self):
         # self.sohuconn = None
