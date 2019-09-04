@@ -7,7 +7,7 @@
 """
 import sys
 import json
-from mongoConn import mongoConn
+from common.mongo.mongoConn import mongoConn
 from pymongo import MongoClient
 
 class NeteaseConn(mongoConn):
