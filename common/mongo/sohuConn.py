@@ -38,7 +38,7 @@ class SohuConn(mongoConn):
             self._logger.error(self.__name__ + " mongo connection failed.")
 
     def __del__(self):
-        self._logger.info(self.__name__ + " mongo connection stopped.")
+        # self._logger.info(self.__name__ + " mongo connection stopped.")
         self._conn.close()
         # self._logger.removeHandler(self._logfile_handler)
 
