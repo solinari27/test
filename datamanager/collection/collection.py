@@ -20,9 +20,9 @@ class Collection(object):
         # self.neteaseconn = NeteaseConn(
         #     "/home/solinari/workspace/stockCrawler/Conf/netease.conf")
         self.sohuconn = SohuConn(
-            os.path.join(os.getcwd(), "Conf/sohu.conf"))
+            "/home/solinari/workspace/test/Conf/sohu.conf")
         self.neteaseconn = NeteaseConn(
-            os.path.join(os.getcwd(), "Conf/netease.conf"))
+            "/home/solinari/workspace/test/Conf/netease.conf")
         # self.sohuconn = SohuConn(
         #     "/mnt/d/workspace/test/Conf/sohu.conf")
         # self.neteaseconn = NeteaseConn(
