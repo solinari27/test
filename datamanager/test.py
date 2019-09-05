@@ -6,6 +6,10 @@
 @file: test.py
 @time: 2019/02/10
 """
+
+import sys
+import time
+
 sys.path.append('/home/ubuntu/test')
 sys.path.append('/home/solinari/workspace/test')
 sys.path.append('/mnt/d/workspace/test')
@@ -22,8 +26,7 @@ sys.path.append('/mnt/d/workspace/test')
 from pytorch.sklearn_lineregression import do_regression
 from collection import collection
 from collection import data_show
-import sys
-import time
+
 
 c = collection.Collection()
 
