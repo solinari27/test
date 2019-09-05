@@ -19,14 +19,14 @@ class Collection(object):
         #     "/home/solinari/workspace/stockCrawler/Conf/sohu.conf")
         # self.neteaseconn = NeteaseConn(
         #     "/home/solinari/workspace/stockCrawler/Conf/netease.conf")
-        # self.sohuconn = SohuConn(
-        #     os.path.join(os.getcwd(), "Conf/sohu.conf"))
-        # self.neteaseconn = NeteaseConn(
-        #     os.path.join(os.getcwd(), "Conf/netease.conf"))
         self.sohuconn = SohuConn(
-            "/mnt/d/workspace/test/Conf/sohu.conf")
+            os.path.join(os.getcwd(), "Conf/sohu.conf"))
         self.neteaseconn = NeteaseConn(
-            "/mnt/d/workspace/test/Conf/netease.conf")
+            os.path.join(os.getcwd(), "Conf/netease.conf"))
+        # self.sohuconn = SohuConn(
+        #     "/mnt/d/workspace/test/Conf/sohu.conf")
+        # self.neteaseconn = NeteaseConn(
+        #     "/mnt/d/workspace/test/Conf/netease.conf")
 
     def __del__(self):
         # self.sohuconn = None
