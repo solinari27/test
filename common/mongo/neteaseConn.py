@@ -40,7 +40,7 @@ class NeteaseConn(mongoConn):
     def __del__(self):
         self._logger.info(self.__name__ + " mongo connection stopped.")
         self._conn.close()
-        self._logger.removeHandler(self._logfile_handler)
+        # self._logger.removeHandler(self._logfile_handler)
 
     def set_name(self, name=None):
         assert name is not None
