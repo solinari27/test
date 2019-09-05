@@ -33,11 +33,12 @@ for result in c.getData(code="600000", start_date="2010-01-01", end_date="2018-1
 
     ret = do_regression(result, epochs=10000, thres=10,
                         DBSCAN_eps=3, DBSCAN_minsamples=4)
-    for item in ret:
-        w = item[0]
-        b = item[1]
-        dataset = result[item[2]: item[3]]
-        print (dataset)
+    print (ret)
+    # for item in ret:
+    #     w = item[0]
+    #     b = item[1]
+    #     dataset = result[item[2]: item[3]]
+    #     print (dataset)
         #show = data_show.Plt()
         #show.load_data(data=dataset)
         #show.plot(w=w, b=b)
