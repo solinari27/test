@@ -59,7 +59,7 @@ class mongoConn():
         self._logger.info (self.__name__ + " mongo connection started.")
 
 
-    # assert connection
+    # 检查是否连接成功
     def _check_connected (self, conn):
         return conn.connected
 
