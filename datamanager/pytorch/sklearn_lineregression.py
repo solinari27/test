@@ -119,6 +119,9 @@ def do_regression(dataset, **kwargs):
         model = linear_model.LinearRegression()
         model.fit(X, y)
 
+        y_pred = model.predict(X)
+        print (y-y_pred)
+
         w = model.coef_[0][0]
         b = model.intercept_[0]
         far_points = check_results(
