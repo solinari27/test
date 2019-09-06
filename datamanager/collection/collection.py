@@ -58,6 +58,9 @@ class Collection(object):
             if name is None:
                 name = netease_item['NAME']
 
+            if netease_item['TCLOSE'] == 0:
+                continue
+
             if netease_item['NAME'] != name and name is not None:
                 yield result
                 result = []
