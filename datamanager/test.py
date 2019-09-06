@@ -37,7 +37,9 @@ for result in c.getData(code="600000", start_date="2010-01-01", end_date="2018-1
         w = item[0]
         b = item[1]
         dataset = result[item[2]: item[3]]
-        print (w, b)
+        if w>0.2 or w<-0.2:
+            print (w, b)
+            print (ret)
     #     print (dataset)
     # show = data_show.Plt()
     # show.load_data(data=dataset)
