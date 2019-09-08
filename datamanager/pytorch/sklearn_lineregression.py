@@ -134,8 +134,6 @@ def do_regression(dataset, **kwargs):
                     dataset[x0:x1], epochs=10000, thres=10, DBSCAN_eps=3, DBSCAN_minsamples=4)
                 for item in res:
                     item[2] += x0
-                    item[3] += x0
-                    ret.append(item)
                 x0 = x1
 
     return ret
