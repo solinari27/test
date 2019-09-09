@@ -20,7 +20,7 @@ sys.path.append('/mnt/d/workspace/test')
 # paths = os.getcwd().split('/')
 # del(paths[len(paths)-2])
 # del(paths[len(paths)-1])
-# _path = os.path.join(paths)f
+# _path = os.path.join(paths)
 # print (_path)
 
 from pytorch.sklearn_lineregression import do_regression
@@ -37,6 +37,11 @@ for result in c.getData(code="600000", start_date="2010-01-01", end_date="2018-1
         w = item[0]
         b = item[1]
         score = item[4]
+
+        # if line regression cov score < xx; drop this result
+        if score < 0.2:
+            continue
+
         dataset = result[item[2]: item[3]]
         print (w, b, score)
         _dt = []
