@@ -30,7 +30,7 @@ from collection import data_show
 
 c = collection.Collection()
 
-for result in c.getData(code="600000", start_date="2010-01-01", end_date="2018-12-31"):
+for result in c.getData(code="600017", start_date="2010-01-01", end_date="2018-12-31"):
     ret = do_regression(result, epochs=10000, thres=10,
                         DBSCAN_eps=3, DBSCAN_minsamples=4)
     for item in ret:
