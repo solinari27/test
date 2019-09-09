@@ -121,11 +121,12 @@ def do_regression(dataset, **kwargs):
 
         w = model.coef_[0][0]
         b = model.intercept_[0]
+        fitness = model.score(X, y)
         far_points = check_results(
             [X, y], model, kwargs['thres'], kwargs['DBSCAN_eps'], kwargs['DBSCAN_minsamples'])
 
         if far_points == []:
-            ret.append([w, b, 0, len(dataset)])
+            ret.append([w, b, 0, len(dataset), fitness])
         else:
             x0 = 0
             far_points.append(len(dataset) - 1)

@@ -36,13 +36,9 @@ for result in c.getData(code="600000", start_date="2010-01-01", end_date="2018-1
     for item in ret:
         w = item[0]
         b = item[1]
+        score = item[4]
         dataset = result[item[2]: item[3]]
-        if w>0.1 or w<-0.1:
-            print (w, b)
-            for line in result:
-                pass
-                # print (line['DATE'], line['TCLOSE'])
-    #     print (dataset)
+        print (w, b, score)
     # show = data_show.Plt()
     # show.load_data(data=dataset)
     # show.plot(w=w, b=b)
