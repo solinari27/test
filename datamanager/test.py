@@ -39,6 +39,10 @@ for result in c.getData(code="600000", start_date="2010-01-01", end_date="2018-1
         score = item[4]
         dataset = result[item[2]: item[3]]
         print (w, b, score)
+        _dt = []
+        for _it in dataset:
+            _dt.append(_it['TCLOSE'])
+        print (_dt)
     # show = data_show.Plt()
     # show.load_data(data=dataset)
     # show.plot(w=w, b=b)
