@@ -22,7 +22,8 @@ def get_batch(dataset):
     y_list = []
     for i in range(0, size):
         x_rand.append([i])
-        y_list.append([dataset[i]['TCLOSE']])
+        _y = (dataset[i]['TOPEN'] + dataset[i]['TCLOSE'] + dataset[i]['HIGH'] + dataset[i]['LOW'])/4
+        y_list.append([_y])
     return x_rand, y_list
 
 
