@@ -79,7 +79,7 @@ def check_results(datasets, model, thres, DBSCAN_eps, DBSCAN_minsamples):
                 far_x.append([X[_i][0]])
                 fars.append(_diff)
 
-    ret = [[]]
+    # ret = [[]]
     ret = []
     res = [[]]
     if len(far_x) > 0:
@@ -121,18 +121,18 @@ def do_regression(dataset, **kwargs):
 
         w = model.coef_[0][0]
         b = model.intercept_[0]
-        fitness = model.score(X, y)
+        cov_score = model.score(X, y)
         far_points = check_results(
             [X, y], model, kwargs['thres'], kwargs['DBSCAN_eps'], kwargs['DBSCAN_minsamples'])
 
         if far_points == []:
-            ret.append([w, b, 0, len(dataset), fitness])
+            ret.append([w, b, 0, len(dataset), cov_score])
         else:
             x0 = 0
             far_points.append(len(dataset) - 1)
             for x1 in far_points:
                 res = do_regression(
-                    dataset[x0:x1], epochs=10000, thres=10, DBSCAN_eps=3, DBSCAN_minsamples=4)
+                    dataset[x0:x1], epochs=kwargs['epochs'], thres=kwargs['thres'], DBSCAN_eps=kwargs['DBSCAN_eps'], DBSCAN_minsamples=kwargs['DBSCAN_minsamples'])
                 for item in res:
                     item[2] += x0
                 x0 = x1
