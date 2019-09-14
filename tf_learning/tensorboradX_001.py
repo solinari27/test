@@ -6,17 +6,32 @@
 @time: 2018/10/09
 """
 
-import numpy as np
 from tensorboardX import SummaryWriter
-import tensorflow as tf
+import cv2 as cv
 
-writer = SummaryWriter(log_dir='C:\Users\solinari\.tensorboard\data')
-file = open('data/image/logo.png', 'rb')
-data = file.read()
-image = tf.image.decode_png(data, channels=4)
-with tf.Session() as sess:
-    # print type(sess.run(image))
-    writer.add_image(tag='test', img_tensor=sess.run(image))
+# writer = SummaryWriter('C:\Users\solinari\.tensorboard\data')
+writer = SummaryWriter('/mnt/c/Users/solinari/.tensorboard/data')
+writer.add_image('countdown',
+                 cv.imread('data/image/jpg1.jiff'.format(1)))
+                 
+# for i in range(1, 6):
+#     writer.add_image('countdown',
+#                      cv.cvtColor(cv.imread('{}.jpg'.format(i)),
+#                                  cv.COLOR_BGR2RGB),
+#                      global_step=i,
+#                      dataformats='HWC')
+
+# import numpy as np
+# from tensorboardX import SummaryWriter
+# import tensorflow as tf
+
+# writer = SummaryWriter(log_dir='C:\Users\solinari\.tensorboard\data')
+# file = open('data/image/logo.png', 'rb')
+# data = file.read()
+# image = tf.image.decode_png(data, channels=4)
+# with tf.Session() as sess:
+#     # print type(sess.run(image))
+#     writer.add_image(tag='test', img_tensor=sess.run(image))
 
 # for epoch in range(100):
 
