@@ -8,10 +8,18 @@
 
 import numpy as np
 from tensorboardX import SummaryWriter
+import tensorflow as tf
 
 writer = SummaryWriter(log_dir='C:\Users\solinari\.tensorboard\data')
-writer.add_image()
+file = open('data/image/logo.png', 'rb')
+data = file.read()
+image = tf.image.decode_png(data, channels=4)
+with tf.Session() as sess:
+    # print type(sess.run(image))
+    writer.add_image(tag='test', img_tensor=sess.run(image))
+
 # for epoch in range(100):
+
 #     writer.add_scalar('scalar/test', np.random.rand(), epoch)
 #     writer.add_scalars('scalar/scalars_test',
 #                        {'xsinx': epoch * np.sin(epoch), 'xcosx': epoch * np.cos(epoch)}, epoch)
