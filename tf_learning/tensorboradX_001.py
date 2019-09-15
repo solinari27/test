@@ -9,14 +9,14 @@
 # matplotlib with tensorboardX
 # tensorboardX dir in c:\Users\solinari\.tensorboard\data
 
+from tensorboardX import SummaryWriter
 import torch
 from torch.autograd import Variable
 import torch.nn.functional as F
 import matplotlib.pyplot as plt
+from uuid import uuid4
+
 plt.switch_backend('agg')
-
-from tensorboardX import SummaryWriter
-
 
 # fake data
 x = torch.linspace(-5, 5, 200)
@@ -51,5 +51,5 @@ plt.ylim((-0.2, 6))
 plt.legend(loc='best')
 
 writer = SummaryWriter('/mnt/c/Users/solinari/.tensorboard/data')
-writer.add_figure(tag='activation_function', figure=fig)
+writer.add_figure(tag='activation_function_' + str(uuid4()), figure=fig)
 writer.close()
