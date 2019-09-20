@@ -50,6 +50,6 @@ plt.plot(x_np, y_softplus, c='red', label='softplus')
 plt.ylim((-0.2, 6))
 plt.legend(loc='best')
 
-writer = SummaryWriter('/mnt/c/Users/solinari/.tensorboard/data')
+writer = SummaryWriter('/mnt/c/Users/solinari/.tensorboard/img')
 writer.add_figure(tag='activation_function_' + str(uuid4()), figure=fig)
 writer.close()
