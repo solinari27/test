@@ -16,7 +16,7 @@ import torch.nn.functional as F
 import matplotlib.pyplot as plt
 from uuid import uuid4
 
-plt.switch_backend('agg')
+plt.switch_backend('agg') # or 'svg' agg for png image svg for svg image
 
 # fake data
 x = torch.linspace(-5, 5, 200)
