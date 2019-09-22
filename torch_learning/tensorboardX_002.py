@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[15]:
+# In[1]:
 
 
 #!/usr/bin/env python
@@ -16,12 +16,12 @@
 
 # here put the import lib
 # %matplotlib inline
-import numpy as np
 import torch
+import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from tensorboardX import SummaryWriter
 from torch.autograd import Variable
-from uuid import uuid4
 
 # switch matplotlib into non-interactive backennd
 # dont show img on screen
@@ -33,12 +33,13 @@ x = Variable(x)
 x_np = x.data.numpy()
 y_tanh = torch.tanh(x).data.numpy()
 tag = 'my image'
+x_data = x_np
+y_data = y_tanh
 
 #use fig to plot
 fig = plt.figure()
-# plt.plot(x_np, y_tanh, c='red', label='relu')
-plt.plot(x_np, y_tanh, label=tag)
-# plt.legend(loc='best')
+plt.plot(x_data, y_data, label=tag)
+# plt.legend(loc='best') # tuli
 
 # writer = SummaryWriter('/mnt/c/Users/solinari/.tensorboard/img')
 # writer.add_figure(tag='activation_function_' + str(uuid4()), figure=fig)
