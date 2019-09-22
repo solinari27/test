@@ -1,58 +1,53 @@
 #!/usr/bin/env python
-# coding: utf-8
-
-# In[1]:
-
-
-#!/usr/bin/env python
 # -*- encoding: utf-8 -*-
-'''
+"""
 @File    :   tensorboardX_002.py
 @Time    :   2019/09/20 19:50:58
-@Author  :   Solinari 
+@Author  :   Solinari
 @Contact :   deeper1@163.com
 @License :   (C)Copyright 2017-2018, GPLv3
-'''
+"""
 
 # here put the import lib
-# %matplotlib inline
+import os
 import torch
-import numpy as np
-import pandas as pd
+import yaml
 import matplotlib.pyplot as plt
+from uuid import uuid4
 from tensorboardX import SummaryWriter
-from torch.autograd import Variable
 
-# switch matplotlib into non-interactive backennd
-# dont show img on screen
-plt.switch_backend('svg') # or 'svg' agg for png image svg for svg image
 
-# input pytorch tensor
-x = torch.linspace(-5, 5, 200)
-x = Variable(x)
-x_np = x.data.numpy()
-y_tanh = torch.tanh(x).data.numpy()
-tag = 'my image'
-x_data = x_np
-y_data = y_tanh
+class TBwriter():
 
-#use fig to plot
-fig = plt.figure()
-plt.plot(x_data, y_data, label=tag)
-# plt.legend(loc='best') # tuli
+    def __init__(self, homepath):
+        self.homepath = homepath
+        self.conf = dict()
+        with open(homepath + '/Conf/tensorboard.yaml') as f:
+            self.conf = yaml.safe_load(f)
 
-# writer = SummaryWriter('/mnt/c/Users/solinari/.tensorboard/img')
-# writer.add_figure(tag='activation_function_' + str(uuid4()), figure=fig)
-# writer.close()
+    def plotline(self, x_data, y_data, label=None):
+        # non-interactive matplotlib backend 'svg' 'agg' for png image svg for svg image
+        plt.switch_backend('svg')
+        fig = plt.figure()
 
-if __name__ == '__main__':
-    try:
-        get_ipython().system('jupyter nbconvert --to python tensorboardX_002.ipynb')
-    except:
+        plt.plot(x_data, y_data, label=label)
+
+        # output to tensorboard
+        self.__writeResult(fig=fig)
+
+    def plotscatter(self):
+        pass
+    
+    def plotbar(self):
+        pass
+    
+    def plotstock(self, stock_data, label=None):
         pass
 
-
-# In[ ]:
+    def __writeResult(self, fig, output_type='img'):
+        writer = SummaryWriter(self.conf[output_type])
+        writer.add_figure(tag=str(uuid4()), figure=fig)
+        writer.close()
 
 
 
