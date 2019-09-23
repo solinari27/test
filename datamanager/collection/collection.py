@@ -15,14 +15,18 @@ from utils.common.switch import switch
 
 class Collection(object):
     def __init__(self):
+        self.sohuconn = SohuConn(
+            "D:/workspace/test/Conf/sohu.conf")
+        self.neteaseconn = NeteaseConn(
+            "D:/workspace/test/Conf/netease.conf")
         # self.sohuconn = SohuConn(
         #     "/home/solinari/workspace/stockCrawler/Conf/sohu.conf")
         # self.neteaseconn = NeteaseConn(
         #     "/home/solinari/workspace/stockCrawler/Conf/netease.conf")
-        self.sohuconn = SohuConn(
-            "/home/solinari/workspace/test/Conf/sohu.conf")
-        self.neteaseconn = NeteaseConn(
-            "/home/solinari/workspace/test/Conf/netease.conf")
+        # self.sohuconn = SohuConn(
+        # "/home/solinari/workspace/test/Conf/sohu.conf")
+        # self.neteaseconn = NeteaseConn(
+        #     "/home/solinari/workspace/test/Conf/netease.conf")
         # self.sohuconn = SohuConn(
         #     "/mnt/d/workspace/test/Conf/sohu.conf")
         # self.neteaseconn = NeteaseConn(
