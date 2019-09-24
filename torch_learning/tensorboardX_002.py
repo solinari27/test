@@ -46,7 +46,7 @@ class TBwriter():
 
     def __writeResult(self, fig, output_type='img'):
         writer = SummaryWriter(self.conf[output_type])
-        writer.add_figure(tag=str(uuid4()), figure=fig)
+        writer.add_figure(tag='plot_' + str(uuid4()), figure=fig)
         writer.close()
 
 
