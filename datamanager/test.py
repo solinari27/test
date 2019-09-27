@@ -7,14 +7,18 @@
 @time: 2019/02/10
 """
 
+import os
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from uuid import uuid4
 import yaml
 import json
+import pickle
+import time
 
 import mlflow
+from mlflow import log_metric, log_param, log_artifact
 from pytorch.sklearn_lineregression import do_regression
 from datamanager.collection import collection
 from datamanager.collection import data_show
@@ -25,11 +29,11 @@ from common.mongo.neteaseConn import NeteaseConn
 
 
 def mlflow_log_params(conf):
-    mlflow.log_param('start_date', conf['main']['start_date'])
-    mlflow.log_param('end_date', conf['main']['end_date'])
-    mlflow.log_param('thres', conf['collection']['thres'])
-    mlflow.log_param('DBSCAN_eps', conf['collection']['sk_learn']['DBSCAN_eps'])
-    mlflow.log_param('DBSCAN_minsamples', conf['collection']['sk_learn']['DBSCAN_minsamples'])
+    log_param('start_date', conf['main']['start_date'])
+    log_param('end_date', conf['main']['end_date'])
+    log_param('thres', conf['collection']['thres'])
+    log_param('DBSCAN_eps', conf['collection']['sk_learn']['DBSCAN_eps'])
+    log_param('DBSCAN_minsamples', conf['collection']['sk_learn']['DBSCAN_minsamples'])
     
 
 def getStockList():
@@ -90,7 +94,7 @@ def gen_training_data(code, conf):
             fig = plt.figure()
             plt.plot(np.array(list(range(0, len(dataset)))),
                      np.array(dataset), label='label')
-
+            
             data = pd.DataFrame(np.array(dataset))
             filehead = gen_filename()
             
@@ -101,19 +105,23 @@ def gen_training_data(code, conf):
             jd = json.dumps(dataset_info)
             with open(filehead + '.json', 'w') as f:
                 f.write(jd)
-#             json.dumps(filehead + 'xxx')
             data.to_csv(filehead + '.csv')
-            mlflow.log_metric('dataset', count)
-            mlflow.log_artifact(filehead + '.json')
-            mlflow.log_artifact(filehead + '.csv')
-
-
+            plt.savefig(filehead + '.png')
+            log_metric('dataset', count)
+            log_artifact(filehead + '.json')
+            log_artifact(filehead + '.csv')
+            log_artifact(filehead + '.png')
+            os.remove(filehead + '.json')
+            os.remove(filehead + '.csv')
+            os.remove(filehead + '.png')
+            
 
 if __name__ == '__main__':
     with open('D:/workspace/testproj/Conf/mlflow.yaml') as f:
         mlflow_conf = yaml.safe_load(f)
     mlflow.set_tracking_uri(mlflow_conf['uri'])
-    
+    mlflow.set_experiment(mlflow_conf['experiment'])
+
     datainfo = list()
     codes = getStockList()
     code = codes[2][0]
@@ -123,3 +131,7 @@ if __name__ == '__main__':
     mlflow_log_params(conf=conf)
 
     gen_training_data(code=code, conf=conf)
+    with open('datainfo', 'wb') as f:
+        pickle.dump(datainfo, f)
+        log_artifact('datainfo')
+    os.remove('datainfo')
