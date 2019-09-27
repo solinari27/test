@@ -12,6 +12,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from uuid import uuid4
 import yaml
+import json
 
 import mlflow
 from pytorch.sklearn_lineregression import do_regression
@@ -29,9 +30,7 @@ def mlflow_log_params(conf):
     mlflow.log_param('thres', conf['collection']['thres'])
     mlflow.log_param('DBSCAN_eps', conf['collection']['sk_learn']['DBSCAN_eps'])
     mlflow.log_param('DBSCAN_minsamples', conf['collection']['sk_learn']['DBSCAN_minsamples'])
-
-def mlflow_log_metrics():
-    pass
+    
 
 def getStockList():
     client = NeteaseConn('D:/workspace/testproj/Conf/netease.conf')
@@ -94,13 +93,26 @@ def gen_training_data(code, conf):
 
             data = pd.DataFrame(np.array(dataset))
             filehead = gen_filename()
-            print(code, filehead, dataset_info['regression_w'])
-#             print(data)
-#                 data.to_csv('test.csv')
+            
+            dataset_info['filehead'] = filehead
+            datainfo.append(dataset_info)
+            
+            count = len(datainfo)
+            jd = json.dumps(dataset_info)
+            with open(filehead + '.json', 'w') as f:
+                f.write(jd)
+#             json.dumps(filehead + 'xxx')
+            data.to_csv(filehead + '.csv')
+            mlflow.log_metric('dataset', count)
+            mlflow.log_artifact(filehead + '.json')
+            mlflow.log_artifact(filehead + '.csv')
+
 
 
 if __name__ == '__main__':
-    mlflow.set_tracking_uri(uri="http://122.114.213.32:5000")
+    with open('D:/workspace/testproj/Conf/mlflow.yaml') as f:
+        mlflow_conf = yaml.safe_load(f)
+    mlflow.set_tracking_uri(mlflow_conf['uri'])
     
     datainfo = list()
     codes = getStockList()
