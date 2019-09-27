@@ -6,7 +6,7 @@
 @time: 2019/02/24
 """
 import math
-from sklearn import linear_model  # 表示，可以调用sklearn中的linear_model模块进行线性回归。
+from sklearn import linear_model  # use sklearn do line regression
 import numpy as np
 from sklearn.ensemble import IsolationForest
 from sklearn.cluster import DBSCAN
@@ -22,7 +22,8 @@ def get_batch(dataset):
     y_list = []
     for i in range(0, size):
         x_rand.append([i])
-        y_list.append([dataset[i]['TCLOSE']])
+        _y = (dataset[i]['TOPEN'] + dataset[i]['TCLOSE'] + dataset[i]['HIGH'] + dataset[i]['LOW'])/4
+        y_list.append([_y])
     return x_rand, y_list
 
 
@@ -79,7 +80,7 @@ def check_results(datasets, model, thres, DBSCAN_eps, DBSCAN_minsamples):
                 far_x.append([X[_i][0]])
                 fars.append(_diff)
 
-    ret = [[]]
+    # ret = [[]]
     ret = []
     res = [[]]
     if len(far_x) > 0:
@@ -121,21 +122,20 @@ def do_regression(dataset, **kwargs):
 
         w = model.coef_[0][0]
         b = model.intercept_[0]
+        cov_score = model.score(X, y)
         far_points = check_results(
             [X, y], model, kwargs['thres'], kwargs['DBSCAN_eps'], kwargs['DBSCAN_minsamples'])
 
         if far_points == []:
-            ret.append([w, b, 0, len(dataset)])
+            ret.append([w, b, 0, len(dataset), cov_score])
         else:
             x0 = 0
             far_points.append(len(dataset) - 1)
             for x1 in far_points:
                 res = do_regression(
-                    dataset[x0:x1], epochs=10000, thres=10, DBSCAN_eps=3, DBSCAN_minsamples=4)
+                    dataset[x0:x1], epochs=kwargs['epochs'], thres=kwargs['thres'], DBSCAN_eps=kwargs['DBSCAN_eps'], DBSCAN_minsamples=kwargs['DBSCAN_minsamples'])
                 for item in res:
                     item[2] += x0
-                    item[3] += x0
-                    ret.append(item)
                 x0 = x1
 
     return ret

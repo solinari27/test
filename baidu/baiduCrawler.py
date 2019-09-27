@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 import scrapy
 
+
 class BaiduStockSpider(scrapy.Spider):
     # spider need a name
     name = "baiduCrawler"

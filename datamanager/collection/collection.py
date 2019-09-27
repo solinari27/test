@@ -6,6 +6,7 @@
 @time: 2018/10/09
 """
 import time
+import os
 
 from common.mongo.sohuConn import SohuConn
 from common.mongo.neteaseConn import NeteaseConn
@@ -15,9 +16,21 @@ from utils.common.switch import switch
 class Collection(object):
     def __init__(self):
         self.sohuconn = SohuConn(
-            "/home/solinari/workspace/stockCrawler/Conf/sohu.conf")
+            "D:/workspace/test/Conf/sohu.conf")
         self.neteaseconn = NeteaseConn(
-            "/home/solinari/workspace/stockCrawler/Conf/netease.conf")
+            "D:/workspace/test/Conf/netease.conf")
+        # self.sohuconn = SohuConn(
+        #     "/home/solinari/workspace/stockCrawler/Conf/sohu.conf")
+        # self.neteaseconn = NeteaseConn(
+        #     "/home/solinari/workspace/stockCrawler/Conf/netease.conf")
+        # self.sohuconn = SohuConn(
+        # "/home/solinari/workspace/test/Conf/sohu.conf")
+        # self.neteaseconn = NeteaseConn(
+        #     "/home/solinari/workspace/test/Conf/netease.conf")
+        # self.sohuconn = SohuConn(
+        #     "/mnt/d/workspace/test/Conf/sohu.conf")
+        # self.neteaseconn = NeteaseConn(
+        #     "/mnt/d/workspace/test/Conf/netease.conf")
 
     def __del__(self):
         # self.sohuconn = None
@@ -48,6 +61,9 @@ class Collection(object):
             netease_item = netease_result[index]
             if name is None:
                 name = netease_item['NAME']
+
+            if netease_item['TCLOSE'] == 0:
+                continue
 
             if netease_item['NAME'] != name and name is not None:
                 yield result

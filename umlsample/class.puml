@@ -1,0 +1,48 @@
+@startuml
+title workflow inference class dialog
+namespace kps_io #lightGary {
+Class kps_iO{
+}
+}
+
+namespace messagePipeline{
+Abstract Class DistSubscriber{
+	- threading.RLock rlock
+	- threading.Lock wlock
+	- void wait_llock()
+	- void lock_lock()
+	- void free_lock()
+	+ void on_notify()
+}
+
+Class ProtobufSubscriber {
+	+ void update_protobuf()
+	+ protobuf gen_protobuf()
+}
+
+Abstract Class DistPublisher {
+	- List notifyboard
+	+ void register_notifyboard()
+	+ void notify()
+}
+
+Class ProtobufPublisher {
+	+ void compile_protobuf()
+}
+
+DistPublisher <|-- ProtobufPublisher
+DistSubscriber <|-- ProtobufSubscriber
+
+}
+
+namespace kps_prelabling.workflow #orange{
+
+Abstract Class Workflow{
+	- inference_handler
+	# void set_inferenceHandler()
+}
+}
+
+
+
+
