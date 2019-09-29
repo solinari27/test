@@ -32,21 +32,24 @@ def contrun_findit():
     runs = mlflow.search_runs()
     count = len(runs)
     for _index in range(0, count):
-        print (runs.iloc[_index])
-        print (runs.iloc[_index]['metrics.finished'])
-        print (runs.iloc[_index]['run_id'])
+        if not runs.iloc[_index]['metrics.finished']:
+            return runs.iloc[_index]['run_id']
 
-def load_last_run(run_id):
-    # check if runid is finished if finished return []
-    runs = mlflow.search_runs()
-    print (run_id)
+def load_last_run(conf):
+    """
+    load last mlflow dataset run info
+    """
+    if not conf['dataset']['continue']:
+        return None, []
     
+    run_id = (contrun_findit())
+    mlflow.start_run(run_id=run_id)
     uri_base = mlflow.get_artifact_uri()
     filename = os.path.join(uri_base, 'datainfo')
     with open(filename, 'rb') as f:
         datainfo = pickle.load(f)
-    print (datainfo)
-    return datainfo
+
+    return run_id, datainfo
     
     
 def mlflow_log_params(conf):
@@ -74,6 +77,7 @@ def gen_training_data(code, conf):
         w = regression_res[0]
         b = regression_res[1]
         score = regression_res[4]
+        dataset_info['code'] = code
         dataset_info['regression_w'] = w
         dataset_info['regression_b'] = b
         dataset_info['regression_score'] = score
@@ -143,25 +147,28 @@ if __name__ == '__main__':
     mlflow.set_tracking_uri(mlflow_conf['uri'])
     mlflow.set_experiment(mlflow_conf['experiment'])
 
-    # not finished until all code generated
-#     log_metric('finished', False)
-#     datainfo = list()
-#     codes = getStockList()
-#     code = codes[2][0]
-#     with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
-#         conf = yaml.safe_load(f)
+    mlflow_runid, datainfo = (load_last_run(conf=mlflow_conf))
+    if mlflow_runid is None:
+        mlflow.start_run()
+        mlflow_runid = mlflow.active_run()
         
-#     mlflow_log_params(conf=conf)
+    # not finished until all code generated
+    log_metric('finished', False)
+    codes = getStockList()
+    code = codes[2][0]
+    with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
+        conf = yaml.safe_load(f)
+        
+    mlflow_log_params(conf=conf)
 
-#     gen_training_data(code=code, conf=conf)
-#     with open('datainfo', 'wb') as f:
-#         pickle.dump(datainfo, f)
-#     log_artifact('datainfo')
-#     os.remove('datainfo')
+    gen_training_data(code=code, conf=conf)
+    with open('datainfo', 'wb') as f:
+        pickle.dump(datainfo, f)
+    log_artifact('datainfo')
+    os.remove('datainfo')
 
 #     if all_code_finished():
 #         log_metric('finished', True)
 
-    load_last_run('0cb69a0869a44272900c33504cd8c474')
 
-
+    mlflow.end_run()
