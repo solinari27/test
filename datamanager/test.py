@@ -28,6 +28,27 @@ from torch_learning.tensorboardX_002 import TBwriter
 from common.mongo.neteaseConn import NeteaseConn
 
 
+def contrun_findit():
+    runs = mlflow.search_runs()
+    count = len(runs)
+    for _index in range(0, count):
+        print (runs.iloc[_index])
+        print (runs.iloc[_index]['metrics.finished'])
+        print (runs.iloc[_index]['run_id'])
+
+def load_last_run(run_id):
+    # check if runid is finished if finished return []
+    runs = mlflow.search_runs()
+    print (run_id)
+    
+    uri_base = mlflow.get_artifact_uri()
+    filename = os.path.join(uri_base, 'datainfo')
+    with open(filename, 'rb') as f:
+        datainfo = pickle.load(f)
+    print (datainfo)
+    return datainfo
+    
+    
 def mlflow_log_params(conf):
     log_param('start_date', conf['main']['start_date'])
     log_param('end_date', conf['main']['end_date'])
@@ -135,14 +156,12 @@ if __name__ == '__main__':
 #     gen_training_data(code=code, conf=conf)
 #     with open('datainfo', 'wb') as f:
 #         pickle.dump(datainfo, f)
-#         log_artifact('datainfo')
+#     log_artifact('datainfo')
 #     os.remove('datainfo')
 
 #     if all_code_finished():
 #         log_metric('finished', True)
 
-    runs = mlflow.search_runs()
-    count = len(runs)
-    for _index in range(0, count):
-        print (runs.iloc[_index])
-#         print (runs.iloc[_index]['run_id'])
+    load_last_run('0cb69a0869a44272900c33504cd8c474')
+
+
