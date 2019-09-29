@@ -122,16 +122,27 @@ if __name__ == '__main__':
     mlflow.set_tracking_uri(mlflow_conf['uri'])
     mlflow.set_experiment(mlflow_conf['experiment'])
 
-    datainfo = list()
-    codes = getStockList()
-    code = codes[2][0]
-    with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
-        conf = yaml.safe_load(f)
+    # not finished until all code generated
+#     log_metric('finished', False)
+#     datainfo = list()
+#     codes = getStockList()
+#     code = codes[2][0]
+#     with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
+#         conf = yaml.safe_load(f)
         
-    mlflow_log_params(conf=conf)
+#     mlflow_log_params(conf=conf)
 
-    gen_training_data(code=code, conf=conf)
-    with open('datainfo', 'wb') as f:
-        pickle.dump(datainfo, f)
-        log_artifact('datainfo')
-    os.remove('datainfo')
+#     gen_training_data(code=code, conf=conf)
+#     with open('datainfo', 'wb') as f:
+#         pickle.dump(datainfo, f)
+#         log_artifact('datainfo')
+#     os.remove('datainfo')
+
+#     if all_code_finished():
+#         log_metric('finished', True)
+
+    runs = mlflow.search_runs()
+    count = len(runs)
+    for _index in range(0, count):
+        print (runs.iloc[_index])
+#         print (runs.iloc[_index]['run_id'])
