@@ -151,11 +151,14 @@ if __name__ == '__main__':
     if mlflow_runid is None:
         mlflow.start_run()
         mlflow_runid = mlflow.active_run()
+        # not finished until all code generated
+        log_metric('finished', False)
+        codes = getStockList()
         
-    # not finished until all code generated
-    log_metric('finished', False)
-    codes = getStockList()
-    code = codes[2][0]
+    for dataitem in datainfo:
+        print (dataitem['code'])
+    
+    code = '600007'
     with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
         conf = yaml.safe_load(f)
         
