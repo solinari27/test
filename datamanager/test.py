@@ -31,6 +31,7 @@ from common.mongo.neteaseConn import NeteaseConn
 def contrun_findit():
     runs = mlflow.search_runs()
     count = len(runs)
+
     for _index in range(0, count):
         if not runs.iloc[_index]['metrics.finished']:
             return runs.iloc[_index]['run_id']
@@ -154,24 +155,29 @@ if __name__ == '__main__':
         # not finished until all code generated
         log_metric('finished', False)
         codes = getStockList()
-        
-    for dataitem in datainfo:
-        print (dataitem['code'])
     
-    code = '600007'
-    with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
-        conf = yaml.safe_load(f)
-        
-    mlflow_log_params(conf=conf)
+    codeslist = getStockList()
+    codes = []
+    for item in codeslist:
+        codes.append(item[0])
+    codes_set = set(codes)
+    for dataitem in datainfo:
+        codes_set.discard(dataitem['code'])
+    codes = list(codes_set)
 
-    gen_training_data(code=code, conf=conf)
-    with open('datainfo', 'wb') as f:
-        pickle.dump(datainfo, f)
-    log_artifact('datainfo')
-    os.remove('datainfo')
+    for code in codes:
+        with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
+            conf = yaml.safe_load(f)
 
-#     if all_code_finished():
-#         log_metric('finished', True)
+        mlflow_log_params(conf=conf)
 
+        gen_training_data(code=code, conf=conf)
+        with open('datainfo', 'wb') as f:
+            pickle.dump(datainfo, f)
+        log_artifact('datainfo')
+        os.remove('datainfo')
 
+    log_metric('finished', True)
     mlflow.end_run()
+
+
