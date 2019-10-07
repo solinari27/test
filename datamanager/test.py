@@ -144,10 +144,10 @@ def gen_training_data(code, conf):
                 f.write(jd)
             data.to_csv(filehead + '.csv')
             plt.savefig(filehead + '.png')
-            log_metric('dataset', count)
             log_artifact(filehead + '.json')
             log_artifact(filehead + '.csv')
             log_artifact(filehead + '.png')
+            log_metric('dataset', count)
             os.remove(filehead + '.json')
             os.remove(filehead + '.csv')
             os.remove(filehead + '.png')
@@ -165,7 +165,10 @@ if __name__ == '__main__':
 #         mlflow_runid = mlflow.active_run()
         # not finished until all code generated
         log_metric('finished', False)
-        codes = getStockList()
+        codeslist = getStockList()
+        codes = []
+        for item in codeslist:
+            codes.append(item[0])
 
     else:
         codeslist = getStockList()
@@ -178,6 +181,7 @@ if __name__ == '__main__':
         codes = list(codes_set)
 
     for code in codes:
+        print (code)
         with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
             conf = yaml.safe_load(f)
 
