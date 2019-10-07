@@ -46,6 +46,7 @@ def load_last_run(conf):
         return None, []
     
     run_id = (contrun_findit())
+    mlflow.end_run()
     mlflow.start_run(run_id=run_id)
     uri_base = mlflow.get_artifact_uri()
     try:
@@ -73,7 +74,7 @@ def getStockList():
 def gen_plotdata(dataset):
     plotdata = []
     for item in dataset:
-        plotdata.append([item['TOPEN'], item['TCLOSE'], item['HIGH'], item['LOW']])
+        plotdata.append([item[1], item[2], item[3], item[4]])
     return plotdata
 
 def gen_training_data(code, conf):
@@ -181,7 +182,6 @@ if __name__ == '__main__':
         codes = list(codes_set)
 
     for code in codes:
-        print (code)
         with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
             conf = yaml.safe_load(f)
 
