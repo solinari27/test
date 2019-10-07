@@ -36,6 +36,8 @@ def contrun_findit():
         if not runs.iloc[_index]['metrics.finished']:
             return runs.iloc[_index]['run_id']
 
+    return None
+
 def load_last_run(conf):
     """
     load last mlflow dataset run info
@@ -46,9 +48,12 @@ def load_last_run(conf):
     run_id = (contrun_findit())
     mlflow.start_run(run_id=run_id)
     uri_base = mlflow.get_artifact_uri()
-    filename = os.path.join(uri_base, 'datainfo')
-    with open(filename, 'rb') as f:
-        datainfo = pickle.load(f)
+    try:
+        filename = os.path.join(uri_base, 'datainfo')
+        with open(filename, 'rb') as f:
+            datainfo = pickle.load(f)
+    except:
+        datainfo = []
 
     return run_id, datainfo
     
@@ -65,6 +70,11 @@ def getStockList():
     client = NeteaseConn('D:/workspace/testproj/Conf/netease.conf')
     return client.getStocks()
 
+def gen_plotdata(dataset):
+    plotdata = []
+    for item in dataset:
+        plotdata.append([item['TOPEN'], item['TCLOSE'], item['HIGH'], item['LOW']])
+    return plotdata
 
 def gen_training_data(code, conf):
     def gen_filename():
@@ -118,8 +128,9 @@ def gen_training_data(code, conf):
                 rawdata=result[item[2]: item[3]], regression_res=item)
 
             fig = plt.figure()
-            plt.plot(np.array(list(range(0, len(dataset)))),
-                     np.array(dataset), label='label')
+            plotdataset = gen_plotdata(dataset=dataset)
+            plt.plot(np.array(list(range(0, len(plotdataset)))),
+                     np.array(plotdataset), label='label')
             
             data = pd.DataFrame(np.array(dataset))
             filehead = gen_filename()
@@ -147,23 +158,24 @@ if __name__ == '__main__':
         mlflow_conf = yaml.safe_load(f)
     mlflow.set_tracking_uri(mlflow_conf['uri'])
     mlflow.set_experiment(mlflow_conf['experiment'])
-
+    
     mlflow_runid, datainfo = (load_last_run(conf=mlflow_conf))
     if mlflow_runid is None:
-        mlflow.start_run()
-        mlflow_runid = mlflow.active_run()
+#         mlflow.start_run()
+#         mlflow_runid = mlflow.active_run()
         # not finished until all code generated
         log_metric('finished', False)
         codes = getStockList()
-    
-    codeslist = getStockList()
-    codes = []
-    for item in codeslist:
-        codes.append(item[0])
-    codes_set = set(codes)
-    for dataitem in datainfo:
-        codes_set.discard(dataitem['code'])
-    codes = list(codes_set)
+
+    else:
+        codeslist = getStockList()
+        codes = []
+        for item in codeslist:
+            codes.append(item[0])
+        codes_set = set(codes)
+        for dataitem in datainfo:
+            codes_set.discard(dataitem['code'])
+        codes = list(codes_set)
 
     for code in codes:
         with open('D:/workspace/testproj/Conf/datamanager.yaml') as f:
