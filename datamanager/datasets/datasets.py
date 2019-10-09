@@ -6,6 +6,9 @@
 # @File    : datasets.py
 # @Software: PyCharm
 
+import numpy as np
+from sklearn import linear_model
+
 # use average price do clustering
 # TODO: maybe TCLOSE better
 def gen_avprice(rawdata):
@@ -25,9 +28,20 @@ def clustering_DBSCAN(datas, extreme_points):
     for p in extreme_points:
         if clustering == []:
             clustering.append(p)
+            continue
 
         rangedatas = datas[clustering[len(clustering) - 1]:p]
-        print(rangedatas)
+        # print(rangedatas)
+
+        X = np.array(list(range(0, len(rangedatas)))).reshape(-1, 1)
+        model = linear_model.LinearRegression()
+        model.fit(X=X, y=np.array(rangedatas).reshape(-1, 1))
+
+        w = model.coef_[0][0]
+        b = model.intercept_[0]
+        # cov_score = model.score(X, y)
+        print (w, b)
+
         # TODO: rangedatas do sklineregression and do clustering
         clustering.append(p)
 

@@ -122,9 +122,15 @@ def gen_training_data(code, conf):
                             DBSCAN_eps=conf['collection']['sk_learn']['DBSCAN_eps'],
                             DBSCAN_minsamples=conf['collection']['sk_learn']['DBSCAN_minsamples'])
         for item in ret:
+            # drop function
             # if line regression cov score < xx; drop this result
-            if item[4] < 0.2 or abs(item[0]) < 0.01:
+            score = item[4]
+            weight = item[0]
+#             if score < conf['collection']['line_score'] or abs(weight) < conf['collection']['abs_weight']:
+#                 continue
+            if score < conf['collection']['line_score']:
                 continue
+            
             dataset, dataset_info = gen_storage_data(
                 rawdata=result[item[2]: item[3]], regression_res=item)
 
@@ -162,8 +168,6 @@ if __name__ == '__main__':
     
     mlflow_runid, datainfo = (load_last_run(conf=mlflow_conf))
     if mlflow_runid is None:
-#         mlflow.start_run()
-#         mlflow_runid = mlflow.active_run()
         # not finished until all code generated
         log_metric('finished', False)
         codeslist = getStockList()
