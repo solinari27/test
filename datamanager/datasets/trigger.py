@@ -7,6 +7,7 @@
 # @Software: PyCharm
 
 from datamanager.collection import collection
+from datamanager.datasets.datasets import gen_datasets
 
 start_date = "2010-01-01"
 end_date = "2019-12-31"
@@ -14,4 +15,6 @@ c = collection.Collection()
 code = "600000"
 
 for result in c.getData(code=code, start_date=start_date, end_date=end_date):
-    print (result)
+    # print (result)
+    ret_cluster = gen_datasets(rawdata=result)
+    print(ret_cluster)
