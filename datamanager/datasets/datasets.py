@@ -6,6 +6,8 @@
 # @File    : datasets.py
 # @Software: PyCharm
 
+# use average price do clustering
+# TODO: maybe TCLOSE better
 def gen_avprice(rawdata):
     datas = []
     for item in rawdata:
@@ -30,4 +32,6 @@ def gen_datasets(rawdata):
     # points distance with Radian
     ret = []
     for p in extreme_points:
-        print (p)
+        if ret == []:
+            ret.append(p)
+        print (datas[p-1:p])
