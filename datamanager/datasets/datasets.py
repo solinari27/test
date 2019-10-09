@@ -6,6 +6,7 @@
 # @File    : datasets.py
 # @Software: PyCharm
 
+import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import linear_model
 
@@ -34,13 +35,18 @@ def clustering_DBSCAN(datas, extreme_points):
         # print(rangedatas)
 
         X = np.array(list(range(0, len(rangedatas)))).reshape(-1, 1)
+        y = np.array(rangedatas).reshape(-1, 1)
         model = linear_model.LinearRegression()
-        model.fit(X=X, y=np.array(rangedatas).reshape(-1, 1))
+        model.fit(X=X, y=y)
 
         w = model.coef_[0][0]
         b = model.intercept_[0]
-        # cov_score = model.score(X, y)
-        print (w, b)
+        cov_score = model.score(X, y)
+        print (w, b, cov_score)
+
+        # fig = plt.figure()
+        # plt.plot(X, y, label=str(cov_score))
+        # plt.show()
 
         # TODO: rangedatas do sklineregression and do clustering
         clustering.append(p)
