@@ -17,4 +17,3 @@ code = "600000"
 for result in c.getData(code=code, start_date=start_date, end_date=end_date):
     # print (result)
     ret_cluster = gen_datasets(rawdata=result)
-    print(ret_cluster)

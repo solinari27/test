@@ -13,20 +13,21 @@ def gen_avprice(rawdata):
     return datas
 
 
-def if_extreme_point(data_list):
-    pass
-
 def gen_datasets(rawdata):
     datas = gen_avprice(rawdata=rawdata)
 
-    ret = []
+    # 5 points to select local extreme points
+    # .   .    .
+    #  . .    . .
+    #   .    .   .
+    extreme_points = []
     for i in range(2, len(datas)-2):
         rangelist = datas[i-2: i+3]
         if datas[i] == max(rangelist) or datas == min(rangelist):
-            ret.append(i)
-    return ret
+            extreme_points.append(i)
 
-    # p_start = 0
-    # p_end = len(rawdata)
-    # for i in range(p_start, p_end):
-    #     print (rawdata[i])
+    # do clustering
+    # points distance with Radian
+    ret = []
+    for p in extreme_points:
+        print (p)
