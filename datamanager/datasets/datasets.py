@@ -15,6 +15,23 @@ def gen_avprice(rawdata):
     return datas
 
 
+def distance(x, y):
+    pass
+
+
+def clustering_DBSCAN(datas, extreme_points):
+    clustering = []
+    weights = []
+    for p in extreme_points:
+        if clustering == []:
+            clustering.append(p)
+
+        rangedatas = datas[clustering[len(clustering) - 1]:p]
+        print(rangedatas)
+        # TODO: rangedatas do sklineregression and do clustering
+        clustering.append(p)
+
+
 def gen_datasets(rawdata):
     datas = gen_avprice(rawdata=rawdata)
 
@@ -30,8 +47,4 @@ def gen_datasets(rawdata):
 
     # do clustering
     # points distance with Radian
-    ret = []
-    for p in extreme_points:
-        if ret == []:
-            ret.append(p)
-        print (datas[p-1:p])
+    ret = clustering_DBSCAN(datas=datas, extreme_points=extreme_points)
