@@ -67,6 +67,7 @@ def lineregression_score(datas, head, end):
     return cov_score
 
 # two dimension DP(dynamic plan) algo do dataset split
+# two status: conjunction disconnect
 # judgement： higher line regression coeffeient score
 def dp2way(datas, extreme_points):
     _size = len(extreme_points)
@@ -88,6 +89,15 @@ def dp2way(datas, extreme_points):
 
             # compare score and do choice
             # TODO: score compare
+
+
+# three dimension DP(dynamic plan) algo do dataset split
+# three status: conjunction disconnect noise
+# noise score is zero(first idea)
+# judgement： higher line regression coeffeient score
+def dp3way(datas, extreme_points):
+    pass
+
 
 def gen_datasets(rawdata):
     datas = gen_avprice(rawdata=rawdata)
