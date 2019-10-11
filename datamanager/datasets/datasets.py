@@ -6,6 +6,9 @@
 # @File    : datasets.py
 # @Software: PyCharm
 
+import numpy as np
+
+
 # use average price do clustering
 # TODO: maybe TCLOSE better
 def gen_avprice(rawdata):
@@ -15,11 +18,9 @@ def gen_avprice(rawdata):
     return datas
 
 
-def distance(x, y):
-    pass
-
-
-def clustering_DBSCAN(datas, extreme_points):
+# APclustering  algo
+# not use
+def clustering(datas, extreme_points):
     clustering = []
     weights = []
     for p in extreme_points:
@@ -30,6 +31,17 @@ def clustering_DBSCAN(datas, extreme_points):
         print(rangedatas)
         # TODO: rangedatas do sklineregression and do clustering
         clustering.append(p)
+
+
+# two dimension DP(dynamic plan) algo do dataset split
+# judgement： higher line regression coeffeient score
+def dp2way(datas, extreme_points):
+    _size = len(extreme_points)
+    mat_score = np.zeros((_size, _size))
+    mat_policy = np.zeros((_size, _size)).astype(int)
+    for i in range(1, _size):
+        for j in range(1, _size):
+            print (mat_score[i, j])
 
 
 def gen_datasets(rawdata):
@@ -47,4 +59,5 @@ def gen_datasets(rawdata):
 
     # do clustering
     # points distance with Radian
-    ret = clustering_DBSCAN(datas=datas, extreme_points=extreme_points)
+    # ret = clustering(datas=datas, extreme_points=extreme_points)
+    ret = dp2way(datas=datas, extreme_points=extreme_points)
