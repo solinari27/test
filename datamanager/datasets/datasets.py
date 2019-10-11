@@ -49,21 +49,32 @@ def clustering(datas, extreme_points):
         clustering.append(p)
 
 
+def lineregression_score(datas, head, end):
+    return 0
+
+
 # two dimension DP(dynamic plan) algo do dataset split
 # judgement： higher line regression coeffeient score
 def dp2way(datas, extreme_points):
     _size = len(extreme_points)
     mat_score = np.zeros((_size, _size))
-    # mat_policy = np.zeros((_size, _size)).astype(int)
+    mat_policy = np.zeros((_size, _size)).astype(int)
 
     for i in range(1, _size):
-        for j in range(1, _size):
-            # the most left not zero element is conjuction head
+        for j in range(i, _size):
+            # conjuction from left elem head is the non-zero most left elem
             # the score_conjuction is the lineregression score from head to elem
-            score_conjunction = 0
+            k = j-1
+            while mat_score[i, k]>0:
+                k -= 1
+            # cal score from elem_k to elem_j
+            score_conjunction = lineregression_score(datas=datas, head=extreme_points[k], end=extreme_points[j])
 
-            # disconnect from this elem
-            score_disconnect = 0
+            # disconnect from this elem and from upper elem
+            score_disconnect = lineregression_score(datas=datas, head=extreme_points[j-1], end=extreme_points[j])
+
+            # compare score and do choice
+            # TODO: score compare
 
 def gen_datasets(rawdata):
     datas = gen_avprice(rawdata=rawdata)
