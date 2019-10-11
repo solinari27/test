@@ -26,7 +26,7 @@ def distance(x, y):
     pass
 
 
-def clustering_DBSCAN(datas, extreme_points):
+def clustering(datas, extreme_points):
     clustering = []
     weights = []
     for p in extreme_points:
