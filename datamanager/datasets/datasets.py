@@ -10,8 +10,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import linear_model
 
-import numpy as np
-
 
 # use average price do clustering
 # TODO: maybe TCLOSE better
@@ -20,10 +18,6 @@ def gen_avprice(rawdata):
     for item in rawdata:
         datas.append((item['TOPEN'] + item['TCLOSE'] + item['HIGH'] + item['LOW'])/4)
     return datas
-
-
-def distance(x, y):
-    pass
 
 
 def clustering(datas, extreme_points):
@@ -60,11 +54,16 @@ def clustering(datas, extreme_points):
 def dp2way(datas, extreme_points):
     _size = len(extreme_points)
     mat_score = np.zeros((_size, _size))
-    mat_policy = np.zeros((_size, _size)).astype(int)
+    # mat_policy = np.zeros((_size, _size)).astype(int)
+
     for i in range(1, _size):
         for j in range(1, _size):
-            print (mat_score[i, j])
+            # the most left not zero element is conjuction head
+            # the score_conjuction is the lineregression score from head to elem
+            score_conjunction = 0
 
+            # disconnect from this elem
+            score_disconnect = 0
 
 def gen_datasets(rawdata):
     datas = gen_avprice(rawdata=rawdata)
