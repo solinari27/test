@@ -45,13 +45,26 @@ def clustering(datas, extreme_points):
         # plt.plot(X, y, label=str(cov_score))
         # plt.show()
 
-        # TODO: rangedatas do sklineregression and do clustering
         clustering.append(p)
 
 
 def lineregression_score(datas, head, end):
-    return 0
+    """
+    cal score of lineregression from dataset head to end
+    :param datas:
+    :param head:
+    :param end:
+    :return:
+    """
+    rangedatas = datas[head: end]
+    X = np.array(list(range(0, len(rangedatas)))).reshape(-1, 1)
+    y = np.array(rangedatas).reshape(-1, 1)
+    model = linear_model.LinearRegression()
+    model.fit(X=X, y=y)
+    cov_score = model.score(X, y)
 
+    # TODO: consider if should power score of data count
+    return cov_score
 
 # two dimension DP(dynamic plan) algo do dataset split
 # judgement： higher line regression coeffeient score
@@ -89,7 +102,4 @@ def gen_datasets(rawdata):
         if datas[i] == max(rangelist) or datas == min(rangelist):
             extreme_points.append(i)
 
-    # do clustering
-    # points distance with Radian
-    # ret = clustering(datas=datas, extreme_points=extreme_points)
     ret = dp2way(datas=datas, extreme_points=extreme_points)
