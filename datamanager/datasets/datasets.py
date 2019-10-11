@@ -6,6 +6,10 @@
 # @File    : datasets.py
 # @Software: PyCharm
 
+import matplotlib.pyplot as plt
+import numpy as np
+from sklearn import linear_model
+
 import numpy as np
 
 
@@ -18,17 +22,35 @@ def gen_avprice(rawdata):
     return datas
 
 
-# APclustering  algo
-# not use
-def clustering(datas, extreme_points):
+def distance(x, y):
+    pass
+
+
+def clustering_DBSCAN(datas, extreme_points):
     clustering = []
     weights = []
     for p in extreme_points:
         if clustering == []:
             clustering.append(p)
+            continue
 
         rangedatas = datas[clustering[len(clustering) - 1]:p]
-        print(rangedatas)
+        # print(rangedatas)
+
+        X = np.array(list(range(0, len(rangedatas)))).reshape(-1, 1)
+        y = np.array(rangedatas).reshape(-1, 1)
+        model = linear_model.LinearRegression()
+        model.fit(X=X, y=y)
+
+        w = model.coef_[0][0]
+        b = model.intercept_[0]
+        cov_score = model.score(X, y)
+        print (w, b, cov_score)
+
+        # fig = plt.figure()
+        # plt.plot(X, y, label=str(cov_score))
+        # plt.show()
+
         # TODO: rangedatas do sklineregression and do clustering
         clustering.append(p)
 
