@@ -77,10 +77,17 @@ def lineregression_score(datas, head, end):
 # judgement： higher line regression coeffeient score
 # Dynamic Plan:
 # esp1|      esp2       |   esp3        esp4        esp5 ...
-#     |     ↖vs.↑     |         ↖vs.↑
+#     |↖vs.↑
 # esp1|      esp1~esp2  |   esp2~esp3   esp3~esp4   esp4~esp5
-#
-# esp1|     esp1~esp2   |   esp1~esp3
+#                      ↖vs.↑
+# esp1|     esp1~esp2   |   esp1~esp3 or esp1!esp2|esp3
+#                              ↓
+#                           if esp3 not conjunction with esp1~eps2 this decision makes esp1~esp2 is a absolutely independent dataset series
+# DP policy:
+# 3 statement:
+# 1. disconnection better -> disconnection
+# 2. conjunction better && prev elem choices disconnection -> conjunction
+# 3. conjunction better && prev elem choices conjunction -> compare prev elem is conjunction with prev elem or conjunction with now elem -> select some conjunction
 def dp2way(datas, extreme_points):
     _size = len(extreme_points)
     mat_score = np.zeros((_size, _size))
