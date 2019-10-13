@@ -75,8 +75,12 @@ def lineregression_score(datas, head, end):
 # two dimension DP(dynamic plan) algo do dataset split
 # two status: conjunction disconnect
 # judgement： higher line regression coeffeient score
-
-
+# Dynamic Plan:
+# esp1|      esp2       |   esp3        esp4        esp5 ...
+#     |     ↖vs.↑     |         ↖vs.↑
+# esp1|      esp1~esp2  |   esp2~esp3   esp3~esp4   esp4~esp5
+#
+# esp1|     esp1~esp2   |   esp1~esp3
 def dp2way(datas, extreme_points):
     _size = len(extreme_points)
     mat_score = np.zeros((_size, _size))
@@ -84,19 +88,11 @@ def dp2way(datas, extreme_points):
 
     for i in range(1, _size):
         for j in range(i, _size):
-            # conjuction from left elem head is the non-zero most left elem
-            # the score_conjuction is the lineregression score from head to
-            # elem
-            k = j - 1
-            while mat_score[i, k] > 0:
-                k -= 1
-            # cal score from elem_k to elem_j
-            score_conjunction = lineregression_score(
-                datas=datas, head=extreme_points[k], end=extreme_points[j])
-
-            # disconnect from this elem and from upper elem
             score_disconnect = lineregression_score(
                 datas=datas, head=extreme_points[j - 1], end=extreme_points[j])
+
+            score_conjunction = lineregression_score(
+                datas=datas, head=extreme_points[k], end=extreme_points[j])
 
             # compare score and do choice
             # TODO: score compare
@@ -108,7 +104,6 @@ def dp2way(datas, extreme_points):
 # judgement： higher line regression coeffeient score
 def dp3way(datas, extreme_points):
     pass
-
 
 def gen_datasets(rawdata):
     datas = gen_avprice(rawdata=rawdata)
