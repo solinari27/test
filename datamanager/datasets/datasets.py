@@ -88,6 +88,7 @@ def lineregression_score(datas, head, end):
 # 1. disconnection better -> disconnection
 # 2. conjunction better && prev elem choices disconnection -> conjunction
 # 3. conjunction better && prev elem choices conjunction -> compare prev elem is conjunction with prev elem or conjunction with now elem -> select some conjunction
+# 4. conjunction better -> find if prev elem is conjunction with prev elem is better and find on do dicision if should reconjunction?
 def dp2way(datas, extreme_points):
     _size = len(extreme_points)
     mat_score = np.zeros((_size, _size))
