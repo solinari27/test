@@ -30,6 +30,8 @@ def regressdistance():
     """
     pass
 
+# clustering based on meanshift
+# recompute extreme points distance by remapping to R^n space
 def clustering(datas, extreme_points):
     """
     use clustering algorithm do dataset clustering
