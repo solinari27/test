@@ -24,8 +24,19 @@ def gen_avprice(rawdata):
             4)
     return datas
 
+def regressdistance():
+    """
+    cal regression distance
+    """
+    pass
 
 def clustering(datas, extreme_points):
+    """
+    use clustering algorithm do dataset clustering
+    clustering metrics: weight / cov_score
+    weight: cal regression weight(line angle)
+    cov_score: cal regression fit precision
+    """
     clustering = []
     weights = []
     for p in extreme_points:
@@ -96,11 +107,12 @@ def dp2way(datas, extreme_points):
 
     for i in range(1, _size):
         for j in range(i, _size):
-            score_disconnect = lineregression_score(
-                datas=datas, head=extreme_points[j - 1], end=extreme_points[j])
+            pass
+#             score_disconnect = lineregression_score(
+#                 datas=datas, head=extreme_points[j - 1], end=extreme_points[j])
 
-            score_conjunction = lineregression_score(
-                datas=datas, head=extreme_points[k], end=extreme_points[j])
+#             score_conjunction = lineregression_score(
+#                 datas=datas, head=extreme_points[k], end=extreme_points[j])
 
             # compare score and do choice
             # TODO: score compare
@@ -126,4 +138,4 @@ def gen_datasets(rawdata):
         if datas[i] == max(rangelist) or datas == min(rangelist):
             extreme_points.append(i)
 
-    ret = dp2way(datas=datas, extreme_points=extreme_points)
+    ret = clustering(datas=datas, extreme_points=extreme_points)
