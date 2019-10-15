@@ -65,7 +65,16 @@ def clustering(datas, extreme_points):
     
     small_clusters = gen_dataset_smallcluster()
     # do DBSCAN clustering on small_clusters
-    # cal matrics of distance not eucilidian
+    # cal matrics of distance not euclidean
+#     Y = np.array([[0, 1, 2],
+#                   [1, 0, 3],
+#                   [2, 3, 0]]) # 相似度矩阵,距离越小代表两个向量距离越近
+#     # N = Y.shape[0]
+#     db = DBSCAN(eps=0.13, metric='precomputed', min_samples=3).fit(Y)
+#     labels = db.labels_
+#     # 然后来看一下分类的结果吧!
+#     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0) # 类的数目
+#     print('类的数目是:%d'%(n_clusters_))
     
 #     clustering = []
 #     weights = []
