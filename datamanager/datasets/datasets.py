@@ -30,7 +30,7 @@ def regressdistance():
     """
     pass
 
-# clustering based on meanshift
+# clustering based on DBSCAN
 # recompute extreme points distance by remapping to R^n space
 def clustering(datas, extreme_points):
     """
@@ -39,31 +39,54 @@ def clustering(datas, extreme_points):
     weight: cal regression weight(line angle)
     cov_score: cal regression fit precision
     """
-    clustering = []
-    weights = []
-    for p in extreme_points:
-        if clustering == []:
-            clustering.append(p)
-            continue
+    elems = []
+    totallen = len(extreme_points)
+    for i in range(1, totallen):
+        dataset = datas[extreme_points[i-1]:extreme_points[i]]
+        if len(dataset)>2:
+            X = np.array(list(range(0, len(dataset)))).reshape(-1, 1)
+            y = np.array(dataset).reshape(-1, 1)
+            model = linear_model.LinearRegression()
+            model.fit(X=X, y=y)
 
-        rangedatas = datas[clustering[len(clustering) - 1]:p]
-        # print(rangedatas)
+            w = model.coef_[0][0]
+            b = model.intercept_[0]
+            cov_score = model.score(X, y)
+            elems.append({'head': extreme_points[i-1],
+                         'end': extreme_points[i],
+                         'weight': w,
+                         'bias': b,
+                         'score': cov_score})
+        else:
+            pass
+        
+    print (elems)
+    
+#     clustering = []
+#     weights = []
+#     for p in extreme_points:
+#         if clustering == []:
+#             clustering.append(p)
+#             continue
 
-        X = np.array(list(range(0, len(rangedatas)))).reshape(-1, 1)
-        y = np.array(rangedatas).reshape(-1, 1)
-        model = linear_model.LinearRegression()
-        model.fit(X=X, y=y)
+#         rangedatas = datas[clustering[len(clustering) - 1]:p]
+#         # print(rangedatas)
 
-        w = model.coef_[0][0]
-        b = model.intercept_[0]
-        cov_score = model.score(X, y)
-        print(w, b, cov_score)
+#         X = np.array(list(range(0, len(rangedatas)))).reshape(-1, 1)
+#         y = np.array(rangedatas).reshape(-1, 1)
+#         model = linear_model.LinearRegression()
+#         model.fit(X=X, y=y)
 
-        # fig = plt.figure()
-        # plt.plot(X, y, label=str(cov_score))
-        # plt.show()
+#         w = model.coef_[0][0]
+#         b = model.intercept_[0]
+#         cov_score = model.score(X, y)
+#         print(w, b, cov_score)
 
-        clustering.append(p)
+#         # fig = plt.figure()
+#         # plt.plot(X, y, label=str(cov_score))
+#         # plt.show()
+
+#         clustering.append(p)
 
 
 def lineregression_score(datas, head, end):
