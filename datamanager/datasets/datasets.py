@@ -39,28 +39,33 @@ def clustering(datas, extreme_points):
     weight: cal regression weight(line angle)
     cov_score: cal regression fit precision
     """
-    elems = []
-    totallen = len(extreme_points)
-    for i in range(1, totallen):
-        dataset = datas[extreme_points[i-1]:extreme_points[i]]
-        if len(dataset)>2:
-            X = np.array(list(range(0, len(dataset)))).reshape(-1, 1)
-            y = np.array(dataset).reshape(-1, 1)
-            model = linear_model.LinearRegression()
-            model.fit(X=X, y=y)
+    def gen_dataset_smallcluster():
+        elems = []
+        totallen = len(extreme_points)
+        for i in range(1, totallen):
+            dataset = datas[extreme_points[i-1]:extreme_points[i]]
+            if len(dataset)>2:
+                X = np.array(list(range(0, len(dataset)))).reshape(-1, 1)
+                y = np.array(dataset).reshape(-1, 1)
+                model = linear_model.LinearRegression()
+                model.fit(X=X, y=y)
 
-            w = model.coef_[0][0]
-            b = model.intercept_[0]
-            cov_score = model.score(X, y)
-            elems.append({'head': extreme_points[i-1],
-                         'end': extreme_points[i],
-                         'weight': w,
-                         'bias': b,
-                         'score': cov_score})
-        else:
-            pass
-        
-    print (elems)
+                w = model.coef_[0][0]
+                b = model.intercept_[0]
+                cov_score = model.score(X, y)
+                elems.append({'head': extreme_points[i-1],
+                             'end': extreme_points[i],
+                             'weight': w,
+                             'bias': b,
+                             'score': cov_score})
+            else:
+                pass
+
+        return elems
+    
+    small_clusters = gen_dataset_smallcluster()
+    # do DBSCAN clustering on small_clusters
+    # cal matrics of distance not eucilidian
     
 #     clustering = []
 #     weights = []
