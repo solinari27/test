@@ -73,12 +73,15 @@ def clustering(datas, extreme_points):
 
         X = np.array(list(range(0, len(localdataset)))).reshape(-1, 1)
         y = np.array(localdataset).reshape(-1, 1)
+        _X = np.array(list(range(len(localdataset)-len(fitdataset), len(localdataset)))).reshape(-1, 1)
+        _y = np.array(fitdataset).reshape(-1, 1)
         model = linear_model.LinearRegression()
         model.fit(X=X, y=y)
 
         w = model.coef_[0][0]
         b = model.intercept_[0]
-        cov_score = model.score(X, y)
+        cov_score = model.score(_X, _y)
+        print (cov_score)
 
         return 0
 
