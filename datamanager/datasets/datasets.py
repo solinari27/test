@@ -103,7 +103,7 @@ def clustering(datas, extreme_points):
         plt.ylabel("y axis caption")
         plty = w*X+b
         plt.plot(X, plty)
-        plt.scatter(_X, _y)
+        plt.scatter(_X, _y, edgecolors='yellow')
         plt.show()
 
         return 0
