@@ -30,7 +30,7 @@ def regressdistance():
     """
     pass
 
-# clustering based on DBSCAN
+# clustering based on AffinityPropergation
 # recompute extreme points distance by remapping to R^n space
 def clustering(datas, extreme_points):
     """
@@ -64,7 +64,11 @@ def clustering(datas, extreme_points):
         return elems
     
     small_clusters = gen_dataset_smallcluster()
-    # do DBSCAN clustering on small_clusters
+    # do AP clustering on small_clusters
+
+
+
+
     # cal matrics of distance not euclidean
 #     Y = np.array([[0, 1, 2],
 #                   [1, 0, 3],
