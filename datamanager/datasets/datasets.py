@@ -68,7 +68,7 @@ def clustering(datas, extreme_points):
     def rank(i, j):
         """
         rank func:
-        -ln(tan(角度差))/拟合度评分系数
+        -ln(tan(角度差))*拟合度评分系数
         :param i:
         :param j:
         :return:
@@ -96,7 +96,15 @@ def clustering(datas, extreme_points):
         fitangle = degrees(atan(fit_w))
         diffangle = radians(math.fabs(fitangle - localangle))
         weightrank = -math.log(tan(diffangle))
-        print (weightrank, fit_score)
+
+        # print (weightrank, fit_score)
+        plt.title("Matplotlib demo")
+        plt.xlabel("x axis caption")
+        plt.ylabel("y axis caption")
+        plty = w*X+b
+        plt.plot(X, plty)
+        plt.scatter(_X, _y)
+        plt.show()
 
         return 0
 
