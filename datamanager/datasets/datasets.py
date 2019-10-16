@@ -66,6 +66,13 @@ def clustering(datas, extreme_points):
         return elems
 
     def rank(i, j):
+        """
+        rank func:
+        -ln(tan(角度差))/拟合度评分系数
+        :param i:
+        :param j:
+        :return:
+        """
         elem_i = small_clusters[i]
         elem_j = small_clusters[j]
         head = min(elem_i['head'], elem_j['head'])
