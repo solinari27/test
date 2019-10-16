@@ -62,7 +62,26 @@ def clustering(datas, extreme_points):
                 pass
 
         return elems
-    
+
+    def rank(i, j):
+        elem_i = small_clusters[i]
+        elem_j = small_clusters[j]
+        head = min(elem_i['head'], elem_j['head'])
+        end = max(elem_i['head'], elem_j['end'])
+        localdataset = datas[head:end]
+        fitdataset = datas[elem_j['head']: elem_j['end']]
+
+        X = np.array(list(range(0, len(localdataset)))).reshape(-1, 1)
+        y = np.array(localdataset).reshape(-1, 1)
+        model = linear_model.LinearRegression()
+        model.fit(X=X, y=y)
+
+        w = model.coef_[0][0]
+        b = model.intercept_[0]
+        cov_score = model.score(X, y)
+
+        return 0
+
     small_clusters = gen_dataset_smallcluster()
     # do AP clustering on small_clusters
     counts = len(small_clusters)
@@ -78,8 +97,7 @@ def clustering(datas, extreme_points):
 
     for i in range(0, counts):
         for j in range(i, counts):
-            # mats[i, j] = rank()
-            pass
+            mats[i, j] = rank(i=i, j=j)
 
 
 
