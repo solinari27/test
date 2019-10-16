@@ -98,13 +98,14 @@ def clustering(datas, extreme_points):
         weightrank = -math.log(tan(diffangle))
 
         # print (weightrank, fit_score)
-        plt.title("Matplotlib demo")
-        plt.xlabel("x axis caption")
-        plt.ylabel("y axis caption")
-        plty = w*X+b
-        plt.plot(X, plty)
-        plt.scatter(_X, _y, edgecolors='yellow')
-        plt.show()
+        # plt.title("Matplotlib demo")
+        # plt.xlabel("x axis caption")
+        # plt.ylabel("y axis caption")
+        # plty = w*X+b
+        # plt.plot(X, plty)
+        # plt.scatter(_X, _y, edgecolors='yellow')
+        # print (X, _X)
+        # plt.show()
 
         return 0
 
