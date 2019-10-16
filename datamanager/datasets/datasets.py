@@ -65,7 +65,21 @@ def clustering(datas, extreme_points):
     
     small_clusters = gen_dataset_smallcluster()
     # do AP clustering on small_clusters
+    counts = len(small_clusters)
+    mats = np.zeros((counts, counts))
+    # mats for s(i,j) in APclustering
+    # -inf  0.1     0.2     0.5
+    # -inf  -inf    0.3     0.2
+    # -inf  -inf    -inf    0.6
+    # -inf  -inf    -inf    -inf
+    for i in range(0, counts):
+        for j in range(0, counts):
+            mats[i, j] = -float('inf')
 
+    for i in range(0, counts):
+        for j in range(i, counts):
+            # mats[i, j] = rank()
+            pass
 
 
 
