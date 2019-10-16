@@ -6,10 +6,11 @@
 # @File    : datasets.py
 # @Software: PyCharm
 
+import math
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import linear_model
-from math import degrees, radians, atan
+from math import degrees, radians, tan, atan
 
 
 # use average price do clustering
@@ -86,8 +87,9 @@ def clustering(datas, extreme_points):
         fit_w = elem_j['weight']
         localangle = degrees(atan(w))
         fitangle = degrees(atan(fit_w))
-        weightrank = radians(fitangle-localangle)
-        print (weightrank)
+        diffangle = radians(math.fabs(fitangle - localangle))
+        weightrank = -math.log(tan(diffangle))
+        print (weightrank, fit_score)
 
         return 0
 
@@ -105,7 +107,7 @@ def clustering(datas, extreme_points):
             mats[i, j] = -float('inf')
 
     for i in range(0, counts):
-        for j in range(i, counts):
+        for j in range(i+1, counts):
             mats[i, j] = rank(i=i, j=j)
 
 
