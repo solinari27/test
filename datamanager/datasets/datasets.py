@@ -97,7 +97,7 @@ def clustering(datas, extreme_points):
         diffangle = radians(math.fabs(fitangle - localangle))
         weightrank = -math.log(tan(diffangle))
 
-        # print (weightrank, fit_score)
+        print (weightrank, fit_score)
         # plt.title("Matplotlib demo")
         # plt.xlabel("x axis caption")
         # plt.ylabel("y axis caption")
