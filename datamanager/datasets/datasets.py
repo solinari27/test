@@ -123,10 +123,10 @@ def clustering(datas, extreme_points):
     counts = len(small_clusters)
     mats = np.zeros((counts, counts))
     # mats for s(i,j) in APclustering
-    # -inf  0.1     0.2     0.5
-    # -inf  -inf    0.3     0.2
-    # -inf  -inf    -inf    0.6
-    # -inf  -inf    -inf    -inf
+    # -1000     0.1        0.2     0.5
+    # -1000     -1000      0.3     0.2
+    # -1000     -1000    -1000     0.6
+    # -1000     -1000    -1000    -1000
     for i in range(0, counts):
         for j in range(0, counts):
             # use -1000 present -inf
