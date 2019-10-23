@@ -9,8 +9,9 @@
 import math
 import matplotlib.pyplot as plt
 import numpy as np
-from sklearn import linear_model
 from math import degrees, radians, tan, atan
+from sklearn import linear_model
+from sklearn.cluster import AffinityPropagation
 from sklearn.metrics import explained_variance_score
 
 
@@ -128,12 +129,19 @@ def clustering(datas, extreme_points):
     # -inf  -inf    -inf    -inf
     for i in range(0, counts):
         for j in range(0, counts):
-            mats[i, j] = -float('inf')
+            # use -1000 present -inf
+            mats[i, j] = -1000
 
     for i in range(0, counts):
         mats[i, i] = 0
         for j in range(i + 1, counts):
             mats[i, j] = rank(i=i, j=j)
+
+    af = AffinityPropagation(affinity='precomputed').fit(mats)
+    cluster_centers_indices = af.cluster_centers_indices_
+    labels = af.labels_
+    print (cluster_centers_indices)
+    print (labels)
 
     # cal matrics of distance not euclidean
 #     Y = np.array([[0, 1, 2],
