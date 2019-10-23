@@ -94,17 +94,18 @@ def clustering(datas, extreme_points):
 
         w = model.coef_[0][0]
         b = model.intercept_[0]
-        _y_pred = model.predict(_X)
-        fit_score = explained_variance_score(_y, _y_pred)
-        # fit_score = model.score(_X, _y)
+        # _y_pred = model.predict(_X)
+        # fit_score = explained_variance_score(_y, _y_pred)
+        fit_score = model.score(_X, _y)
 
         fit_w = elem_j['weight']
         localangle = degrees(atan(w))
         fitangle = degrees(atan(fit_w))
         diffangle = radians(math.fabs(fitangle - localangle))
         weightrank = -math.log(tan(diffangle))
+        fitrank = atan(fit_score - 1)
 
-        print(weightrank, fit_score)
+        # print(weightrank, fitrank)
         # plt.title("Matplotlib demo")
         # plt.xlabel("x axis caption")
         # plt.ylabel("y axis caption")
@@ -114,7 +115,7 @@ def clustering(datas, extreme_points):
         # print (X, _X)
         # plt.show()
 
-        return 0
+        return weightrank * fitrank
 
     small_clusters = gen_dataset_smallcluster()
     # do AP clustering on small_clusters
