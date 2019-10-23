@@ -11,6 +11,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import linear_model
 from math import degrees, radians, tan, atan
+from sklearn.metrics import explained_variance_score
 
 
 # use average price do clustering
@@ -26,6 +27,7 @@ def gen_avprice(rawdata):
             4)
     return datas
 
+
 def regressdistance():
     """
     cal regression distance
@@ -34,6 +36,8 @@ def regressdistance():
 
 # clustering based on AffinityPropergation
 # recompute extreme points distance by remapping to R^n space
+
+
 def clustering(datas, extreme_points):
     """
     use clustering algorithm do dataset clustering
@@ -45,8 +49,8 @@ def clustering(datas, extreme_points):
         elems = []
         totallen = len(extreme_points)
         for i in range(1, totallen):
-            dataset = datas[extreme_points[i-1]:extreme_points[i]]
-            if len(dataset)>2:
+            dataset = datas[extreme_points[i - 1]:extreme_points[i]]
+            if len(dataset) > 2:
                 X = np.array(list(range(0, len(dataset)))).reshape(-1, 1)
                 y = np.array(dataset).reshape(-1, 1)
                 model = linear_model.LinearRegression()
@@ -55,11 +59,11 @@ def clustering(datas, extreme_points):
                 w = model.coef_[0][0]
                 b = model.intercept_[0]
                 cov_score = model.score(X, y)
-                elems.append({'head': extreme_points[i-1],
-                             'end': extreme_points[i],
-                             'weight': w,
-                             'bias': b,
-                             'score': cov_score})
+                elems.append({'head': extreme_points[i - 1],
+                              'end': extreme_points[i],
+                              'weight': w,
+                              'bias': b,
+                              'score': cov_score})
             else:
                 pass
 
@@ -82,14 +86,17 @@ def clustering(datas, extreme_points):
 
         X = np.array(list(range(0, len(localdataset)))).reshape(-1, 1)
         y = np.array(localdataset).reshape(-1, 1)
-        _X = np.array(list(range(len(localdataset)-len(fitdataset), len(localdataset)))).reshape(-1, 1)
+        _X = np.array(list(range(len(localdataset) -
+                                 len(fitdataset), len(localdataset)))).reshape(-1, 1)
         _y = np.array(fitdataset).reshape(-1, 1)
         model = linear_model.LinearRegression()
         model.fit(X=X, y=y)
 
         w = model.coef_[0][0]
         b = model.intercept_[0]
-        fit_score = model.score(_X, _y)
+        _y_pred = model.predict(_X)
+        fit_score = explained_variance_score(_y, _y_pred)
+        # fit_score = model.score(_X, _y)
 
         fit_w = elem_j['weight']
         localangle = degrees(atan(w))
@@ -97,7 +104,7 @@ def clustering(datas, extreme_points):
         diffangle = radians(math.fabs(fitangle - localangle))
         weightrank = -math.log(tan(diffangle))
 
-        print (weightrank, fit_score)
+        print(weightrank, fit_score)
         # plt.title("Matplotlib demo")
         # plt.xlabel("x axis caption")
         # plt.ylabel("y axis caption")
@@ -123,10 +130,9 @@ def clustering(datas, extreme_points):
             mats[i, j] = -float('inf')
 
     for i in range(0, counts):
-        for j in range(i+1, counts):
+        mats[i, i] = 0
+        for j in range(i + 1, counts):
             mats[i, j] = rank(i=i, j=j)
-
-
 
     # cal matrics of distance not euclidean
 #     Y = np.array([[0, 1, 2],
@@ -138,7 +144,7 @@ def clustering(datas, extreme_points):
 #     # 然后来看一下分类的结果吧!
 #     n_clusters_ = len(set(labels)) - (1 if -1 in labels else 0) # 类的数目
 #     print('类的数目是:%d'%(n_clusters_))
-    
+
 #     clustering = []
 #     weights = []
 #     for p in extreme_points:
@@ -201,7 +207,10 @@ def lineregression_score(datas, head, end):
 # 1. disconnection better -> disconnection
 # 2. conjunction better && prev elem choices disconnection -> conjunction
 # 3. conjunction better && prev elem choices conjunction -> compare prev elem is conjunction with prev elem or conjunction with now elem -> select some conjunction
-# 4. conjunction better -> find if prev elem is conjunction with prev elem is better and find on do dicision if should reconjunction?
+# 4. conjunction better -> find if prev elem is conjunction with prev elem
+# is better and find on do dicision if should reconjunction?
+
+
 def dp2way(datas, extreme_points):
     _size = len(extreme_points)
     mat_score = np.zeros((_size, _size))
@@ -211,7 +220,7 @@ def dp2way(datas, extreme_points):
         for j in range(i, _size):
             pass
 #             score_disconnect = lineregression_score(
-#                 datas=datas, head=extreme_points[j - 1], end=extreme_points[j])
+# datas=datas, head=extreme_points[j - 1], end=extreme_points[j])
 
 #             score_conjunction = lineregression_score(
 #                 datas=datas, head=extreme_points[k], end=extreme_points[j])
@@ -226,6 +235,7 @@ def dp2way(datas, extreme_points):
 # judgement： higher line regression coeffeient score
 def dp3way(datas, extreme_points):
     pass
+
 
 def gen_datasets(rawdata):
     datas = gen_avprice(rawdata=rawdata)
