@@ -153,16 +153,26 @@ def clustering(rawdata, datas, extreme_points):
     # check result
     # print (_slices)
     quotes = []
-    for _slice in _slices:
-        for i in range(_slice[0], _slice[1]):
-            datet = datetime.datetime.strptime(rawdata[i]['DATE'], '%Y-%m-%d')
-            df = mpd.date2num(datet)
-            open_p = rawdata[i]['TOPEN']
-            close_p = rawdata[i]['TCLOSE']
-            high_p = rawdata[i]['HIGH']
-            low_p = rawdata[i]['LOW']
-            li = [df, open_p, close_p, high_p, low_p]
-            quotes.append(tuple(li))
+    for i in range(0, len(rawdata)):
+        datet = datetime.datetime.strptime(rawdata[i]['DATE'], '%Y-%m-%d')
+        df = mpd.date2num(datet)
+        open_p = rawdata[i]['TOPEN']
+        close_p = rawdata[i]['TCLOSE']
+        high_p = rawdata[i]['HIGH']
+        low_p = rawdata[i]['LOW']
+        li = [df, open_p, close_p, high_p, low_p]
+        quotes.append(tuple(li))
+
+    # for _slice in _slices:
+    #     for i in range(_slice[0], _slice[1]):
+    #         datet = datetime.datetime.strptime(rawdata[i]['DATE'], '%Y-%m-%d')
+    #         df = mpd.date2num(datet)
+    #         open_p = rawdata[i]['TOPEN']
+    #         close_p = rawdata[i]['TCLOSE']
+    #         high_p = rawdata[i]['HIGH']
+    #         low_p = rawdata[i]['LOW']
+    #         li = [df, open_p, close_p, high_p, low_p]
+    #         quotes.append(tuple(li))
 
     if len(quotes)>0:
         fig, ax = plt.subplots()
