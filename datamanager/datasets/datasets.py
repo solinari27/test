@@ -136,13 +136,20 @@ def clustering(datas, extreme_points):
         mats[i, i] = 0
         for j in range(i + 1, counts):
             # consider data continuance
-            mats[i, j] = rank(i=i, j=j) - (j - i - 1)
+            mats[i, j] = rank(i=i, j=j) - (j - i - 1)*0.1
 
     af = AffinityPropagation(affinity='precomputed').fit(mats)
     cluster_centers_indices = af.cluster_centers_indices_
-    labels = af.labels_
-    print (cluster_centers_indices)
-    print (labels)
+    # labels = af.labels_
+
+    ret_data = []
+    for _index in range(1, len(cluster_centers_indices)):
+        ret_data.append([extreme_points[_index-1], extreme_points[_index]])
+
+    # check result
+    # print (ret_data)
+    plt.scatter(_X, _y, edgecolors='yellow')
+    plt.show()
 
     # cal matrics of distance not euclidean
 #     Y = np.array([[0, 1, 2],
