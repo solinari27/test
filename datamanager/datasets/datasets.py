@@ -14,6 +14,10 @@ from sklearn import linear_model
 from sklearn.cluster import AffinityPropagation
 from sklearn.metrics import explained_variance_score
 
+import mpl_finance as mpf
+import pandas as pd
+import datetime
+import matplotlib.dates as mpd
 
 # use average price do clustering
 # TODO: maybe TCLOSE better
@@ -136,7 +140,7 @@ def clustering(datas, extreme_points):
         mats[i, i] = 0
         for j in range(i + 1, counts):
             # consider data continuance
-            mats[i, j] = rank(i=i, j=j) - (j - i - 1)*0.1
+            mats[i, j] = rank(i=i, j=j) - (j - i - 1)
 
     af = AffinityPropagation(affinity='precomputed').fit(mats)
     cluster_centers_indices = af.cluster_centers_indices_
@@ -145,11 +149,28 @@ def clustering(datas, extreme_points):
     ret_data = []
     for _index in range(1, len(cluster_centers_indices)):
         ret_data.append([extreme_points[_index-1], extreme_points[_index]])
+    print (ret_data)
 
     # check result
     # print (ret_data)
-    plt.scatter(_X, _y, edgecolors='yellow')
-    plt.show()
+    # plt.scatter(_X, _y, edgecolors='yellow')
+    # plt.show()
+    # df = pro.daily(ts_code='600000.SH', start_date='20190101',
+    #                end_date='20190228')
+    # df_sort = df.sort_values('trade_date', ascending=True)
+    # quotes = []
+    # for i in range(len(df_sort)):
+    #     li = []
+    #     datet = datetime.datetime.strptime(df.iloc[i]['trade_date'],
+    #                                        '%Y%m%d')  # 字符串日期转换成日期格式
+    #     datef = mpd.date2num(datet)  # 日期转换成float days
+    #     open_p = df.iloc[i]['open']
+    #     close_p = df.iloc[i]['close']
+    #     high_p = df.iloc[i]['high']
+    #     low_p = df.iloc[i]['low']
+    #     li = [datef, open_p, close_p, high_p, low_p]
+    #     t = tuple(li)
+    #     quotes.append(t)
 
     # cal matrics of distance not euclidean
 #     Y = np.array([[0, 1, 2],
