@@ -153,6 +153,8 @@ def clustering(rawdata, datas, extreme_points):
     # check result
     # print (_slices)
     quotes = []
+    top = 0
+    low = 10000
     for i in range(0, len(rawdata)):
         datet = datetime.datetime.strptime(rawdata[i]['DATE'], '%Y-%m-%d')
         df = mpd.date2num(datet)
@@ -162,25 +164,23 @@ def clustering(rawdata, datas, extreme_points):
         low_p = rawdata[i]['LOW']
         li = [df, open_p, close_p, high_p, low_p]
         quotes.append(tuple(li))
+        if high_p > top:
+            top = high_p
+        if low_p<low:
+            low = low_p
 
-    # for _slice in _slices:
-    #     for i in range(_slice[0], _slice[1]):
-    #         datet = datetime.datetime.strptime(rawdata[i]['DATE'], '%Y-%m-%d')
-    #         df = mpd.date2num(datet)
-    #         open_p = rawdata[i]['TOPEN']
-    #         close_p = rawdata[i]['TCLOSE']
-    #         high_p = rawdata[i]['HIGH']
-    #         low_p = rawdata[i]['LOW']
-    #         li = [df, open_p, close_p, high_p, low_p]
-    #         quotes.append(tuple(li))
 
-    if len(quotes)>0:
-        fig, ax = plt.subplots()
-        mpf.candlestick_ochl(ax, quotes, width=0.2, colorup='r', colordown='g',
-                             alpha=1.0)
-        ax.xaxis_date()
-        plt.setp(plt.gca().get_xticklabels(), rotation=30)
-        plt.show()
+
+    fig, ax = plt.subplots()
+    mpf.candlestick_ochl(ax, quotes, width=0.2, colorup='r', colordown='g',
+                         alpha=1.0)
+    ax.xaxis_date()
+    plt.setp(plt.gca().get_xticklabels(), rotation=30)
+    for _slice in _slices:
+        datet1 = datetime.datetime.strptime(rawdata[extreme_points[_slice[0]]]['DATE'], '%Y-%m-%d')
+        df1 = mpd.date2num(datet1)
+        plt.vlines(df1, low, top, colors="c", linestyles="dashed")
+    plt.show()
 
     # cal matrics of distance not euclidean
 #     Y = np.array([[0, 1, 2],
