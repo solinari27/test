@@ -170,6 +170,11 @@ def clustering(rawdata, datas, extreme_points):
     #     li = [datef, open_p, close_p, high_p, low_p]
     #     t = tuple(li)
     #     quotes.append(t)
+    # fig, ax = plt.subplots()
+    # mpf.candlestick_ochl(ax, quotes, width=0.2, colorup='r', colordown='g',
+    #                      alpha=1.0)
+    # ax.xaxis_date()
+    # plt.setp(plt.gca().get_xticklabels(), rotation=30)
 
     # cal matrics of distance not euclidean
 #     Y = np.array([[0, 1, 2],
