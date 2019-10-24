@@ -43,7 +43,7 @@ def regressdistance():
 # recompute extreme points distance by remapping to R^n space
 
 
-def clustering(datas, extreme_points):
+def clustering(rawdata, datas, extreme_points):
     """
     use clustering algorithm do dataset clustering
     clustering metrics: weight / cov_score
@@ -149,7 +149,6 @@ def clustering(datas, extreme_points):
     ret_data = []
     for _index in range(1, len(cluster_centers_indices)):
         ret_data.append([extreme_points[_index-1], extreme_points[_index]])
-    print (ret_data)
 
     # check result
     # print (ret_data)
@@ -288,4 +287,4 @@ def gen_datasets(rawdata):
         if datas[i] == max(rangelist) or datas == min(rangelist):
             extreme_points.append(i)
 
-    ret = clustering(datas=datas, extreme_points=extreme_points)
+    ret = clustering(rawdata=rawdata, datas=datas, extreme_points=extreme_points)
