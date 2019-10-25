@@ -169,8 +169,6 @@ def clustering(rawdata, datas, extreme_points):
         if low_p<low:
             low = low_p
 
-
-
     fig, ax = plt.subplots()
     mpf.candlestick_ochl(ax, quotes, width=0.2, colorup='r', colordown='g',
                          alpha=1.0)
@@ -185,7 +183,7 @@ def clustering(rawdata, datas, extreme_points):
     for _item in extreme_points:
         date2 = datetime.datetime.strptime(rawdata[_item]['DATE'], '%Y-%m-%d')
         df2 = mpd.date2num(date2)
-        plt.scatter(df2, datas[_item])
+        plt.scatter(df2, datas[_item], color='yellow', edgecolors='black')
 
     plt.show()
 
