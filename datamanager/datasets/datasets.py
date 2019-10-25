@@ -181,6 +181,11 @@ def clustering(rawdata, datas, extreme_points):
         df1 = mpd.date2num(datet1)
         plt.vlines(df1, low, top, colors="c", linestyles="dashed")
     plt.show()
+    
+    for _item in extreme_points:
+        date2 = datetime.datetime.strptime(rawdata[_item]['DATE'], '%Y-%m-%d')
+        df2 = mpd.date2num(date2)
+        plt.scatter(df2, datas[_item])
 
     # cal matrics of distance not euclidean
 #     Y = np.array([[0, 1, 2],
