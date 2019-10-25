@@ -147,8 +147,11 @@ def clustering(rawdata, datas, extreme_points):
     # labels = af.labels_
 
     _slices = []
+    _head = cluster_centers_indices[0]
+    print (cluster_centers_indices, len(cluster_centers_indices))
     for _index in range(1, len(cluster_centers_indices)):
-        _slices.append([extreme_points[_index-1], extreme_points[_index]])
+        _slices.append([extreme_points[cluster_centers_indices[_head]], extreme_points[cluster_centers_indices[_index]]])
+        _head = _index
 
     # check result
     # print (_slices)
@@ -174,6 +177,7 @@ def clustering(rawdata, datas, extreme_points):
                          alpha=1.0)
     ax.xaxis_date()
     plt.setp(plt.gca().get_xticklabels(), rotation=30)
+    print (_slices, extreme_points)
     for _slice in _slices:
         datet1 = datetime.datetime.strptime(rawdata[_slice[0]]['DATE'], '%Y-%m-%d')
         df1 = mpd.date2num(datet1)
