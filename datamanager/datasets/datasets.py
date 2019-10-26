@@ -154,7 +154,7 @@ def clustering(rawdata, datas, extreme_points):
         _head = _index
 
     # check result
-    # print (_slices)
+    print (_slices)
     quotes = []
     top = 0
     low = 10000
