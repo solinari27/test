@@ -6,21 +6,22 @@
 # @File    : datasets.py
 # @Software: PyCharm
 
+import datetime
 import math
 import matplotlib.pyplot as plt
 import numpy as np
+import mpl_finance as mpf
+import matplotlib.dates as mpd
 from math import degrees, radians, tan, atan
 from sklearn import linear_model
 from sklearn.cluster import AffinityPropagation
 from sklearn.metrics import explained_variance_score
 
-import mpl_finance as mpf
-import pandas as pd
-import datetime
-import matplotlib.dates as mpd
 
 # use average price do clustering
 # TODO: maybe TCLOSE better
+
+
 def gen_avprice(rawdata):
     datas = []
     for item in rawdata:
@@ -91,8 +92,8 @@ def clustering(rawdata, datas, extreme_points):
 
         X = np.array(list(range(0, len(localdataset)))).reshape(-1, 1)
         y = np.array(localdataset).reshape(-1, 1)
-        _X = np.array(list(range(len(localdataset) -
-                                 len(fitdataset), len(localdataset)))).reshape(-1, 1)
+        _X = np.array(list(range(len(localdataset) - \
+                      len(fitdataset), len(localdataset)))).reshape(-1, 1)
         _y = np.array(fitdataset).reshape(-1, 1)
         model = linear_model.LinearRegression()
         model.fit(X=X, y=y)
@@ -145,6 +146,7 @@ def clustering(rawdata, datas, extreme_points):
     af = AffinityPropagation(affinity='precomputed').fit(mats)
     cluster_centers_indices = af.cluster_centers_indices_
     # labels = af.labels_
+    # print(cluster_centers_indices)
 
     _slices = []
     _head = 0
@@ -154,7 +156,6 @@ def clustering(rawdata, datas, extreme_points):
         _head = _index
 
     # check result
-    print (_slices)
     quotes = []
     top = 0
     low = 10000
@@ -169,7 +170,7 @@ def clustering(rawdata, datas, extreme_points):
         quotes.append(tuple(li))
         if high_p > top:
             top = high_p
-        if low_p<low:
+        if low_p < low:
             low = low_p
 
     fig, ax = plt.subplots()
@@ -178,17 +179,19 @@ def clustering(rawdata, datas, extreme_points):
     ax.xaxis_date()
     plt.setp(plt.gca().get_xticklabels(), rotation=30)
     for _slice in _slices:
-        datet1 = datetime.datetime.strptime(rawdata[_slice[0]]['DATE'], '%Y-%m-%d')
+        datet1 = datetime.datetime.strptime(
+            rawdata[_slice[0]]['DATE'], '%Y-%m-%d')
         df1 = mpd.date2num(datet1)
+        datet2 = datetime.datetime.strptime(
+            rawdata[_slice[1]]['DATE'], '%Y-%m-%d')
+        df2 = mpd.date2num(datet2)
         plt.vlines(df1, low, top, colors="c", linestyles="dashed")
+    plt.vlines(df2, low, top, colors="c", linestyles="dashed")
 
-
-    
     for _item in extreme_points:
         date2 = datetime.datetime.strptime(rawdata[_item]['DATE'], '%Y-%m-%d')
         df2 = mpd.date2num(date2)
         plt.scatter(df2, datas[_item], color='yellow', edgecolors='black')
-
 
     plt.show()
 
@@ -308,4 +311,7 @@ def gen_datasets(rawdata):
         if datas[i] == max(rangelist) or datas == min(rangelist):
             extreme_points.append(i)
 
-    ret = clustering(rawdata=rawdata, datas=datas, extreme_points=extreme_points)
+    ret = clustering(
+        rawdata=rawdata,
+        datas=datas,
+        extreme_points=extreme_points)
