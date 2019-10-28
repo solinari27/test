@@ -25,12 +25,11 @@ from sklearn.metrics import explained_variance_score
 def gen_avprice(rawdata):
     datas = []
     for item in rawdata:
-        datas.append(
-            (item['TOPEN'] +
-             item['TCLOSE'] +
+        mean = (item['TCLOSE'] +
                 item['HIGH'] +
-                item['LOW']) /
-            4)
+                item['LOW']) / 3
+        # _value = (mean + item['TCLOSE']/4) *4/5
+        datas.append(mean)
     return datas
 
 
@@ -143,7 +142,7 @@ def clustering(rawdata, datas, extreme_points):
             # consider data continuance
             mats[i, j] = rank(i=i, j=j) - (j - i - 1)
 
-    af = AffinityPropagation(affinity='precomputed').fit(mats)
+    af = AffinityPropagation(affinity='precomputed', verbose=True).fit(mats)
     cluster_centers_indices = af.cluster_centers_indices_
     # labels = af.labels_
     # print(cluster_centers_indices)
@@ -158,7 +157,7 @@ def clustering(rawdata, datas, extreme_points):
     # check result
     quotes = []
     top = 0
-    low = 10000
+    low = 1000000
     for i in range(0, len(rawdata)):
         datet = datetime.datetime.strptime(rawdata[i]['DATE'], '%Y-%m-%d')
         df = mpd.date2num(datet)
