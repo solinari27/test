@@ -16,6 +16,7 @@ from math import degrees, radians, tan, atan
 from sklearn import linear_model
 from sklearn.cluster import AffinityPropagation
 from sklearn.metrics import explained_variance_score
+from scipy.signal._peak_finding import find_peaks, find_peaks_cwt
 
 
 # use average price do clustering
