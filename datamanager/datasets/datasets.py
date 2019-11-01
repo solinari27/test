@@ -93,7 +93,7 @@ def clustering(rawdata, datas, extreme_points):
         elem_i = small_clusters[i]
         elem_j = small_clusters[j]
         head = min(elem_i['head'], elem_j['head'])
-        end = max(elem_i['head'], elem_j['end'])
+        end = max(elem_i['end'], elem_j['end'])
 
         # when only 2- elements it must be a independent cluster
         if end-head <=2:
