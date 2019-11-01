@@ -71,7 +71,13 @@ def clustering(rawdata, datas, extreme_points):
                               'bias': b,
                               'score': cov_score})
             else:
-                pass
+                elems.append({
+                    'head': extreme_points[i - 1],
+                    'end': extreme_points[i],
+                    'weight': 0,
+                    'bias': 0,
+                    'score': 0
+                })
             # TODO: if count<=2 do something
 
         return elems
@@ -88,6 +94,11 @@ def clustering(rawdata, datas, extreme_points):
         elem_j = small_clusters[j]
         head = min(elem_i['head'], elem_j['head'])
         end = max(elem_i['head'], elem_j['end'])
+
+        # when only 2- elements it must be a independent cluster
+        if end-head <=2:
+            return 0
+
         localdataset = datas[head:end]
         fitdataset = datas[elem_j['head']: elem_j['end']]
 
@@ -306,11 +317,10 @@ def gen_datasets(rawdata):
     peaks, _ = find_peaks(datas, height=0)
     trough_datas = []
     for item in datas:
-        trough_datas.append(1/item)
+        trough_datas.append(1 / item)
     trough, _ = find_peaks(trough_datas, height=0)
 
-    extreme_points = list(peaks) + list(trough)
-    extreme_points.sort()
+    extreme_points = sorted(list(peaks) + list(trough))
 
     ret = clustering(
         rawdata=rawdata,
