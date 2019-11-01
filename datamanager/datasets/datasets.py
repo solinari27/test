@@ -305,12 +305,15 @@ def gen_datasets(rawdata):
     # .   .    .
     #  . .    . .
     #   .    .   .
-    extreme_points = []
-    for i in range(2, len(datas) - 2):
-        rangelist = datas[i - 2: i + 3]
-        if datas[i] == max(rangelist) or datas == min(rangelist):
-            extreme_points.append(i)
+    peaks, _ = find_peaks(datas, height=0)
+    trough_datas = []
+    for item in datas:
+        trough_datas.append(1/item)
+    trough, _ = find_peaks(trough_datas, height=0)
 
+    extreme_points = list(peaks) + list(trough)
+    extreme_points.sort()
+    
     ret = clustering(
         rawdata=rawdata,
         datas=datas,
