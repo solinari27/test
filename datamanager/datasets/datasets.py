@@ -95,7 +95,7 @@ def clustering(rawdata, datas, extreme_points):
         end = max(elem_i['end'], elem_j['end'])
 
         # when only 2- elements it must be a independent cluster
-        if end-head <=2:
+        if (end-head) <=2:
             return 0
 
         localdataset = datas[head:end]
@@ -119,9 +119,6 @@ def clustering(rawdata, datas, extreme_points):
         diffangle = radians(math.fabs(fitangle - localangle))
         weightrank = -math.log(tan(diffangle))
         fitrank = atan(fit_score - 1)
-        if fitrank is None:
-            print (weightrank, fitrank)
-            return -1
 
         return weightrank * fitrank
 
