@@ -78,7 +78,6 @@ def clustering(rawdata, datas, extreme_points):
                     'bias': 0,
                     'score': 0
                 })
-            # TODO: if count<=2 do something
 
         return elems
 
@@ -112,8 +111,6 @@ def clustering(rawdata, datas, extreme_points):
 
         w = model.coef_[0][0]
         b = model.intercept_[0]
-        # _y_pred = model.predict(_X)
-        # fit_score = explained_variance_score(_y, _y_pred)
         fit_score = model.score(_X, _y)
 
         fit_w = elem_j['weight']
@@ -122,16 +119,9 @@ def clustering(rawdata, datas, extreme_points):
         diffangle = radians(math.fabs(fitangle - localangle))
         weightrank = -math.log(tan(diffangle))
         fitrank = atan(fit_score - 1)
-
-        # print(weightrank, fitrank)
-        # plt.title("Matplotlib demo")
-        # plt.xlabel("x axis caption")
-        # plt.ylabel("y axis caption")
-        # plty = w*X+b
-        # plt.plot(X, plty)
-        # plt.scatter(_X, _y, edgecolors='yellow')
-        # print (X, _X)
-        # plt.show()
+        if fitrank is None:
+            print (weightrank, fitrank)
+            return -1
 
         return weightrank * fitrank
 
