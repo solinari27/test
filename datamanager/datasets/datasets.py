@@ -299,12 +299,9 @@ def dp3way(datas, extreme_points):
 
 
 def gen_datasets(rawdata):
+    # gen average data
     datas = gen_avprice(rawdata=rawdata)
 
-    # 5 points to select local extreme points
-    # .   .    .
-    #  . .    . .
-    #   .    .   .
     peaks, _ = find_peaks(datas, height=0)
     trough_datas = []
     for item in datas:
@@ -313,8 +310,25 @@ def gen_datasets(rawdata):
 
     extreme_points = list(peaks) + list(trough)
     extreme_points.sort()
+    _datas = []
+    for item in extreme_points:
+        _datas.append(datas[item])
     
-    ret = clustering(
-        rawdata=rawdata,
-        datas=datas,
-        extreme_points=extreme_points)
+    _peaks, _ = find_peaks(_datas, height=0)
+    trough_datas = []
+    for item in _datas:
+        trough_datas.append(1/item)
+    _trough, _ = find_peaks(trough_datas, height=0)
+    print (_peaks, _trough)
+    extreme_points = []
+    for _index in _peaks:
+        extreme_points.append(peaks[_index])
+    for _index in _trough:
+        extreme_points.append(trough[_index])
+    extreme_points.sort()
+    print (extreme_points)
+        
+#     ret = clustering(
+#         rawdata=rawdata,
+#         datas=datas,
+#         extreme_points=extreme_points)
