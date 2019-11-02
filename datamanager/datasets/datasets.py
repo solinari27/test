@@ -84,7 +84,7 @@ def clustering(rawdata, datas, extreme_points):
     def rank(i, j):
         """
         rank func:
-        -ln(tan(角度差))*拟合度评分系数
+        -ln(tan(角度差))*拟合度评分系数d
         :param i:
         :param j:
         :return:
@@ -112,6 +112,8 @@ def clustering(rawdata, datas, extreme_points):
         w = model.coef_[0][0]
         b = model.intercept_[0]
         fit_score = model.score(_X, _y)
+        if math.isnan(fit_score):
+            print (head, end, datas[head: end])
 
         fit_w = elem_j['weight']
         localangle = degrees(atan(w))
