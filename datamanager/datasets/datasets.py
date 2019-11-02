@@ -113,7 +113,8 @@ def clustering(rawdata, datas, extreme_points):
         b = model.intercept_[0]
         fit_score = model.score(_X, _y)
         if math.isnan(fit_score):
-            print (head, end, datas[head: end])
+            # print (head, end, datas[head: end])
+            fit_score = -1000
 
         fit_w = elem_j['weight']
         localangle = degrees(atan(w))
