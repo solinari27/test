@@ -26,9 +26,10 @@ from scipy.signal._peak_finding import find_peaks, find_peaks_cwt
 def gen_avprice(rawdata):
     datas = []
     for item in rawdata:
-        mean = (item['TCLOSE'] +
+        mean = (item['TOPEN'] +
+                item['TCLOSE'] +
                 item['HIGH'] +
-                item['LOW']) / 3
+                item['LOW']) / 4
         # _value = (mean + item['TCLOSE']/4) *4/5
         datas.append(mean)
     return datas
@@ -85,7 +86,7 @@ def clustering(rawdata, datas, extreme_points):
     def rank(i, j):
         """
         rank func:
-        -ln(tan(角度差))*拟合度评分系数
+        -ln(tan(角度差))*拟合度评分系数d
         :param i:
         :param j:
         :return:
@@ -113,6 +114,9 @@ def clustering(rawdata, datas, extreme_points):
         w = model.coef_[0][0]
         b = model.intercept_[0]
         fit_score = model.score(_X, _y)
+        if math.isnan(fit_score):
+            # print (head, end, datas[head: end])
+            fit_score = -1000
 
         fit_w = elem_j['weight']
         localangle = degrees(atan(w))
