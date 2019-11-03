@@ -71,6 +71,7 @@ def clustering(rawdata, datas, extreme_points):
                               'bias': b,
                               'score': cov_score})
             else:
+                # if elems counts < 2 we do this process:
                 elems.append({
                     'head': extreme_points[i - 1],
                     'end': extreme_points[i],
