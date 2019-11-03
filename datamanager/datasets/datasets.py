@@ -73,13 +73,24 @@ def clustering(rawdata, datas, extreme_points):
                               'score': cov_score})
             else:
                 # if elems counts < 2 we do this process:
-                elems.append({
-                    'head': extreme_points[i - 1],
-                    'end': extreme_points[i],
-                    'weight': 0,
-                    'bias': 0,
-                    'score': 0
-                })
+                last_elem = len(elems)
+                if last_elem>0:
+                    head = elems[last_elem - 1]['head']
+                    end = extreme_points[i]
+                    dataset = datas[head:end]
+                    X = np.array(list(range(0, len(dataset)))).reshape(-1, 1)
+                    y = np.array(dataset).reshape(-1, 1)
+                    model = linear_model.LinearRegression()
+                    model.fit(X=X, y=y)
+
+                    w = model.coef_[0][0]
+                    b = model.intercept_[0]
+                    cov_score = model.score(X, y)
+                    elems[last_elem-1] = {'head': head,
+                                        'end': end,
+                                        'weight': w,
+                                        'bias': b,
+                                        'score': cov_score}
 
         return elems
 
@@ -97,7 +108,7 @@ def clustering(rawdata, datas, extreme_points):
         end = max(elem_i['end'], elem_j['end'])
 
         # when only 2- elements it must be a independent cluster
-        if (end-head) <=2:
+        if (end - head) <= 2:
             return 0
 
         localdataset = datas[head:end]
@@ -105,8 +116,8 @@ def clustering(rawdata, datas, extreme_points):
 
         X = np.array(list(range(0, len(localdataset)))).reshape(-1, 1)
         y = np.array(localdataset).reshape(-1, 1)
-        _X = np.array(list(range(len(localdataset) - \
-                      len(fitdataset), len(localdataset)))).reshape(-1, 1)
+        _X = np.array(list(range(len(localdataset) -
+                                 len(fitdataset), len(localdataset)))).reshape(-1, 1)
         _y = np.array(fitdataset).reshape(-1, 1)
         model = linear_model.LinearRegression()
         model.fit(X=X, y=y)
