@@ -166,8 +166,8 @@ def clustering(rawdata, datas, extreme_points):
     _slices = []
     _head = 0
     for _index in range(1, len(cluster_centers_indices)):
-        _slices.append([extreme_points[cluster_centers_indices[_head]],
-                        extreme_points[cluster_centers_indices[_index]]])
+        _slices.append([small_clusters[cluster_centers_indices[_head]]['end'],
+                        small_clusters[cluster_centers_indices[_index]]['end']])
         _head = _index
 
     # check result
