@@ -26,9 +26,10 @@ from scipy.signal._peak_finding import find_peaks, find_peaks_cwt
 def gen_avprice(rawdata):
     datas = []
     for item in rawdata:
-        mean = (item['TCLOSE'] +
+        mean = (item['TOPEN'] +
+                item['TCLOSE'] +
                 item['HIGH'] +
-                item['LOW']) / 3
+                item['LOW']) / 4
         # _value = (mean + item['TCLOSE']/4) *4/5
         datas.append(mean)
     return datas
