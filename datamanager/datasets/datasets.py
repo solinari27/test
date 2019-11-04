@@ -324,6 +324,9 @@ def gen_datasets(rawdata):
     trough, _ = find_peaks(trough_datas, height=0)
 
     extreme_points = sorted(list(peaks) + list(trough))
+    # use sparse algorithm do process with extreme_points
+    # line regression is bad with too little examples
+    # TODO: sparse processing
 
     ret = clustering(
         rawdata=rawdata,
