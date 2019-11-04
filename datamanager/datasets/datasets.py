@@ -72,25 +72,26 @@ def clustering(rawdata, datas, extreme_points):
                               'bias': b,
                               'score': cov_score})
             else:
-                # if elems counts < 2 we do this process:
-                last_elem = len(elems)
-                if last_elem>0:
-                    head = elems[last_elem - 1]['head']
-                    end = extreme_points[i]
-                    dataset = datas[head:end]
-                    X = np.array(list(range(0, len(dataset)))).reshape(-1, 1)
-                    y = np.array(dataset).reshape(-1, 1)
-                    model = linear_model.LinearRegression()
-                    model.fit(X=X, y=y)
+                pass
+#                 # if elems counts < 2 we do this process:
+#                 last_elem = len(elems)
+#                 if last_elem>0:
+#                     head = elems[last_elem - 1]['head']
+#                     end = extreme_points[i]
+#                     dataset = datas[head:end]
+#                     X = np.array(list(range(0, len(dataset)))).reshape(-1, 1)
+#                     y = np.array(dataset).reshape(-1, 1)
+#                     model = linear_model.LinearRegression()
+#                     model.fit(X=X, y=y)
 
-                    w = model.coef_[0][0]
-                    b = model.intercept_[0]
-                    cov_score = model.score(X, y)
-                    elems[last_elem-1] = {'head': head,
-                                        'end': end,
-                                        'weight': w,
-                                        'bias': b,
-                                        'score': cov_score}
+#                     w = model.coef_[0][0]
+#                     b = model.intercept_[0]
+#                     cov_score = model.score(X, y)
+#                     elems[last_elem-1] = {'head': head,
+#                                         'end': end,
+#                                         'weight': w,
+#                                         'bias': b,
+#                                         'score': cov_score}
 
         return elems
 
@@ -317,16 +318,15 @@ def gen_datasets(rawdata):
     # gen average data
     datas = gen_avprice(rawdata=rawdata)
 
-    peaks, _ = find_peaks(datas, height=0)
+    # use sparse algorithm do process with extreme_points set find_peaks distance=5
+    # line regression is bad with too little examples
+    peaks, _ = find_peaks(datas, height=0, distance=7)
     trough_datas = []
     for item in datas:
         trough_datas.append(1 / item)
-    trough, _ = find_peaks(trough_datas, height=0)
+    trough, _ = find_peaks(trough_datas, height=0, distance=7)
 
     extreme_points = sorted(list(peaks) + list(trough))
-    # use sparse algorithm do process with extreme_points
-    # line regression is bad with too little examples
-    # TODO: sparse processing
 
     ret = clustering(
         rawdata=rawdata,
