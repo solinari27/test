@@ -112,7 +112,7 @@ def clustering(rawdata, datas, extreme_points):
         if (end - head) <= 2:
             return 0
 
-        localdataset = datas[head:end]
+        localdataset = datas[head: end]
         fitdataset = datas[elem_j['head']: elem_j['end']]
 
         X = np.array(list(range(0, len(localdataset)))).reshape(-1, 1)
