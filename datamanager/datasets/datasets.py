@@ -314,17 +314,17 @@ def dp3way(datas, extreme_points):
     pass
 
 
-def gen_datasets(rawdata):
+def gen_datasets(rawdata, peak_dist=5):
     # gen average data
     datas = gen_avprice(rawdata=rawdata)
 
     # use sparse algorithm do process with extreme_points set find_peaks distance=5
     # line regression is bad with too little examples
-    peaks, _ = find_peaks(datas, height=0, distance=7)
+    peaks, _ = find_peaks(datas, height=0, distance=peak_dist)
     trough_datas = []
     for item in datas:
         trough_datas.append(1 / item)
-    trough, _ = find_peaks(trough_datas, height=0, distance=7)
+    trough, _ = find_peaks(trough_datas, height=0, distance=peak_dist)
 
     extreme_points = sorted(list(peaks) + list(trough))
 
