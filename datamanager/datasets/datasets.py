@@ -161,15 +161,20 @@ def clustering(rawdata, datas, extreme_points):
 
     af = AffinityPropagation(affinity='precomputed', verbose=True).fit(mats)
     cluster_centers_indices = af.cluster_centers_indices_
-    # labels = af.labels_
+    labels = af.labels_
     # print(cluster_centers_indices)
-
+    # print (labels)
+    
     _slices = []
-    _head = 0
-    for _index in range(1, len(cluster_centers_indices)):
-        _slices.append([small_clusters[cluster_centers_indices[_head]]['head'],
-                        small_clusters[cluster_centers_indices[_index]]['head']])
-        _head = _index
+    label = -1
+    for index, item in enumerate(labels):
+        if item != label:
+            label=item
+            _slices.append([small_clusters[index]['head'], 
+                            small_clusters[index]['end']])
+        else:
+            _slices[len(_slices)-1] = [_slices[len(_slices)-1][0], small_clusters[index]['end']]
+    # print (_slices)
 
     # check result
     quotes = []
