@@ -158,7 +158,7 @@ def clustering(rawdata, datas, extreme_points):
         for j in range(i + 1, counts):
             # consider data continuance
             mats[i, j] = rank(i=i, j=j) - (j - i - 1)
-
+sssssss
     af = AffinityPropagation(affinity='precomputed', verbose=True).fit(mats)
     cluster_centers_indices = af.cluster_centers_indices_
     labels = af.labels_
